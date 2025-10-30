@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: floating-point</title><description>All posts tagged with floating-point</description><link>https://blog.guanglai.me/</link><item><title>IEEE 浮点数表示</title><link>https://blog.guanglai.me/posts/ieee-floating-point-representation/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/ieee-floating-point-representation/</guid><description>一直以来都不能非常清楚地记住浮点数的表示方式，这段时间开始重读 CSAPP 的第二章中浮点数表示的部分，大致上弄清楚了 IEEE 浮点数的表示方式。</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;一直以来都不能非常清楚地记住浮点数的表示方式，这段时间开始重读 CSAPP 的第二章中浮点数表示的部分，大致上弄清楚了 IEEE 浮点数的表示方式。&lt;/p&gt;
+&lt;p&gt;简单介绍一下 IEEE 浮点数的表示方式，细节部分可以参考 CSAPP 和 &lt;a href=&quot;https://en.wikipedia.org/wiki/IEEE_754&quot;&gt;维基&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;二进制小数表示&lt;/h2&gt;
+&lt;p&gt;首先理解一下十进制小数的表示方式，我们以下面这种方式表示十进制小数：&lt;/p&gt;
+&lt;p&gt;$$
+    d_{n}d_{n-1}...d_{1}d_{0}.d_{-1}...d_{m}
+$$&lt;/p&gt;
+&lt;p&gt;表示的值为：&lt;/p&gt;
+&lt;p&gt;$$
+    \sum_{i = m}^{n} 10^{i}d_{i}
+$$&lt;/p&gt;
+&lt;p&gt;类似地，二进制小数的表示方式：&lt;/p&gt;
+&lt;p&gt;$$
+    b_{n}b_{n-1}...b_{1}b_{0}.b_{-1}...b_{m}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+    \sum_{i = m}^{n} 2^{i}b_{i}
+$$&lt;/p&gt;
+&lt;p&gt;例如二进制小数&lt;/p&gt;
+&lt;p&gt;$$
+11.01_2 = 1 \times 2^{1} + 1 \times 2^{0} + 0 \times 2^{-1} + 1 \times 2^{-2}
+    = 2 + 1 + 0 + 0.25
+    = 3.25
+$$&lt;/p&gt;
+&lt;p&gt;现在考虑如何对这种二进制小数进行编码，一种可行的方式是定点小数。即将小数点的位置固定。例如使用 16 位二进制数来编码定点小数。可以做如下规定：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第 15 位为符号位。&lt;/li&gt;
+&lt;li&gt;第 14 ~ 9 位表示小数点前的数&lt;/li&gt;
+&lt;li&gt;第 8 ~ 0 位表示小数点后的数&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;那么，$11.01$ 可以编码为 $0 000011 010000000$。&lt;/p&gt;
+&lt;p&gt;这种表示方式的优点是比较简单，但是能够表示的小数的范围就十分的小。不考虑小数点后的数字，这种方式能够表示的整数范围就只能是 $-2^{6}+1 \sim 2^{6} - 1$。&lt;/p&gt;
+&lt;p&gt;于是，考虑到不去固定小数点的位置。而是根据当前的数字来确定小数点的具体位置。这样，就有了一种新的表示小数的方式，即浮点数。以下面这种方式表示（不考虑编码方式）：&lt;/p&gt;
+&lt;p&gt;$$
+    V = (-1)^s \times M \times 2^{E}
+$$&lt;/p&gt;
+&lt;p&gt;其中，$s$ 表示符号位，$E$ 表示阶码，$M$ 表示尾数。&lt;/p&gt;
+&lt;p&gt;通过这种方式，就有了 IEEE 754 浮点数规范。其具体定义了浮点数的位级编码规则。&lt;/p&gt;
+&lt;h2&gt;IEEE 浮点数表示&lt;/h2&gt;
+&lt;p&gt;首先， IEEE 将浮点数编码为 32 位或者 64 位。其中，32 位的规则如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第 32 位表示符号&lt;/li&gt;
+&lt;li&gt;第 31 ~ 23 位表示的值为 $E$，其位级表示记为 $exp$&lt;/li&gt;
+&lt;li&gt;第 22 ~ 0 位表示的值 $M$, 其位级表示记为 $frac$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;64 位编码表示中，$exp$ 长度为 11，$frac$ 长度为 52。与 32 位类似。&lt;/p&gt;
+&lt;p&gt;根据 $exp$ 和 $frac$ 的表示的不同，IEEE 浮点数规范将浮点数分为 4 类：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;规格化数： $exp$ 不为全 0 和全 1&lt;/li&gt;
+&lt;li&gt;非规格化数： $exp$ 为全 0&lt;/li&gt;
+&lt;li&gt;无穷大： $exp$ 为全 1 且 $frac$ 为全 0&lt;/li&gt;
+&lt;li&gt;$NAN$： $exp$ 为全 1 且 $frac$ 不为全 0&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;规格化数&lt;/h3&gt;
+&lt;p&gt;首先 $E = e - Bias$, 其中 $e$ 为 $exp$ 所表示的无符号数。$Bias$ 的值为 $2^{k-1}-1$，$k$ 为 $frac$ 部分的长度。例如，32 位编码时 $k$ 的值为 $8$，于是 $Bias$ 的值为 $127$，最终， $E$ 的范围为 $-126 \sim 127$。&lt;/p&gt;
+&lt;p&gt;其次 $M = 1 + f$，其中 $f$ 为 $0.f_{n}f_{n-1}...f_{0}$ 所表示的值。这里，通过将 $f$ 加 1 获得了一个额外的表示精度位。&lt;/p&gt;
+&lt;h3&gt;非规格化数&lt;/h3&gt;
+&lt;p&gt;其 $E = 1 - Bias$，而 $M = f$。&lt;/p&gt;
+&lt;p&gt;根据该定义，当 $frac$ 为全 0 时， $M = 0$。于是：&lt;/p&gt;
+&lt;p&gt;$$
+    V = (-1)^s \times E \times 0 = 0
+$$&lt;/p&gt;
+&lt;p&gt;根据 $s$ 的值的不同，得到了表示 0 的两种方式，记为 $+0$ 和 $-0$。&lt;/p&gt;
+&lt;h3&gt;无穷大&lt;/h3&gt;
+&lt;p&gt;根据符号位分为 $+\infty$ 和 $-\infty$。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;一般来说，非规格化数用于表示 $0$ 和非常接近 $0$ 的数。而相对其他能正常表示的数则用规格化数表示，溢出的值则用无穷大表示。当溢出的小数部分为非 $0$ 即可用 $NAN$（Not A Number)表示。当一些运算的结果不是实数或者无穷时，就会返回 $NAN$，比如 $\sqrt{-1}$。&lt;/p&gt;
+&lt;h2&gt;写在最后&lt;/h2&gt;
+&lt;p&gt;写技术文章需要严谨、正确，可能我比没有做到。所有如果有疑惑的话，可以学习一下 CSAPP 中和此有关的内容。&lt;/p&gt;
+</content:encoded></item></channel></rss>

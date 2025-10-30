@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: tips</title><description>All posts tagged with tips</description><link>https://blog.guanglai.me/</link><item><title>macOS 微信多开</title><link>https://blog.guanglai.me/posts/how-to-have-multi-wechat-on-macos/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/how-to-have-multi-wechat-on-macos/</guid><description>最新想要在 macOS 双开微信，搜索了一翻，结果记录如下。</description><pubDate>Fri, 18 Jul 2025 08:06:38 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/4f2763456d984d682082966a83ef0374.webp&quot; alt=&quot;最终成果&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;复制一个新的微信&lt;/h2&gt;
+&lt;p&gt;打开终端，按照下面的命令操作即可，原理可以看参考部分，支持最新 4.x 版本的微信。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 复制一个微信
+sudo cp -R /Applications/WeChat.app /Applications/WeChat2.app
+
+# 修改应用标识
+sudo /usr/libexec/PlistBuddy -c &quot;Set :CFBundleIdentifier me.guanglai.wechat&quot; /Applications/WeChat2.app/Contents/Info.plist
+
+# 强制重新签名
+sudo codesign --force --deep --sign - /Applications/WeChat2.app
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;注意事项&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;禁用微信自动更新（设置 &amp;gt; 通用 &amp;gt; 自动升级）&lt;/li&gt;
+&lt;li&gt;每次升级macOS后需重新执行签名步骤&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;换个 icon&lt;/h2&gt;
+&lt;p&gt;新的微信应用的图标和原来的微信图标相同，不太好分辨，可以通过下面的方式换个图标。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;去 &lt;a href=&quot;https://macosicons.com/&quot;&gt;macOS icon pack&lt;/a&gt; 找个顺眼的图标，可以搜索 wechat。&lt;/li&gt;
+&lt;li&gt;Finder &amp;gt; 打开 Application 文件夹 &amp;gt; 右击应用 &amp;gt; Get Info &amp;gt; 把下载的 icon 拖到应用图标上。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/248b576672dc91dd9f736b8a0b91881f.webp&quot; alt=&quot;把下载的 icon 拖到应用图标上&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://post.smzdm.com/p/adz7wonp/&quot;&gt;MacOS新版微信双开终极教程 | 绕过4.0版本限制的硬核方案_服务软件_什么值得买&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.ifanr.com/app/1379030&quot;&gt;如何快速更换苹果 macOS 应用图标？ | 爱范儿&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item></channel></rss>
