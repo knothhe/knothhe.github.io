@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: mdx-syntax-test</title><description>All posts tagged with mdx-syntax-test</description><link>https://blog.guanglai.me/</link><item><title>Astro mdx 格式测试</title><link>https://blog.guanglai.me/posts/astro-mdx-style-test/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/astro-mdx-style-test/</guid><description>Astro mdx 格式测试</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;h2&gt;Hello, world!&lt;/h2&gt;
+&lt;div&gt;
+  &amp;gt; Some notable things in a block quote!
+&lt;/div&gt;
+
+&lt;h2&gt;Autolink literals&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.example.com&quot;&gt;www.example.com&lt;/a&gt;, &lt;a href=&quot;https://example.com&quot;&gt;https://example.com&lt;/a&gt;, and &lt;a href=&quot;mailto:contact@example.com&quot;&gt;contact@example.com&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Footnote&lt;/h2&gt;
+&lt;p&gt;A note[^1]&lt;/p&gt;
+&lt;p&gt;[^1]: Big note.&lt;/p&gt;
+&lt;h2&gt;Strikethrough&lt;/h2&gt;
+&lt;p&gt;one or two tildes.&lt;/p&gt;
+&lt;h2&gt;Table&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;a&lt;/th&gt;
+&lt;th&gt;b&lt;/th&gt;
+&lt;th&gt;c&lt;/th&gt;
+&lt;th&gt;d&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;/table&gt;
+&lt;h2&gt;Tasklist&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt; to do&lt;/li&gt;
+&lt;li&gt; done&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;&lt;a&gt;&lt;/a&gt;图片集&lt;/h2&gt;
+&lt;p&gt;import ImageGrid from &apos;@/components/ImageGrid.astro&apos;;
+export const images = [
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/996fe1a75ee7fe09e0a9a8eaf7307085.webp&quot;&gt;https://images-oss.guanglai.me/2025/996fe1a75ee7fe09e0a9a8eaf7307085.webp&lt;/a&gt;&quot;,
+    alt: &quot;周日世纪公园的夕阳&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/0950b04941d6808851006545efbe43cc.webp&quot;&gt;https://images-oss.guanglai.me/2025/0950b04941d6808851006545efbe43cc.webp&lt;/a&gt;&quot;,
+    alt: &quot;屠使用 Z30 拍摄的世纪公园的鸽子&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/e698d6dfc3b191b856120146f0358051.webp&quot;&gt;https://images-oss.guanglai.me/2025/e698d6dfc3b191b856120146f0358051.webp&lt;/a&gt;&quot;,
+    alt: &quot;世纪公园夜晚长椅的树枝、月亮和星星&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/f47b28d319ca864f6c5c76365277b9dc.webp&quot;&gt;https://images-oss.guanglai.me/2025/f47b28d319ca864f6c5c76365277b9dc.webp&lt;/a&gt;&quot;,
+    alt: &quot;三月初世纪公园的梅花&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/d38a03a1947fd7880d1b76e0f6ecd80e.webp&quot;&gt;https://images-oss.guanglai.me/2025/d38a03a1947fd7880d1b76e0f6ecd80e.webp&lt;/a&gt;&quot;,
+    alt: &quot;浦东图书馆南边面对公园&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/250117disney-01.jpg&quot;&gt;https://images-oss.guanglai.me/2025/250117disney-01.jpg&lt;/a&gt;&quot;,
+    alt: &quot;迪士尼大门&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/250117disney-02.jpg&quot;&gt;https://images-oss.guanglai.me/2025/250117disney-02.jpg&lt;/a&gt;&quot;,
+    alt: &quot;晚上的奇幻童话城堡&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/naiyou-250112.jpg&quot;&gt;https://images-oss.guanglai.me/2025/naiyou-250112.jpg&lt;/a&gt;&quot;,
+    alt: &quot;不过猫不是我的&quot;
+  }
+];&lt;/p&gt;
+</content:encoded></item></channel></rss>

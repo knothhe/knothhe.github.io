@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: interview</title><description>All posts tagged with interview</description><link>https://blog.guanglai.me/</link><item><title>广州百田 2019 笔试题</title><link>https://blog.guanglai.me/posts/guangzhou-baitian-written-test/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/guangzhou-baitian-written-test/</guid><description>趁着秋招，因为同学的推荐，投递了广州百田。这两天百田发送邮件，通知线上笔试。内容摘要如下：</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;趁着秋招，因为同学的推荐，投递了广州百田。这两天百田发送邮件，通知线上笔试。内容摘要如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;百奥（广州百田）邀请您参加线上笔试，试卷名称是： 开发工程师-百奥2020届校园招聘笔试（笔试题根据网申岗位而定）
+请务必在试卷开放时间 2019-09-21 9:00:00 至 2019-09-23 21:00:00 完成答卷，
+请复制下方的试卷链接到浏览器中作答。（Web前端、游戏前端、Java后端开发均为同一套题）
+(链接地址)
+祝福：信心是成功的一半，祝您考试顺利！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;笔试题总共有三道，都是非常基础的题目，现记录如下。&lt;/p&gt;
+&lt;p&gt;注 1: 百田笔试题给定的某些题目描述是 C++，某些是 Java，而且答题语言不限。
+我提供的题目和答案则都是 C++ 描述。&lt;/p&gt;
+&lt;p&gt;注 2: 在和同学讨论后，我们一致认为百田的线上笔试有漏洞。首先，和同学讨论过后得知，我们的测试题目相同。&lt;/p&gt;
+&lt;p&gt;从发送的邮件内容：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;（Web前端、游戏前端、Java后端开发均为同一套题）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;也可得知，统一批次的线上笔试题应该相同。那么如果有两个认识的人参加同一轮线上笔试，
+并且在不同时间点做题，那么先做的那个人就可以知道题目，然后就可以告知后做的人。
+那么，后做题的人就可先行准备。因为我和同学是同时开始答题，则无法利用此漏洞。
+当然，我们也并不打算利用此漏洞，只是觉得有必要说明一下。&lt;/p&gt;
+&lt;p&gt;注 3: 貌似不同批次的题目是不一样的，所以只有同一批次的应聘者的笔试题目才是相同的。
+所以为什么不把笔试时间固定，而是在一个时间范围内？&lt;/p&gt;
+&lt;h2&gt;分割链表&lt;/h2&gt;
+&lt;p&gt;假定有一个链表，编写一个函数，将该按如下规则分成三个链表。&lt;/p&gt;
+&lt;p&gt;首先，给定的节点定义如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;struct Node {
+    char content;
+    Node* next;
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后，规则如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果该节点的 content 为大写字母，则插入第一条链表。&lt;/li&gt;
+&lt;li&gt;如果该节点的 content 为数字，则插入第二条链表。&lt;/li&gt;
+&lt;li&gt;其他则插入第三条链表。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;最后，需要完成的函数定义如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;std::vector&amp;lt;Node*&amp;gt; split(Node *head);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;题解：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;vector&amp;lt;Node*&amp;gt; split(Node *head) {
+    vector&amp;lt;Node*&amp;gt; curs(3, NULL);
+    vector&amp;lt;Node*&amp;gt; heads(3, NULL);
+    Node *cur = head;
+    while (cur != NULL) {
+        Node *next = cur-&amp;gt;next;
+        cur-&amp;gt;next = NULL;
+        char c = cur-&amp;gt;content;
+        int which = 2;
+        if (c &amp;gt;= &apos;A&apos; &amp;amp;&amp;amp; c &amp;lt;= &apos;Z&apos;) {
+            which = 0;
+        } else if (c &amp;gt;= &apos;0&apos; &amp;amp;&amp;amp; c &amp;lt;= &apos;9&apos;) {
+            which = 1;
+        }
+        if (curs[which] == NULL) {
+            curs[which] = cur;
+            heads[which] = curs[which];
+        } else {
+            curs[which]-&amp;gt;next = cur;
+            curs[which] = curs[which]-&amp;gt;next;
+        }
+        cur = next;
+    }
+    return heads;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;测试&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;vector&amp;gt;
+using namespace std;
+struct Node {
+    char content;
+    Node *next;
+    Node(char c) : content(c), next(NULL) {  }
+};
+void print_nodes(Node* head) {
+    Node *cur = head;
+    while (cur != NULL) {
+        cout &amp;lt;&amp;lt; cur-&amp;gt;content;
+        cur = cur-&amp;gt;next;
+    }
+    cout &amp;lt;&amp;lt; &quot;\n&quot;;
+}
+void test() {
+    string s = &quot;A233CD@#SD2&quot;;
+    Node *head = new Node(s[0]);
+    Node *cur = head;
+    for (int i = 1; i &amp;lt; s.size(); i++) {
+        cur-&amp;gt;next = new Node(s[i]);
+        cur = cur-&amp;gt;next;
+    }
+    vector&amp;lt;Node*&amp;gt; curs = split(head);
+    for (int i = 0; i &amp;lt; curs.size(); i++) {
+        print_nodes(curs[i]);
+    }
+}
+int main() {
+    test();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;打乱数组&lt;/h2&gt;
+&lt;p&gt;注： 题目给定的应该是 Java 形式的函数定义，为 &lt;code&gt;void shuffle(int[] orderArray)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;给定一个数组，打乱该数组。&lt;/p&gt;
+&lt;p&gt;需要完成的函数定义如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;void shuffle(vector&amp;lt;int&amp;gt; orderArray);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;提供一个生成随机数的函数 &lt;code&gt;rand(min, max)&lt;/code&gt; 返回值为 &lt;code&gt;[min, max)&lt;/code&gt; 之间的一个整数。&lt;/p&gt;
+&lt;p&gt;题解：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;void shuffle(vector&amp;lt;int&amp;gt; &amp;amp;orderArray) {
+    int len = orderArray.size();
+    for (int i = len - 1; i &amp;gt;= 0; i--) {
+        int r = rand(i, len);
+        int t = orderArray[r];
+        orderArray[r] = orderArray[i];
+        orderArray[i] = t;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;测试：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;vector&amp;gt;
+#include &amp;lt;cmath&amp;gt;
+using namespace std;
+#define rand(min, max) rand() % (max - min) + min
+void test() {
+    vector&amp;lt;int&amp;gt; orderArray(10);
+    for (int i = 0; i &amp;lt; orderArray.size(); i++) {
+        orderArray[i] = i;
+    }
+    shuffle(orderArray);
+    for (int i = 0; i &amp;lt; orderArray.size(); i++) {
+        cout &amp;lt;&amp;lt; orderArray[i] &amp;lt;&amp;lt; &quot; &quot;;
+    }
+    cout &amp;lt;&amp;lt; &quot;\n&quot;;
+}
+int main() {
+    test();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;计算前缀表达式的值&lt;/h2&gt;
+&lt;p&gt;给定一个以前缀表达式表示的字符串，计算其结果。&lt;/p&gt;
+&lt;p&gt;例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-*+1234
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;等价于下面的中缀表达式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;(1 + 2) * 3 - 4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其结果为 5。&lt;/p&gt;
+&lt;p&gt;给定的函数定义如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;int eval(string exp);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;int eval(string exp) {
+    int len = exp.size();
+    stack&amp;lt;int&amp;gt; st;
+    for (int i = len - 1; i &amp;gt;= 0; i--) {
+        char c = exp[i];
+        if (c &amp;gt;= &apos;0&apos; &amp;amp;&amp;amp; c &amp;lt;= &apos;9&apos;) {
+            st.push(c-&apos;0&apos;);
+        } else {
+            int a = st.top(); st.pop();
+            int b = st.top(); st.pop();
+            int r;
+            switch (c) {
+                case &apos;+&apos;:
+                    r = a + b;
+                    break;
+                case &apos;-&apos;:
+                    r = a - b;
+                    break;
+                case &apos;*&apos;:
+                    r = a * b;
+                    break;
+            }
+            st.push(r);
+        }
+    }
+    return st.top();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;测试：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;stack&amp;gt;
+using namespace std;
+void test() {
+    // (1 + 2) * 3 - 4 = 5
+    string exp = &quot;-*+1234&quot;;
+    int val = calc(exp);
+    if (val == 5) {
+        cout &amp;lt;&amp;lt; &quot;test pass\n&quot;;
+    } else {
+        cout &amp;lt;&amp;lt; &quot;test fail\n&quot;;
+    }
+}
+int main() {
+    test();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;TODO&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;题目解析等之后再弄，今天有点晚了。&lt;/strong&gt;&lt;/p&gt;
+</content:encoded></item><item><title>初次笔试题</title><link>https://blog.guanglai.me/posts/interview-first-time/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/interview-first-time/</guid><description>昨天参加了学校的一个企业实习的宣讲会，结束后做了笔试题。签到时我选择的应聘岗位是后端开发，但是在选择笔试试卷是选择了 C/C++ 开发。和编程相关的题目总共是 4 道题。现场做题的时候有很多的细节没有考虑到，而且我更习惯使用电脑写代码，没有多少在纸上写代码的经历，最后只写了 3 道，一道空白。就个人感觉，这些笔试题中有一道题并不适合笔试。最后，最重要的是很基础的题目我并没有能够做到 bug-free。编程的基础还需要继续巩固。特记录如下。</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;昨天参加了学校的一个企业实习的宣讲会，结束后做了笔试题。签到时我选择的应聘岗位是后端开发，但是在选择笔试试卷是选择了 C/C++ 开发。和编程相关的题目总共是 4 道题。现场做题的时候有很多的细节没有考虑到，而且我更习惯使用电脑写代码，没有多少在纸上写代码的经历，最后只写了 3 道，一道空白。就个人感觉，这些笔试题中有一道题并不适合笔试。最后，最重要的是很基础的题目我并没有能够做到 bug-free。编程的基础还需要继续巩固。特记录如下。&lt;/p&gt;
+&lt;p&gt;题目记录如下：&lt;/p&gt;
+&lt;h2&gt;C 语言 &lt;code&gt;strcat&lt;/code&gt; 的实现&lt;/h2&gt;
+&lt;p&gt;和库函数 &lt;code&gt;strcat&lt;/code&gt; 并不相同，声明如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;char* strcat(const char* a, const char* b)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;大致的思路是先计算出 a 和 b 的长度，然后根据 a 和 b 的长度计算出需要分配给返回字符串的内存空间的大小，最后将 a 和 b 的内容依次拷贝到返回字符串中。&lt;/p&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+
+char* strcat_m(const char* a, const char* b)
+{
+    int aLen = 0;
+    for (; a[aLen] != &apos;\0&apos;; ++aLen) {
+        ; 
+    }
+    int bLen = 0;
+    for (; b[bLen] != &apos;\0&apos;; ++bLen) {
+        ;
+    }
+    int len = aLen + bLen;
+    char* str = malloc(sizeof(char) * (len+1));
+    char* p = str;
+    for (int i = 0; i &amp;lt; aLen; ++i) {
+        *p = a[i];
+        ++p;
+    }
+    for (int i = 0; i &amp;lt; bLen; ++i) {
+        *p = b[i];
+        ++p;
+    }
+    *p = &apos;\0&apos;;
+    return str;
+}
+
+int main(void)
+{
+    char a[10] = &quot;123&quot;;
+    char b[10] = &quot;456&quot;;
+    char *str = strcat_m(a, b);
+    printf(&quot;%s\n&quot;, str);
+    free(str);
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;链表逆序&lt;/h2&gt;
+&lt;p&gt;这个是对链表操作的基础的考察。&lt;/p&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+
+struct node {
+    char ch; 
+    struct node* next;
+};
+
+typedef struct node Node;
+
+typedef struct {
+    Node* head;
+} LinkedList;
+
+Node* helper(Node* p)
+{
+    if (p != NULL) {
+        Node* n = p-&amp;gt;next;
+        n = helper(n);
+        if (n != NULL) {
+            n-&amp;gt;next = p;
+        }
+    }
+    return p;
+}
+
+void reverse(LinkedList* li)
+{
+    Node* head = li-&amp;gt;head;
+    Node* h = head;
+    if (h != NULL) {
+        while (h-&amp;gt;next != NULL) {
+            h = h-&amp;gt;next;
+        }
+        Node* last = helper(head);
+        last-&amp;gt;next = NULL;
+    }
+    li-&amp;gt;head = h;
+}
+
+void printLinkedList(LinkedList* li)
+{
+    Node* p = li-&amp;gt;head;
+    while (p != NULL) {
+        printf(&quot;%c&quot;, p-&amp;gt;ch);
+        p = p-&amp;gt;next;
+    }
+    printf(&quot;\n&quot;);
+}
+
+int main(void)
+{
+    LinkedList* li;
+    li-&amp;gt;head = malloc(sizeof(Node));
+    li-&amp;gt;head-&amp;gt;ch = &apos;a&apos;;
+    li-&amp;gt;head-&amp;gt;next = NULL;
+
+    Node* p = li-&amp;gt;head;
+    for (int i = 1; i &amp;lt;= 3; i++) {
+        Node* t = malloc(sizeof(Node));
+        t-&amp;gt;ch = &apos;a&apos; + i;
+        t-&amp;gt;next = NULL;
+        p-&amp;gt;next = t;
+        p = p-&amp;gt;next;
+    }
+    printLinkedList(li);
+    reverse(li);
+    printLinkedList(li);
+     
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在上述代码写完之后，我想到的是如果可以使用栈的话，只要先将所有节点压入栈，在弹出节点指针的过程中，先将第一个出栈的节点记录为头节点，之后依次链接，最后一个节点链接 &lt;code&gt;NULL&lt;/code&gt;，这样程序的逻辑就会更加简单，缺点就是引入了额外的数据结构。&lt;/p&gt;
+&lt;p&gt;当然，上述的递归代码也是隐式地使用了函数调用栈。&lt;/p&gt;
+&lt;p&gt;如果使用三个指针的话，就可以不使用栈完成链表逆序。&lt;/p&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;void reverse(LinkedList* li)
+{
+    Node* prev = NULL, *cur = li-&amp;gt;head, *next = NULL;
+    if (cur != NULL) {
+        next = cur-&amp;gt;next;
+    }
+    while (next != NULL) {
+        cur-&amp;gt;next = prev;
+        prev = cur;
+        cur = next;
+        next = next-&amp;gt;next;
+    }
+    cur-&amp;gt;next = prev;
+    li-&amp;gt;head = cur;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;快速排序&lt;/h2&gt;
+&lt;p&gt;这道题就是我觉得不应该出现在面试题中的题目。快排的话，会和不会都是在笔试之前就已经确定了的，并且并不太能体现处应试者的编程（算法）水平。毕竟，没有多少人会没事写个快排。&lt;/p&gt;
+&lt;p&gt;虽说如此，还是写了。&lt;/p&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;#include &amp;lt;algorithm&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;vector&amp;gt;
+
+using namespace std;
+
+int partition(vector&amp;lt;int&amp;gt; &amp;amp;vec, int beg, int end)
+{
+    int p = beg;
+    ++beg;
+    while (beg &amp;lt;= end) {
+        while (vec[beg] &amp;lt;= vec[p] &amp;amp;&amp;amp; beg &amp;lt;= end) {
+            ++beg;
+        }
+        while (vec[end] &amp;gt;= vec[p] &amp;amp;&amp;amp; end &amp;gt;= beg) {
+            --end;
+        }
+        if (beg &amp;gt;= end) break;
+        swap(vec[beg], vec[end]);
+    }
+    swap(vec[p], vec[end]);
+    return end;
+}
+
+void helper(vector&amp;lt;int&amp;gt; &amp;amp;vec, int beg, int end)
+{
+    if (beg &amp;gt;= end) return;
+    int p = partition(vec, beg, end);
+    helper(vec, beg, p-1);
+    helper(vec, p+1, end);
+}
+
+void quicksort(vector&amp;lt;int&amp;gt; &amp;amp;vec)
+{
+    helper(vec, 0, vec.size()-1);
+}
+
+void printVec(vector&amp;lt;int&amp;gt; &amp;amp;vec)
+{
+    for (const auto &amp;amp;v : vec) {
+        cout &amp;lt;&amp;lt; v &amp;lt;&amp;lt; &quot; &quot;;
+    }
+    cout &amp;lt;&amp;lt; endl;
+}
+
+int main(void)
+{
+    vector&amp;lt;int&amp;gt; vec = {4, 2, 1, 5, 6, 0, 9, 7, 8 ,3};
+    printVec(vec);
+    quicksort(vec);
+    printVec(vec);
+    
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;基本的步骤就是三步：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;切分&lt;/li&gt;
+&lt;li&gt;递归排序前半部分&lt;/li&gt;
+&lt;li&gt;递归排序后半部分&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;最后，需要注意递归终止的条件。&lt;/p&gt;
+&lt;p&gt;这三步中最重要的就是切分这一步。&lt;/p&gt;
+&lt;h2&gt;要求打印出汉诺塔的移动序列&lt;/h2&gt;
+&lt;p&gt;最初接触到这道题是我大二开始学习计算机算法最初接触递归的时候。再次碰到的时候只考虑到了移动次数，内心觉得移动序列可能比较麻烦，就没再考虑。笔试时也没有多加思考就放弃了。&lt;/p&gt;
+&lt;p&gt;在回宿舍的路上大致想明白了思路：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;递归打印 &lt;code&gt;N-1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;打印 &lt;code&gt;N&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;递归打印 &lt;code&gt;N-1&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;没有考虑到的是需要将 &lt;code&gt;A B C&lt;/code&gt; 三个柱子看作三个区域，目标是将整个汉诺塔依照要求从 &lt;code&gt;A&lt;/code&gt; 移动到 &lt;code&gt;C&lt;/code&gt;。这就需要考虑每一步移动时将 &lt;code&gt;A B C&lt;/code&gt; 分别看作是 &lt;code&gt;源(from)&lt;/code&gt;、&lt;code&gt;缓冲区(buffer)&lt;/code&gt; 和 &lt;code&gt;目的(to)&lt;/code&gt;。这部分参考 &lt;a href=&quot;https://zh.wikipedia.org/zh-hans/%E6%B1%89%E8%AF%BA%E5%A1%94#%E9%81%9E%E8%BF%B4%E8%A7%A3&quot;&gt;wiki&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;思路：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;递归将 &lt;code&gt;N-1&lt;/code&gt; 从 &lt;code&gt;from&lt;/code&gt; 以 &lt;code&gt;to&lt;/code&gt; 为缓冲区移动到 &lt;code&gt;buffer&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;将 &lt;code&gt;N&lt;/code&gt; 从 &lt;code&gt;from&lt;/code&gt; 移动到 &lt;code&gt;to&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;递归将 &lt;code&gt;N-1&lt;/code&gt; 从 &lt;code&gt;buffer&lt;/code&gt; 以 &lt;code&gt;from&lt;/code&gt; 为缓冲区移动到 &lt;code&gt;to&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;关键代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;helper(N-1, from, to, buffer);
+printf(&quot;Move disk %d from %c to %c\n&quot;, N, from, to);
+helper(N-1, buffer, from, to);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;完整代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+
+void helper(int N, char from, char buffer, char to)
+{
+    if (N &amp;lt;= 0) return;
+
+    helper(N-1, from, to, buffer);
+    printf(&quot;Move disk %d from %c to %c\n&quot;, N, from, to);
+    helper(N-1, buffer, from, to);
+}
+
+void print_hannoi(int N)
+{
+    helper(N, &apos;A&apos;, &apos;B&apos;, &apos;C&apos;);
+}
+
+int main(void)
+{
+    print_hannoi(1);
+    printf(&quot;\n&quot;);
+    print_hannoi(2);
+    printf(&quot;\n&quot;);
+    print_hannoi(3);
+    printf(&quot;\n&quot;);
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;第一次笔试没经验。我的基础能力也还是不足。离开电脑写代码，水平就开始极速下降了。&lt;/p&gt;
+&lt;p&gt;这家公司的 C/C++ 工程师的 4 道笔试题中有三道是需要用到递归实现的……&lt;/p&gt;
+</content:encoded></item></channel></rss>

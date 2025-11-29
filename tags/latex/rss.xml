@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: latex</title><description>All posts tagged with latex</description><link>https://blog.guanglai.me/</link><item><title>LaTeX 实现简单的条件编译</title><link>https://blog.guanglai.me/posts/latex-conditional-compilation/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/latex-conditional-compilation/</guid><description>我想让 LaTeX 支持的条件编译的功能是：</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;我想让 LaTeX 支持的条件编译的功能是：&lt;/p&gt;
+&lt;p&gt;根据我是否定义某个具体的宏变量，决定是否编译某一片段。&lt;/p&gt;
+&lt;p&gt;通过简单搜索之后，了解到一个简单的宏包 &lt;code&gt;ifthen&lt;/code&gt; 即可实现此功能，现将实现方法记录如下。&lt;/p&gt;
+&lt;p&gt;TLDR:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;引入 &lt;code&gt;ifthen&lt;/code&gt; 宏包。&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;\ifthenelse{\isundefine{\themarco}}{〈then clause〉}{〈else clause〉&lt;/code&gt; 命令&lt;/li&gt;
+&lt;li&gt;通过 &lt;code&gt;xelatex &quot;\def\themarco{1} &quot;\input{filename.tex}&quot;&lt;/code&gt; 在编译时定义宏。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;引入 &lt;code&gt;ifthen&lt;/code&gt; 宏包&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\usepackage{ifthen}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;使用 &lt;code&gt;\ifthenelse{}{}{}&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;根据文档，　&lt;code&gt;\ifthenelse{〈test〉}{〈then clause〉}{〈else clause〉&lt;/code&gt;　的定义如下：&lt;/p&gt;
+&lt;p&gt;如果 test 为真，则包括 &lt;code&gt;&amp;lt;then clause&amp;gt;&lt;/code&gt;，否则包括 &lt;code&gt;&amp;lt;else clause&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;test&amp;gt;&lt;/code&gt; boolean 表达式可以以 &lt;code&gt;\and&lt;/code&gt;、&lt;code&gt;\or&lt;/code&gt;、&lt;code&gt;\not&lt;/code&gt; 连接，此处我只需要测试一个宏是否定义，则不需要。&lt;/p&gt;
+&lt;p&gt;文档中还写到，可以使用 &lt;code&gt;\isundefined{}&lt;/code&gt; 来测试一个具体的宏是否未定义。虽然我更想找到一个宏可以判断一个变量是否被定义，但是，好吧，这个宏也能完成我需要的功能。&lt;/p&gt;
+&lt;p&gt;所以，完成的语句如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\ifthenelse{\isundefined{\themacro}}{
+    &amp;lt;then clause&amp;gt;
+}{
+    &amp;lt;else clause&amp;gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果　&lt;code&gt;\themacro&lt;/code&gt; 未定以，则执行（包括） &lt;code&gt;&amp;lt;then clause&amp;gt;&lt;/code&gt;，否则执行 &lt;code&gt;&amp;lt;else clause&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;至此，在 &lt;code&gt;tex&lt;/code&gt; 文档中需要做的工作已经完成。接下来我们需要知道的是如何使用命令行编译时定义某个具体的宏。幸好，这个问题也很好解决。&lt;/p&gt;
+&lt;h2&gt;在使用编译命令时定义具体的宏&lt;/h2&gt;
+&lt;p&gt;以 &lt;code&gt;xelatex&lt;/code&gt; 为例，我们可以直接输入以下命令编译指定文件。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;xelatex filename.tex
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;同时如果输入参数不是文件名，而是字符串的话，同样可以编译。即 &lt;code&gt;xelatex &quot;string&quot;&lt;/code&gt; 同样可以通过编译并生成文件，默认的文件名是 &lt;code&gt;texput.pdf&lt;/code&gt;。目前，我仍然不知道 &lt;code&gt;xelatex&lt;/code&gt; 如何指定输出文件名。&lt;/p&gt;
+&lt;p&gt;于是，我们可以通过以下命令定义我们需要的宏。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;xelatex &quot;\def\thenmarco{1} \input{filename.tex}&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;至此，我所需要的条件编译的功能得到满足。&lt;/p&gt;
+&lt;h2&gt;参考文献&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;http://mirrors.ctan.org/macros/latex/base/ifthen.pdf&quot;&gt;ifthen 宏包文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://tex.stackexchange.com/a/1495&quot;&gt;如何通过命令行定义 LaTeX 变量的 SO 回答&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</content:encoded></item><item><title>LaTeX Beamer 使用</title><link>https://blog.guanglai.me/posts/use-latex-beamer/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/use-latex-beamer/</guid><description>今天用了 Beamer 做一个 Presentation，花了一点时间在查找各种细节。 Presentation 已经基本完成。于是决定把折腾得到的结果记录一下。</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;今天用了 Beamer 做一个 Presentation，花了一点时间在查找各种细节。 Presentation 已经基本完成。于是决定把折腾得到的结果记录一下。&lt;/p&gt;
+&lt;p&gt;以下均是一个 &lt;code&gt;LaTeX&lt;/code&gt; 门外汉的个人见解，也只是知其然而不知其所以然罢了。&lt;/p&gt;
+&lt;p&gt;最终的 &lt;a href=&quot;https://github.com/KnothHe/Markup-Files/blob/master/beamer/c51-beamer.tex&quot;&gt;Presentation&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;元信息&lt;/h2&gt;
+&lt;p&gt;可以添加一些作者，日期之类的信息。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\title{..}
+\author{...}
+\data{...}
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;标题页&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\begin{frame}
+    \titlepage
+\end{frame}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;生成 ToC&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\begin{frame}{Table of Contents}
+    \tableofcontents
+\end{frame}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Frame 标题&lt;/h2&gt;
+&lt;p&gt;在 &lt;code&gt;frame&lt;/code&gt; 后加上 &lt;code&gt;{title}&lt;/code&gt; 就行了。建议每个 &lt;code&gt;frame&lt;/code&gt; 都加上一个标题。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\begin{frame}{Title of This Frame}
+\end{frame}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;中文显示&lt;/h2&gt;
+&lt;p&gt;这个问题在我刚开始使用 &lt;code&gt;LaTeX&lt;/code&gt; 是还是挺犯难的，用的时间较长了，加上多年来 &lt;code&gt;LaTeX&lt;/code&gt; 的发展， LaTeX 对非西文字体的支持已经发展的相对友好，解决方法已经变得相当的简单。&lt;/p&gt;
+&lt;p&gt;简单的解决方法就是使用 xeCJK，并配置中文字体。参考 &lt;a href=&quot;https://liam.page/2014/11/02/latex-mactex-chinese-support/&quot;&gt;为 MacTeX 配置中文支持&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\usepackage{xeCJK}
+\setCJKmainfont[BoldFont=STZhongsong, ItalicFont=STKaiti]{STSong}
+\setCJKsansfont[BoldFont=STHeiti]{STXihei}
+\setCJKmonofont{STFangsong}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;中文字体可简单使用 &lt;code&gt;\usepackage{ctex}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;并且对于中文等非西文字体的 &lt;code&gt;.tex&lt;/code&gt; 源文件编译时，优先采用 &lt;code&gt;XeLaTeX&lt;/code&gt;。毕竟原本 &lt;code&gt;XeTeX/XeLaTeX&lt;/code&gt; 原本的设计目的就是增强对非西文字体的支持。&lt;/p&gt;
+&lt;h2&gt;Beamer 主题&lt;/h2&gt;
+&lt;p&gt;我比较喜欢的主题是 &lt;code&gt;CambridgeUS&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\usetheme{CambridgeUS}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;挑选 Beamer 内置主题的话，可以参考 &lt;a href=&quot;https://hartwork.org/beamer-theme-matrix/&quot;&gt;Beamer Theem Matrix&lt;/a&gt; 或者 &lt;a href=&quot;https://mpetroff.net/files/beamer-theme-matrix/&quot;&gt;Another Beamer Theme Matrix&lt;/a&gt; &lt;/p&gt;
+&lt;p&gt;当然，在主题之上还可以修改 &lt;code&gt;colortheme&lt;/code&gt; 之类的。我挺喜欢正在使用的主题的默认的 &lt;code&gt;colortheme&lt;/code&gt; 的，也就没改。&lt;/p&gt;
+&lt;h2&gt;划分章节&lt;/h2&gt;
+&lt;p&gt;和普通的 &lt;code&gt;LaTeX&lt;/code&gt; 文档类似，可以为 &lt;code&gt;Beamer&lt;/code&gt; 添加章节信息。章节信息最后会用于生成目录。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\section{...}
+\subsection{...}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;代码排版&lt;/h2&gt;
+&lt;p&gt;在一个 &lt;code&gt;frame&lt;/code&gt; 中排版代码也是可以的，借助 &lt;code&gt;listings&lt;/code&gt; 宏包的解决方法如下：&lt;/p&gt;
+&lt;p&gt;下面这一部分可定义也可不定义，参考（复制于） &lt;a href=&quot;https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings&quot;&gt;WikiBooks&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+    backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+    basicstyle=\ttfamily\footnotesize,        % the size of the fonts that are used for the code
+    breakatwhitespace=true,         % sets if automatic breaks should only happen at whitespace
+    breaklines=true,                 % sets automatic line breaking
+    captionpos=b,                    % sets the caption-position to bottom
+    commentstyle=\color{mygreen},    % comment style
+    deletekeywords={...},            % if you want to delete keywords from the given language
+    escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+    extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+    frame=single,                   % adds a frame around the code
+    keepspaces=false,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+    morekeywords={bit, sbit, sfr, sfr16},            % if you want to add more keywords to the set
+    keywordstyle=\color{blue},       % keyword style
+    language=C,                 % the language of the code
+    numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+    numbersep=5pt,                   % how far the line-numbers are from the code
+    numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+    rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+    showspaces=false,                % show spaces everywhere adding particular underscores; it overrides &apos;showstringspaces&apos;
+    showstringspaces=false,          % underline spaces within strings only
+    showtabs=false,                  % show tabs within strings adding particular underscores
+    %  stepnumber=2,                    % the step between two line-numbers. If it&apos;s 1, each line will be numbered
+    stringstyle=\color{mymauve},     % string literal style
+    tabsize=2,                 % sets default tabsize to 2 spaces
+    title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;下面这部分参考 &lt;a href=&quot;https://tex.stackexchange.com/questions/36776/latex-error-when-inserting-code-listing-in-lyx&quot;&gt;StackExchange&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;就是在需要排版代码的 &lt;code&gt;frame&lt;/code&gt; 后加上参数 &lt;code&gt;fragile&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-tex&quot;&gt;\begin{frame}[fragile]
+    \begin{lstlisting}[language=...]
+        % ...
+        % CODE
+        % ...
+    \end{lstlisting}
+\end{frame}
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item></channel></rss>
