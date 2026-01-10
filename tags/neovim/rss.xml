@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: neovim</title><description>All posts tagged with neovim</description><link>https://blog.guanglai.me/</link><item><title>已读乱码 018 | 折腾 neovim</title><link>https://blog.guanglai.me/posts/what-is-guanglai-doing-this-week-018/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/what-is-guanglai-doing-this-week-018/</guid><description>鬼使神差在 2019 年之后又折腾了一次 neovim，这周大半可支配时间都用在了配置 neovim 上。</description><pubDate>Sat, 14 Jun 2025 13:45:03 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/579445392e0f3ca39afce3cb233a3530.webp&quot; alt=&quot;neovim&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;欢迎来到已读乱码的 018 期，上次配置 neovim 还是 2019 年，当时流行的包管理器还是 vim-plug，现在推荐使用的包管理器已经是 lazy.nvim，技术圈总是在不断发展。本周的周刊大概描述下我使用的一些 neovim 插件，详细的插件配置等我使用一段时间之后会单独写篇文章描述。&lt;/p&gt;
+&lt;h2&gt;删除现有配置&lt;/h2&gt;
+&lt;p&gt;原有配置还是在 2019 年使用 vim-plug 插件管理其他插件配置的，需要先备份并删除这些配置，由于我的 &lt;code&gt;init.vim&lt;/code&gt; 本身配置就只是软链接到我真正的配置，删除该配置文件和 vim-plug 的配置即可。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;# 删除 init.vim
+rm ~/.config/nvim/init.vim
+# 删除 vim-plug 配置
+rm -rf /.local/share/nvim
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;配置 neovim&lt;/h2&gt;
+&lt;p&gt;我的配置主要参考了下面这些博主的文章或配置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://martinlwx.github.io/zh-cn/config-neovim-from-scratch/&quot;&gt;从零开始配置 Neovim(Nvim) - MartinLwx&apos;s Blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://gohalo.github.io/cn/blog/neovim-basic-plugins-introduce/&quot;&gt;Neovim 常用插件介绍 | GoHalo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/jdhao/nvim-config&quot;&gt;jdhao/nvim-config: A modern Neovim configuration with full battery for Python, Lua, C++, Markdown, LaTeX, and more...&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;结构化配置目录&lt;/h2&gt;
+&lt;p&gt;结构化配置目录我是参考的 &lt;a href=&quot;https://martinlwx.github.io/zh-cn/config-neovim-from-scratch/&quot;&gt;MartinLwx&lt;/a&gt; 的方式，整体的配置目录结构和文章描述的类似。如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;.
+├── lua
+│   ├── config
+│   │   ├── telescope.lua
+│   ├── plugins
+│   │   ├── telescope.lua
+│   ├── colorscheme.lua
+│   ├── keymaps.lua
+│   ├── lsp.lua
+│   ├── options.lua
+│   └── package_manager.lua
+└── init.lua
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;配置入口文件是 &lt;code&gt;init.lua&lt;/code&gt;，其他配置都在 &lt;code&gt;lua&lt;/code&gt; 目录下。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lua/package_manager.lua&lt;/code&gt; 为 lazy.nvim 的配置文件，会加载 &lt;code&gt;lua/plugins&lt;/code&gt; 下的所有文件, &lt;code&gt;lua/plugins&lt;/code&gt; 下部分插件会加载 &lt;code&gt;lua/config&lt;/code&gt; 下对应插件名称的配置。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lua/colorscheme.lua&lt;/code&gt; 为主题配色的配置。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lua/keymaps.lua&lt;/code&gt; 用于配置通用快捷键绑定。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lua/lsp.lua&lt;/code&gt; 用于配置 lsp 相关。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lua/options.lua&lt;/code&gt; 用户配置 neovim 相关的选项。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;配置 Lazy.nvim&lt;/h2&gt;
+&lt;p&gt;当前时间点，比较推荐使用的 neovim 插件管理器是 lazy.nvim，所以先安装 lazy.nvim 插件。&lt;/p&gt;
+&lt;p&gt;安装 lazy.nvim 本身比较简单，且我采用的是分文件安装插件的方式，也是和 &lt;a href=&quot;https://github.com/LazyVim/LazyVim&quot;&gt;LazyVim&lt;/a&gt; 项目类似的插件管理目录结构。就是一开始没有理解 &lt;a href=&quot;https://lazy.folke.io/usage/structuring&quot;&gt;lazy.nvim 文档的描述&lt;/a&gt;，在安装配置插件上走了一些弯路。&lt;/p&gt;
+&lt;p&gt;在按照官方文档在 &lt;code&gt;package_manager.lua&lt;/code&gt; 中配置 lazy.nvim 后，在 &lt;code&gt;plugins&lt;/code&gt; 中依次配置需要的插件即可，但是文件内容需要是下面的格式，具体每个插件都不一样，但是需要是合法的 &lt;code&gt;lua&lt;/code&gt; 语法，使用 return 返回。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-lua&quot;&gt;return {
+    &quot;nvim-telescope/telescope.nvim&quot;,
+    branch = &quot;0.1.x&quot;,
+    dependencies = { &quot;nvim-lua/plenary.nvim&quot; },
+    config = function()
+        require(&quot;config.telescope&quot;)
+    end,
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;我目前使用的插件&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;自动补全插件：&lt;a href=&quot;https://github.com/saghen/blink.cmp&quot;&gt;Saghen/blink.cmp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;lsp 配置：&lt;a href=&quot;https://github.com/williamboman/mason-lspconfig.nvim&quot;&gt;williamboman/mason-lspconfig.nvim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;快捷键提示：&lt;a href=&quot;https://github.com/folke/which-key.nvim&quot;&gt;folke/awhich-key.nvim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态栏优化：[lualine.nvim](&lt;a href=&quot;https://github.com/nvim-lualine/lualine.nvim&quot;&gt;https://github.com/nvim-lualine/lualine.nvim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;终端：&lt;a href=&quot;https://github.com/akinsho/toggleterm.nvim&quot;&gt;toggleterm.nvim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;文件搜索：&lt;a href=&quot;https://github.com/nvim-telescope/telescope.nvim&quot;&gt;telescope.nvim&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;需要安装 rg 和 fd&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;brew install ripgrep&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;brew install fd&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;自动补全括号 &lt;a href=&quot;https://github.com/windwp/nvim-autopairs&quot;&gt;nvim-autopairs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;git 集成 &lt;a href=&quot;https://github.com/lewis6991/gitsigns.nvim&quot;&gt;gitsigns.nvim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;markdown 渲染 &lt;a href=&quot;https://github.com/MeanderingProgrammer/render-markdown.nvim&quot;&gt;render-markdown.nvim&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;目前在编写 markdown 文章的时候，我是关闭渲染的，不然会在 insert 模式下展示原始文档，在 normal 下展示渲染后的文档，由于我编写文章会反复在这两个模式之间切换，一会儿渲染，一会儿不渲染，就没有很舒服。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;启动页配置（没有生效） &lt;a href=&quot;https://github.com/nvimdev/dashboard-nvim&quot;&gt;dashboard-nvim&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;neovide&lt;/h2&gt;
+&lt;p&gt;我原本是想要为 neovim 寻找一个使用方便的 gui 客户端，这样就不用每次都从终端启动，最后找到的 nevide。只是很可惜，就和 vscode 终端存在的问题一样，neovide 无法输入使用 RIME 输入的中文标点，对于母语是中文，并且使用的输入法是 RIME 的我来说，是没法接受的，只能被迫放弃。&lt;/p&gt;
+&lt;h2&gt;终端&lt;/h2&gt;
+&lt;p&gt;我一直使用的终端是 iTerm2，因为 iTerm2 有个功能是可以使用快捷键唤起下拉 terminal，我是比较喜欢这个功能的，这样每次在需要使用终端的场景都可以快速定位到终端。可惜 iTerm2 对中文的展示只是也不够好，只能切换到其他终端。&lt;/p&gt;
+&lt;p&gt;尝试 ghostty 之后，发现对终端渲染还算不错，目前就使用 ghostty 作为 neovim 的启动终端。至于字体，使用的是最近比较推荐的 &lt;a href=&quot;https://github.com/subframe7536/maple-font&quot;&gt;Maple mono&lt;/a&gt;。&lt;/p&gt;
+&lt;h2&gt;展示&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/14ff3d94e09c710fd78e6e09e1ed5afd.webp&quot; alt=&quot;用于编写本篇文章的 neovim&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;最后&lt;/h2&gt;
+&lt;p&gt;我没能找到比较合适的工作区/项目管理插件，也还没配置到在不同模式下自动切换输入法的配置/插件，只有有空再慢慢折腾。&lt;/p&gt;
+&lt;p&gt;我在 2019 年配置完成 neovim 之后，也只是把 neovim 当然终端的文本编辑器，大部分场景还是使用 vscode 这样的编辑器，然后在编辑器中安装上 vim 插件，可以使用 vim 的基本功能。配置编辑器也许只是浪费时间，没有意义，有这个时间不如去折腾点别的，有时候我是这么想的。 不过已经配置了大半，先用起来。&lt;/p&gt;
+&lt;p&gt;即使是现在，使用 neovim 总是哪哪都有一种别扭的感觉，这种别扭感我也能理解，就是需要不断在中文输入法和英文输入法和不同 vim 模式切换下的别扭感。虽然这篇博客是使用 neovim 写下的，但是也不见得就比之前使用 vscode 或者其他文本编辑器写文章来得舒服，只是配置好了，自然要使用体验下。总之，使用一段时间之后，我会再给出评论。&lt;/p&gt;
+</content:encoded></item></channel></rss>

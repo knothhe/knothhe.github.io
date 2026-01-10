@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: how-to</title><description>All posts tagged with how-to</description><link>https://blog.guanglai.me/</link><item><title>Archlinux 下如何安装指定版本的 intellij idea</title><link>https://blog.guanglai.me/posts/archlinux-install-spcial-version-intellij-idea/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/archlinux-install-spcial-version-intellij-idea/</guid><description>在 archlinux/linux 下安装指定版本的 intellij idea 是真的折腾，好在至少算是折腾完了</description><pubDate>Sat, 29 Nov 2025 15:15:49 GMT</pubDate><content:encoded>&lt;ol&gt;
+&lt;li&gt;在 &lt;code&gt;jetbrains&lt;/code&gt; 官网下载指定版本的文档，同时获取到 &lt;code&gt;sha256 checksum&lt;/code&gt;，比如下载的是 &lt;code&gt;ideaIU-2024.1.7.tar.gz&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;找一个空文件夹。打开终端，cd 到那个空文件夹。运行 &lt;code&gt;git clone https://aur.archlinux.org/intellij-idea-ultimate-edition.git&lt;/code&gt;。它应该会创建一个名为 intellij-idea-ultimate-edition的新文件夹。&lt;/li&gt;
+&lt;li&gt;把 &lt;code&gt;ideaIU-2024.1.7.tar.gz&lt;/code&gt; 移到你在步骤 1 中创建的 intellij-idea-ultimate-edition 文件夹里。打开终端，cd 到那个文件夹。&lt;/li&gt;
+&lt;li&gt;修改 &lt;code&gt;PKGBUILD&lt;/code&gt;，修改 &lt;code&gt;pkgver=2024.1.7&lt;/code&gt; 以及 &lt;code&gt;sha256sums_x86_64&lt;/code&gt; 为第一步官网获取的 &lt;code&gt;sha256 checksum&lt;/code&gt;。如果是 ARM 则修改 &lt;code&gt;sha256sums_x86_64&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;然后运行 makepkg -si。按照屏幕上的提示安装 IntelliJ。&lt;/li&gt;
+&lt;li&gt;如何启动后，报错通知 &lt;code&gt;command not found&lt;/code&gt;，可以编辑 &lt;code&gt;sudo -e /usr/share/applications/jetbrains-idea.desktop&lt;/code&gt; 文件，将 Exec 修改为真实的 intellij idea.sh 的路径，比如我的是修改成 &lt;code&gt;Exec=/opt/intellij-idea-ultimate-edition/bin/idea.sh %u&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;因为安装的是特定版本，所以需要配置忽略更新。&lt;code&gt;sudo -e /etc/pacman.conf&lt;/code&gt; 编辑文件，添加下面的内容。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;[options]
+IgnorePkg = intellij-idea-ultimate-edition
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;推荐编辑 vm options，添加下面的内容，解决 UI 缩放的问题。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;-Dsun.java2d.uiScale.enabled=false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;本来只是想记录小笔记就可以了，没准备发博客，但是实在 Linux 下安装软件，如果不通过包管理器，是真的折腾，还是发布出来供其他同样在用 Linux 的朋友参考。&lt;/p&gt;
+</content:encoded></item></channel></rss>

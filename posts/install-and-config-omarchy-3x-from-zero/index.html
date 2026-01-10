@@ -1,0 +1,452 @@
+<!DOCTYPE html><html dir="ltr" lang="zh" class="scroll-smooth" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/"><meta name="generator" content="Astro v5.11.0"><!-- katex --><script src="/toggle-theme.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"><!-- General Meta Tags --><title>从零安装配置 omarchy 3.x 版本 | 人生即体验</title><meta name="title" content="从零安装配置 omarchy 3.x 版本 | 人生即体验"><meta name="description" content="最近因为不想每天都把公司的电脑带回家里，就打算安装尝试下新出的 omarchy 系统，所以记录下从零安装配置 omarchy 3.x offline 版本到基本可用的过程。"><meta name="author" content="Guang Lai"><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title" content="从零安装配置 omarchy 3.x 版本 | 人生即体验"><meta property="og:description" content="最近因为不想每天都把公司的电脑带回家里，就打算安装尝试下新出的 omarchy 系统，所以记录下从零安装配置 omarchy 3.x offline 版本到基本可用的过程。"><meta property="og:url" content="https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/"><meta property="og:image" content="https://images-oss.guanglai.me/2025/10-29-b48a5a311a950e5e18c6b8c590d7d788.webp"><!-- Article Published/Modified time --><meta property="article:published_time" content="2025-10-28T16:06:56.000Z"><meta property="article:modified_time" content="2025-11-23T14:17:48.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/"><meta property="twitter:title" content="从零安装配置 omarchy 3.x 版本 | 人生即体验"><meta property="twitter:description" content="最近因为不想每天都把公司的电脑带回家里，就打算安装尝试下新出的 omarchy 系统，所以记录下从零安装配置 omarchy 3.x offline 版本到基本可用的过程。"><meta property="twitter:image" content="https://images-oss.guanglai.me/2025/10-29-b48a5a311a950e5e18c6b8c590d7d788.webp"><!-- Google JSON-LD Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"从零安装配置 omarchy 3.x 版本 | 人生即体验","image":"https://images-oss.guanglai.me/2025/10-29-b48a5a311a950e5e18c6b8c590d7d788.webp","datePublished":"2025-10-28T16:06:56.000Z","dateModified":"2025-11-23T14:17:48.000Z","author":[{"@type":"Person","name":"Guang Lai","url":"https://blog.guanglai.me/about"}]}</script><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml" title="人生即体验" href="https://blog.guanglai.me/rss.xml"><meta name="theme-color" content=""><meta name="google-site-verification" content="0geTufxIL_urRfGYXdanCSRXtO85KNnZTYDcIJ4M63Q"><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CtSceO8m.js"></script><script src="/toggle-theme.js"></script><link rel="stylesheet" href="/_astro/about.14UkGBsH.css">
+<style>@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media (prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+.image-grid[data-astro-cid-lijdpcmf]{display:grid;grid-template-columns:repeat(var(--grid-columns, 3),1fr);gap:1rem;width:100%;margin:0 auto}.image-item[data-astro-cid-lijdpcmf]{position:relative;width:100%;overflow:hidden;border-radius:8px;display:flex;flex-direction:column;gap:.5rem;height:100%}.image-item[data-astro-cid-lijdpcmf] img[data-astro-cid-lijdpcmf]{width:100%;height:100%;object-fit:contain;transition:transform .3s ease}.image-item[data-astro-cid-lijdpcmf]:hover img[data-astro-cid-lijdpcmf]{transform:scale(1.05)}.image-caption[data-astro-cid-lijdpcmf]{font-size:.9rem;color:#666;text-align:center;padding:.25rem}@media (max-width: 768px){.image-grid[data-astro-cid-lijdpcmf]{grid-template-columns:repeat(2,1fr)}}@media (max-width: 480px){.image-grid[data-astro-cid-lijdpcmf]{grid-template-columns:repeat(1,1fr)}}
+:where([data-astro-image]){object-fit:var(--fit);object-position:var(--pos);height:auto}:where([data-astro-image=full-width]){width:100%}:where([data-astro-image=constrained]){max-width:100%}
+</style><style>[data-astro-transition-scope="astro-fam6wyqg-1"] { view-transition-name: \4ECE\96F6\5B89\88C5\914D\7F6E-omarchy-3-x-\7248\672C; }@layer astro { ::view-transition-old(\4ECE\96F6\5B89\88C5\914D\7F6E-omarchy-3-x-\7248\672C) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(\4ECE\96F6\5B89\88C5\914D\7F6E-omarchy-3-x-\7248\672C) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(\4ECE\96F6\5B89\88C5\914D\7F6E-omarchy-3-x-\7248\672C) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(\4ECE\96F6\5B89\88C5\914D\7F6E-omarchy-3-x-\7248\672C) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-2"] { view-transition-name: linux; }@layer astro { ::view-transition-old(linux) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(linux) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(linux) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(linux) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body data-astro-cid-sckkx6r4>  <header> <a id="skip-to-content" href="#main-content" class="absolute start-16 -top-full z-50 bg-background px-3 py-2 text-accent backdrop-blur-lg transition-all focus:top-4">
+Skip to content
+</a> <div id="nav-container" class="mx-auto flex max-w-app flex-col items-center justify-between sm:flex-row"> <div id="top-nav-wrap" class="relative flex w-full items-baseline justify-between bg-background p-4 sm:items-center sm:py-6"> <a href="/" class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"> 人生即体验 </a> <nav id="nav-menu" class="flex w-full flex-col items-center sm:ms-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0"> <button id="menu-btn" class="focus-outline self-end p-2 sm:hidden" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" id="close-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep" id="menu-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6h16" /><path d="M7 12h13" /><path d="M10 18h10" /></svg> </button> <ul id="menu-items" class="mt-4 grid w-44 grid-cols-2 place-content-center gap-2 [&#38;>li>a]:block [&#38;>li>a]:px-4 [&#38;>li>a]:py-3 [&#38;>li>a]:text-center [&#38;>li>a]:font-medium [&#38;>li>a]:hover:text-accent sm:[&#38;>li>a]:px-2 sm:[&#38;>li>a]:py-1 hidden sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0"> <li class="col-span-2"> <a href="/posts" class="active-nav">
+Posts
+</a> </li> <li class="col-span-2"> <a href="/tags">
+Tags
+</a> </li> <li class="col-span-2"> <a href="/about">
+About
+</a> </li> <li class="col-span-2"> <a href="/archives" class="group inline-block hover:text-accent focus-outline flex justify-center p-3 sm:p-1" aria-label="archives" title="Archives"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden sm:inline-block"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" /><path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" /><path d="M10 12l4 0" /></svg> <span class="sm:sr-only">Archives</span> </a> </li> <li class="col-span-1 flex items-center justify-center"> <a href="/search" class="group inline-block hover:text-accent focus-outline flex p-3 sm:p-1" aria-label="search" title="Search"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg> <span class="sr-only">Search</span> </a> </li> <li class="col-span-1 flex items-center justify-center"> <button id="theme-btn" class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent" title="Toggles light & dark" aria-label="auto" aria-live="polite"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" /><path d="M6.343 17.657l-1.414 1.414" /><path d="M6.343 6.343l-1.414 -1.414" /><path d="M17.657 6.343l1.414 -1.414" /><path d="M17.657 17.657l1.414 1.414" /><path d="M4 12h-2" /><path d="M12 4v-2" /><path d="M20 12h2" /><path d="M12 20v2" /></svg> </button> </li> </ul> </nav> </div> </div> <div class="mx-auto max-w-app px-4"> <hr class="border-border" aria-hidden="true"> </div> </header> <!-- { --> <!--   import.meta.env.PROD && ( --> <!--     <script --> <!--     async --> <!--     is:inline --> <!--     data-astro-rerun --> <!--     src="https://umami.guanglai.me/script.js" --> <!--     data-website-id="d3ab463e-e4cc-4f1c-976a-2799ff0394dc"></script> --> <!--   ) --> <!-- } --> <script type="module">function s(){const e=document.querySelector("#menu-btn"),t=document.querySelector("#menu-items"),n=document.querySelector("#menu-icon"),o=document.querySelector("#close-icon");!e||!t||!n||!o||e.addEventListener("click",()=>{const c=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",c?"false":"true"),e.setAttribute("aria-label",c?"Open Menu":"Close Menu"),t.classList.toggle("hidden"),n.classList.toggle("hidden"),o.classList.toggle("hidden")})}s();document.addEventListener("astro:after-swap",s);</script> <div class="mx-auto flex w-full max-w-app items-center justify-start px-2"><a id="back-button" href="/" class="group inline-block hover:text-accent focus-outline mt-8 mb-2 flex hover:text-foreground/75"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg><span>Go back</span></a></div><script type="module">function o(){const t=document.querySelector("#back-button"),e=sessionStorage.getItem("backUrl");e&&t&&(t.href=e)}document.addEventListener("astro:page-load",o);o();</script> <main id="main-content" class="mx-auto w-full max-w-app px-4 pb-12" data-pagefind-body> <h1 class="inline-block text-2xl font-bold text-accent sm:text-3xl" data-astro-transition-scope="astro-fam6wyqg-1"> 从零安装配置 omarchy 3.x 版本 </h1> <div class="my-2 flex items-center gap-2"> <div class="flex items-center gap-x-2 opacity-80"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 min-w-[1.375rem]"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg> <time class="text-sm sm:text-base" datetime="2025-10-28T16:06:56.000Z"> 29 Oct, 2025 </time>  <span class="text-sm sm:text-base"> <span class="mx-1">|</span>
+Updated:
+</span> <time class="text-sm sm:text-base" datetime="2025-11-23T14:17:48.000Z"> 23 Nov, 2025 </time>   <span class="mx-1">|</span> <span> 13 min read </span>  </div> <span aria-hidden="true" class="max-sm:hidden">|</span> <a href="https://github.com/knothhe/blog-astro/edit/blog/src/data/blog/_2025/install-and-config-omarchy-3.x-from-zero.md" target="_blank" rel="noopener noreferrer" class="flex justify-baseline gap-1.5 opacity-80 hover:text-accent max-sm:hidden"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg><span>Edit page</span></a> </div> <aside class="lg:block fixed left-[82%] top-32 order-2 -me-32 hidden basis-64"> <h2 class="font-semibold">Table of Contents</h2> <ul class="mt-4 text-sm max-h-[calc(100vh-15rem)] overflow-y-auto"> <li class> <a aria-label="Scroll to section: 前言" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#前言"><span class="me-0.5"></span>前言</a>  </li><li class> <a aria-label="Scroll to section: 安装启动" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#安装启动"><span class="me-0.5"></span>安装启动</a>  </li><li class> <a aria-label="Scroll to section: 配置系统" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#配置系统"><span class="me-0.5"></span>配置系统</a> <ul> <li class="ms-2"> <a aria-label="Scroll to section: 配置 wifi" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#配置-wifi"><span class="me-0.5"></span>配置 wifi</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: 包管理使用国内源" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#包管理使用国内源"><span class="me-0.5"></span>包管理使用国内源</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: 科学上网" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#科学上网"><span class="me-0.5"></span>科学上网</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: 中文输入法" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#中文输入法"><span class="me-0.5"></span>中文输入法</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: VSCode" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#vscode"><span class="me-0.5"></span>VSCode</a>  </li> </ul> </li><li class> <a aria-label="Scroll to section: 双系统配置" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#双系统配置"><span class="me-0.5"></span>双系统配置</a> <ul> <li class="ms-2"> <a aria-label="Scroll to section: 双系统引导" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#双系统引导"><span class="me-0.5"></span>双系统引导</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: 时区问题" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#时区问题"><span class="me-0.5"></span>时区问题</a>  </li> </ul> </li><li class> <a aria-label="Scroll to section: 最后" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#最后"><span class="me-0.5"></span>最后</a>  </li><li class> <a aria-label="Scroll to section: 2025-11-08 更新" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#2025-11-08-更新"><span class="me-0.5"></span>2025-11-08 更新</a>  </li><li class> <a aria-label="Scroll to section: 2025-11-23 更新" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#2025-11-23-更新"><span class="me-0.5"></span>2025-11-23 更新</a>  </li> </ul> </aside> <article id="article" class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"> <figure><img src="https://images-oss.guanglai.me/2025/10-29-b48a5a311a950e5e18c6b8c590d7d788.webp" alt="Omarchy 的实际使用截图"><figcaption>Omarchy 的实际使用截图</figcaption></figure>
+<p>omarchy 是 dhh，ruby on rails 的作者，基于个人喜好创建的一个基于 archlinux 和 hyprland 以及一系列基础软件创建的 linux 发行版。安装完成后，就已经能够做到基本可用，尤其对于开发者来说。如果你喜欢或者想要尝试平铺窗口管理器，那么可以试试 omarchy。</p>
+<p>本文则是我个人安装和配置 omarchy 的详细记录。</p>
+<p>我这里用于制作 U 盘启动器的工具是 <a href="https://www.ventoy.net/en/index.html">Ventoy</a>，也是我比较喜欢的一个工具，非常推荐。如果你有习惯的烧录 iso 镜像，用于 U 盘启动的工具，也可以使用。</p>
+<h2 id="前言">前言</h2>
+<p>我的电脑是台式机，主板是微星 B460M，CPU 是 i510400，显卡是 RTX 3070，这里也是基于我的硬件做的一个安装配置记录，当然，我觉得应该是适用大部分硬件的。</p>
+<p>目前的场景下，omarchy 默认只支持配置一块完整硬盘安装，也即不支持在一块物理硬盘上安装双系统。我虽然是安装双系统，但是 Windows 系统和 omarchy 系统是独立的两块物理硬盘。如果需要在同一块硬盘上安装双系统，则需要手动安装 arhclinux，然后再通过 omarchy 的脚本安装 omarchy 的配置和软件包等等，本篇文章不会涉及。</p>
+<h2 id="安装启动">安装启动</h2>
+<ol>
+<li>下载安装包：<a href="https://omarchy.org">https://omarchy.org</a>，由于是 offline iso installer，不用担心安装过程中的网络问题</li>
+<li>写入到 U 盘，我使用的是 ventoy，直接复制到 U 盘即可</li>
+<li>修改 UEFI 启动项顺序，修改成从 U 盘启动
+<ol>
+<li>微星的主板（微星 B460M），启动 UEFI 后，点按 DEL 键，即可进入 UEFI 界面</li>
+<li>SETTINGS > BOOT，将 UEFI USB Key: UEFI: USB, Partition 2 放到第一位</li>
+<li>保存并退出</li>
+</ol>
+</li>
+<li>进入 ventoy 引导页面
+<ol>
+<li>选择下载的 omarchy-x.x.x.iso 镜像启动</li>
+<li>Boot in normal mode</li>
+</ol>
+</li>
+<li>按照 omarchy 安装引导选择或者输入
+<ol>
+<li>Select keyboard layout: English(US)</li>
+<li>Username: your_name</li>
+<li>Password: your_password</li>
+<li>Fullname: your_full_name</li>
+<li>Email address: your_email</li>
+<li>Hostname: your_host_name</li>
+<li>Timezone: Asia/Shanghai</li>
+<li>最后一步，确认是否有误，无误则 Yes，否则 No, change it</li>
+<li>Select install disk: 选择合适的硬盘即可，我选择 /dev/nvme0n1，并且确认修改（Confirm overwriting /dev/nvme0n1, Yes）</li>
+<li>Installing…，等待安装完成，我这里完整耗时为 8m 23s</li>
+<li>拔出 U 盘，Reboot Now</li>
+</ol>
+</li>
+<li>修改 UEFI 启动项顺序，修改为 Limine
+<ol>
+<li>SETTINGS > BOOT > UEFI Hard Disk Drive BSS Priorities</li>
+<li>点击 <code>Boot Option #1</code>，选择 Limine</li>
+<li>保存并退出</li>
+</ol>
+</li>
+<li>启动系统，现在就可以配置了</li>
+</ol>
+<h2 id="配置系统">配置系统</h2>
+<h3 id="配置-wifi">配置 wifi</h3>
+<p>点击 bar 上的 wifi 图标，Tab 切换，⬇️ 键选择 wifi，Enter 键，然后输入 wifi 密码，Super + W 退出配置页面</p>
+<h3 id="包管理使用国内源">包管理使用国内源</h3>
+<ol>
+<li>bing.com 搜索 ustc mirror，使用中科大数据源，点击使用帮助</li>
+<li>参考 Arch Linux 页面配置 pacman 国内源
+<ol>
+<li>编辑 <code>/etc/pacman.d/mirrorlist</code> 文件，<code>sudoedit /etc/pacman.d/mirrorlist</code></li>
+<li>添加数据源 <code>Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch</code></li>
+</ol>
+</li>
+<li>参考 Arch Linux CN 页面添加 archlinuxcn 源
+<ol>
+<li>编辑 pacman 包管理配置文件，<code>sudoedit /etc/pacman.conf</code></li>
+<li>安装 <code>archlinuxcn-keyring</code>，<code>sudo pacman -S archlinuxcn-keyring</code></li>
+</ol>
+</li>
+<li>同步系统数据源 <code>sudo pamcan -Syu</code></li>
+</ol>
+<p>SINCE: 3.2.0 omarchy 添加了稳定源，比 archlinux 本身的源晚一个月，使用的应该是 cloudflare 的网络，目前我的使用体验还可以，慢一点 200 KB/s，快一点 1 MB/s。</p>
+<h3 id="科学上网">科学上网</h3>
+<ol>
+<li>先使用另一台电脑下载好订阅文件</li>
+<li>使用 LocalSend 将订阅文件发送到 omarchy 系统</li>
+<li>安装 <code>flclash-bin</code>，这里会比较慢，很慢，非常慢，<code>yay -S flclash-bin</code></li>
+<li>安装 <code>sparkle-bin</code>，这里也很慢，非常慢, <code>yay -S sparkle-bin</code>，大约  20min</li>
+<li>最好是使用另一台电脑下载 <a href="https://github.com/chen08209/FlClash/releases">flclash.AppImage</a>, 这样速度会快很多。通过 LocalSend 发送到 omarchy，最后在 omarchy 中双击运行</li>
+</ol>
+<h3 id="中文输入法">中文输入法</h3>
+<p>这里可以参考 <a href="https://manateelazycat.github.io/2025/08/31/fcitx-best-config/">manateelazycat 的文章</a></p>
+<ol>
+<li>安装相关软件包</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="bash"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">sudo</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> pacman</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> -S</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> fcitx5</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> fcitx5-{gtk,qt,configtool,rime}</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> librime</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> qt5-tools</span></span></code></pre>
+<ol start="2">
+<li>Rime 输入法配置方案推荐使用<a href="https://github.com/iDvel/rime-ice">雾凇拼音</a>，或者白雾拼音，我使用的是雾凇拼音
+<ol>
+<li>clone 雾凇拼音到对应配置目录下</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="bash"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> clone</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> https://github.com/iDvel/rime-ice.git</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> $HOME</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">/.local/share/fcitx5/rime/</span></span></code></pre>
+<ol start="2">
+<li>或者参考官方文档，使用官方推荐的方式安装</li>
+<li>我是基于雾凇拼音，自己维护了一套个人使用的配置，直接 clone 到对应目录下即可</li>
+</ol>
+</li>
+<li>输入法皮肤我使用的是 <a href="https://github.com/catppuccin/fcitx5">catppuccin fctix5</a> 里的 macchiato-sky</li>
+</ol>
+<h3 id="vscode">VSCode</h3>
+<p>如果要安装 vscode 的话，推荐通过 omarchy 的工具安装，否则自行安装的话，需要手动配置 <code>~/.vscode/argv.json</code> 的 <code>passwrod-store</code> 选项</p>
+<ol>
+<li>SUPER + ALT + SPACE 唤起菜单</li>
+<li>Install > Editor > VSCode</li>
+<li>Linux 下 VSCode 的中文输入有点问题，我暂时还找不到解决办法</li>
+</ol>
+<h2 id="双系统配置">双系统配置</h2>
+<h3 id="双系统引导">双系统引导</h3>
+<p>omarchy 默认使用 limine 引导器，可以通过下面的命令配置双系统分区引导</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="bash"><code><span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D"># 安装 limine-entry-scan</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">yay</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> -S</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> limine-entry-tool</span></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D"># 扫描并选择 windows，其他不用选择</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">sudo</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> limine-entry-tool</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> --scan</span></span></code></pre>
+<h3 id="时区问题">时区问题</h3>
+<ol>
+<li>Windows 由于历史包袱，读取硬件时间（RTC, Real Time Clock），并认为是本地时间，即 UTC 加上时区偏移量。Unix / Linux 系统的统一行为则是认为硬件时间（RTC）是 UTC 时间。所以安装双系统后，两个操作系统如果不修改默认行为，同时只有一个系统的时间展示是正确的。</li>
+<li>这里我是修改 Windows 注册表，让 Windows 系统和 Linux 系统行为统一，都认为硬件时间是 UTC 时间，时区由操作系统处理。</li>
+<li>使用管理员权限打开 Windows PowerShell，输入下面的命令</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="powershell"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">reg add </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation"</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> /</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">v RealTimeIsUniversal </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">d </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">1</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> /</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">t REG_DWORD </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">f</span></span></code></pre>
+<ol start="4">
+<li>在 Windows 设置 -> 时间和语言 -> 日期和时间中，关闭“自动设置时间”，等待几秒，再重新打开。或者，直接点击“立即同步”按钮</li>
+<li>这样做是为了让 Windows 基于新的 UTC 解读来更新正确的时间</li>
+</ol>
+<h2 id="最后">最后</h2>
+<p>至此，omarchy 系统就算是基本可用了。我先使用一段时间，看看这次可以坚持使用多久，总之目前体验下来感觉不错。</p>
+<h2 id="2025-11-08-更新">2025-11-08 更新</h2>
+<figure><img src="https://images-oss.guanglai.me/2025/11-08-360b144a32da5d44efda841214e2c90c.webp" alt="2025-11-08 系统更新后，启动失败"><figcaption>2025-11-08 系统更新后，启动失败</figcaption></figure>
+<p>昨天更新了 omarchy 系统，结果今天醒来就 boot loader(limine) 就崩了，还好我把公司电脑也带回了家里，不然就只能修改 uefi 的 boot 启动项，用 windows 查找解决办法了。</p>
+<p>最后去 omarchy 的 github 仓库，翻找 issues 和 discussions。最后在 discussions 里找到了<a href="https://github.com/basecamp/omarchy/discussions/3236">解决办法</a>，顺利处理。omarchy 也紧急发布了 <a href="https://github.com/basecamp/omarchy/releases/tag/v3.1.6">v3.1.16</a> 版本修复这个问题，当然，还有上面的已经发生这个问题的解决办法。</p>
+<p>这个问题的根源在 limine，而不是 omarchy。并且 omarchy 在第一时间更新了修复补丁以及解决办法，这也就是使用发行版的一个优点。我的操作也记录在发生同样问题的 <a href="https://github.com/basecamp/omarchy/issues/3239#issuecomment-3506044943">issue</a> 里。</p>
+<p>一句话总结问题发生的原因：Limine v10.3.0 改了 config 查找顺序，优先读 EFI 同目录的 limine.conf，而 Omarchy 的 config 在 /boot，导致更新后读不到正确配置 → Kernel Panic。必须临时改用 efi_chainload + 进系统让官方脚本自动迁移删除多余 config 才能永久解决。</p>
+<p>这点看来，Linux 作为桌面系统的稳定性还是不够高，上游软件直接发布 break change 导致下游直接崩溃，真的有够搞人的。</p>
+<p>对我来说，重新安装 omarchy 系统之后仅仅两周，系统就崩溃了一次，虽然是因为上游软件更新导致的。总之，以后升级系统要谨慎再谨慎了。暂定的方案是，最多一周更新一次，定在周六，如果周六没有时间更新系统，那么这周就跳过更新系统。</p>
+<h2 id="2025-11-23-更新">2025-11-23 更新</h2>
+<p>这次更新 omarchy 3.2.0 版本，又把系统更新崩了，重启系统后，出现了下面图片里的报错，并且是只有我本人出现这个问题，至少我在 omarchy 的 GitHub issues 里没有找到和我有类似问题的用户。</p>
+<p>这次系统出现问题本身是有预兆的，一是我在系统更新打印的日志里，有看到更新迁移的脚本出现失败的执行日志，二是系统是不是就会出现 Read-only file system 的报错，只能重启解决。第二点这个也许可能和硬盘有关系，毕竟我这块硬件已经是至少七年的老古董了，还是我上大学时，加装在当时笔记本上的固态。</p>
+<figure><img src="https://images-oss.guanglai.me/2025/11-23-1ef1a6a323fd447dc81a040598f92c9a.webp" alt="omarchy failed mount"><figcaption>omarchy failed mount</figcaption></figure>
+<p>虽然存在目前使用的这些问题，还是想继续尝试日常使用 omarchy，也许哪一天我真的要换一下硬件系统才能不怎么出问题吧。我的配置文件，笔记，密码之类的数据都有云端同步，所以重新安装系统也没有什么大的问题。但是就目前我的使用体验，我是不太能推荐其他用户使用 omarchy 或者说 Linux 作为日常桌面系统的。</p>
+<p>再次记录一下从 iso 下载，并且配置到基本可使用的完整时间。</p>
+<p>没想到的是，最新版本的 iso 镜像文件的下载就花费了一个小时。我从 19:00 开始下载 iso 镜像文件，到 19:50 才下载完成 iso 镜像，开始安装 omarchy。镜像下载到一半多，Windows 有更新提示，我就点击更新图标到 Windows 设置，设想的是 Windows 的暂停更新一周，也是这么点击的，结果直接给我整到重启系统并更新了，也是很让人无语。好在系统更新完成后，重新打开 Chrome 可以继续之前没有完成的下载。之后复制镜像到 ventoy 也只要 12 MB/s 每秒的速度，需要 10 分钟。</p>
+<p>按照本文上面的步骤，从 20:01 开始安装系统，这次安装完成，花费 7m28s。</p>
+<figure><img src="https://images-oss.guanglai.me/2025/11-23-f0f2b8c065627052f5ddc7a3cc252c0d.webp" alt="omarchy install finish"><figcaption>omarchy install finish</figcaption></figure>
+<p>安装完成后，重启系统，设置 UEFI boot 选项，20:15 开始配置系统。</p>
+<p>21:15 左右，系统配置基本配置完成，很顺利。</p> </article> <hr class="my-8 border-dashed"> <a href="https://github.com/knothhe/blog-astro/edit/blog/src/data/blog/_2025/install-and-config-omarchy-3.x-from-zero.md" target="_blank" rel="noopener noreferrer" class="flex justify-baseline gap-1.5 opacity-80 hover:text-accent sm:hidden"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg><span>Edit page</span></a> <ul class="mt-4 mb-8 sm:my-8"> <li class="group inline-block group-hover:cursor-pointer my-1 underline-offset-4"> <a href="/tags/linux/" class="relative pe-2 text-lg underline decoration-dashed group-hover:-top-0.5 group-hover:text-accent focus-visible:p-1 focus-visible:no-underline text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <!-- <IconHash
+      class:list={[
+        "inline-block opacity-80",
+        { "-me-3.5 size-4": size === "sm" },
+        { "-me-5 size-6": size === "lg" },
+      ]}
+    />
+    &nbsp; --> <span>linux</span> </a> </li> </ul> <div id="btt-btn-container" class="fixed end-4 bottom-8 z-50 md:sticky md:end-auto md:float-end md:me-1 translate-y-14 opacity-0 transition duration-500"> <button data-button="back-to-top" class="group relative bg-background px-2 py-1 size-14 rounded-full shadow-xl md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg"> <span id="progress-indicator" class="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"></span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block rotate-90 md:hidden"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <span class="sr-only text-sm group-hover:text-accent md:not-sr-only"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M16 9l-4 -4" /><path d="M8 9l4 -4" /></svg>
+Back To Top
+</span> </button> </div> <script data-astro-rerun>
+  /** Scrolls the document to the top when
+   * the "Back to Top" button is clicked. */
+  function backToTop() {
+    const rootElement = document.documentElement;
+    const btnContainer = document.querySelector("#btt-btn-container");
+    const backToTopBtn = document.querySelector("[data-button='back-to-top']");
+    const progressIndicator = document.querySelector("#progress-indicator");
+
+    if (!rootElement || !btnContainer || !backToTopBtn || !progressIndicator)
+      return;
+
+    // Attach click event handler for back-to-top button
+    backToTopBtn.addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+
+    // Handle button visibility according to scroll position
+    let lastVisible = null;
+    function handleScroll() {
+      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+      const scrollTop = rootElement.scrollTop;
+      const scrollPercent = Math.floor((scrollTop / scrollTotal) * 100);
+
+      progressIndicator.style.setProperty(
+        "background-image",
+        `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`
+      );
+
+      const isVisible = scrollTop / scrollTotal > 0.3;
+
+      if (isVisible !== lastVisible) {
+        btnContainer.classList.toggle("opacity-100", isVisible);
+        btnContainer.classList.toggle("translate-y-0", isVisible);
+        btnContainer.classList.toggle("opacity-0", !isVisible);
+        btnContainer.classList.toggle("translate-y-14", !isVisible);
+        lastVisible = isVisible;
+      }
+    }
+
+    let ticking = false;
+    document.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+  backToTop();
+</script> <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start"><span class="italic">Share this post on:</span><div class="text-center"><a href="https://wa.me/?text=https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post via WhatsApp"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg><span class="sr-only">Share this post via WhatsApp</span></a><a href="https://www.facebook.com/sharer.php?u=https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post on Facebook"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg><span class="sr-only">Share this post on Facebook</span></a><a href="https://x.com/intent/post?url=https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post on X"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg><span class="sr-only">Share this post on X</span></a><a href="https://t.me/share/url?url=https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post via Telegram"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" /></svg><span class="sr-only">Share this post via Telegram</span></a><a href="https://pinterest.com/pin/create/button/?url=https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post on Pinterest"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 20l4 -9" /><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /></svg><span class="sr-only">Share this post on Pinterest</span></a><a href="mailto:?subject=See%20this%20post&#38;body=https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post via email"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg><span class="sr-only">Share this post via email</span></a></div></div> <div class="license-notice mt-8 p-4 bg-skin-card border-l-4 border-skin-accent text-sm"> <div class="flex flex-col gap-2 mb-4"> <div class="flex items-center gap-2"> <span class="font-medium">文章标题：从零安装配置 omarchy 3.x 版本</span> </div> <div class="flex items-center gap-2"> <span>文章链接：</span> <span class="text-skin-base truncate">https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/</span> <button class="copy-btn px-2 py-1 text-xs border rounded hover:bg-skin-accent hover:text-accent transition-colors" data-text="https://blog.guanglai.me/posts/install-and-config-omarchy-3x-from-zero/">
+复制
+</button> </div> </div> <p class="mb-2">
+商业转载请联系站长获得授权，非商业转载请注明本文出处及文章链接。您可以自由地在任何媒体以任何形式复制和分发作品，也可以修改和创作，但分发衍生作品时必须采用相同的许可协议。
+</p> <p>
+本文采用 <a class="underline hover:text-skin-accent" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 进行许可。
+</p> </div> <script>
+  function setupCopyButtons() {
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', async () => {
+        const text = button.getAttribute('data-text');
+        if (text) {
+          try {
+            const originalText = button.textContent;
+            await navigator.clipboard.writeText(text);
+            button.textContent = '已复制!';
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 2000);
+          } catch {
+            button.textContent = '复制失败';
+            setTimeout(() => {
+              button.textContent = '复制';
+            }, 2000);
+          }
+        }
+      });
+    });
+  }
+
+  setupCopyButtons();
+</script> <hr class="my-6 border-dashed"> <!-- Previous/Next Post Buttons --> <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2"> <a href="/posts/archlinux-install-spcial-version-intellij-idea" class="flex w-full gap-1 hover:opacity-75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <div> <span>Previous Post</span> <div class="text-sm text-accent/85">Archlinux 下如何安装指定版本的 intellij idea</div> </div> </a> <a href="/posts/what-is-guanglai-doing-this-week-021" class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"> <div> <span>Next Post</span> <div class="text-sm text-accent/85">已读乱码 21 | 国庆之后</div> </div> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l6 6l-6 6" /></svg> </a> </div> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="ZQIRKt" component-url="/_astro/Comments.BmQV_tou.js" component-export="default" renderer-url="/_astro/client.BXWm451Q.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Comments&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> </main> <footer class="w-full mt-auto"> <div class="mx-auto max-w-app px-0"> <hr class="border-border" aria-hidden="true"> </div> <div class="flex flex-col items-center justify-between py-6 sm:flex-row-reverse sm:py-4"> <div class="flex-wrap justify-center gap-1 flex"> <a href="https://github.com/knothhe" class="group inline-block hover:text-accent p-2 hover:rotate-6 sm:p-1" title="GitHub"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /></svg> <span class="sr-only">GitHub</span> </a><a href="mailto:i[at]guanglai.me" class="group inline-block hover:text-accent p-2 hover:rotate-6 sm:p-1" title="Send an email to me(change [at] to @)"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg> <span class="sr-only">Send an email to me(change [at] to @)</span> </a><a href="https://linux.do/u/knothhe" class="group inline-block hover:text-accent p-2 hover:rotate-6 sm:p-1" title="LinuxDo"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110">
+    <clipPath id="a">
+        <circle cx="12" cy="12" r="8.6" />
+    </clipPath>
+    <circle cx="12" cy="12" r="10" />
+    <rect clip-path="url(#a)" x="2" y="2" width="20" height="6" />
+    <rect clip-path="url(#a)" x="2" y="8" width="20" height="8" />
+    <rect clip-path="url(#a)" x="2" y="16" width="20" height="6" />
+</svg> <span class="sr-only">LinuxDo</span> </a> </div> <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row"> <span>Copyright &#169; 2019 - 2026</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>All rights reserved.</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>Powered by <a href="https://github.com/satnaing/astro-paper" target="_blank" class="underline underline-offset-4 hover:text-skin-accent">AstroPaper</a></span> <span class="hidden sm:inline">&nbsp;</span> <span>v5.5.0</span> </div> </div> </footer>  </body></html> <script data-astro-rerun>
+  /** Create a progress indicator
+   *  at the top */
+  function createProgressBar() {
+    // Create the main container div
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    // Create the progress bar div
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    // Append the progress bar to the progress container
+    progressContainer.appendChild(progressBar);
+
+    // Append the progress container to the document body or any other desired parent element
+    document.body.appendChild(progressContainer);
+  }
+  createProgressBar();
+
+  /** Update the progress bar
+   *  when user scrolls */
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      if (document) {
+        const myBar = document.getElementById("myBar");
+        if (myBar) {
+          myBar.style.width = scrolled + "%";
+        }
+      }
+    });
+  }
+  updateScrollProgress();
+
+  /** Attaches links to headings in the document,
+   *  allowing sharing of sections easily */
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("h2, h3, h4, h5, h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+      link.href = "#" + heading.id;
+
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  /** Attaches copy buttons to code blocks in the document,
+   * allowing users to copy code easily. */
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      // Check if --file-name-offset custom property exists
+      const computedStyle = getComputedStyle(codeBlock);
+      const hasFileNameOffset =
+        computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
+
+      // Determine the top positioning class
+      const topClass = hasFileNameOffset
+        ? "top-(--file-name-offset)"
+        : "-top-3";
+
+      const copyButton = document.createElement("button");
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      // wrap codebock with relative parent element
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      const code = block.querySelector("code");
+      const text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      // visual feedback that task is completed
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  /* Go to page start after page swap */
+  document.addEventListener("astro:after-swap", () =>
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+  );
+</script> <!-- Image Modal Script --> <script type="module">function d(){const t=document.querySelector(".modal");t&&t.remove();const e=document.createElement("div");e.className="modal",document.body.appendChild(e),document.querySelectorAll(".app-prose img").forEach(a=>{a.addEventListener("click",o=>{o.preventDefault(),e.innerHTML=`
+        <div class="modal-content">
+          <img src="${a.src}" alt="${a.alt}" />
+        </div>
+      `,e.classList.add("active")})}),e.addEventListener("click",()=>{e.classList.remove("active")}),document.addEventListener("keydown",a=>{a.key==="Escape"&&e.classList.contains("active")&&e.classList.remove("active")})}document.addEventListener("DOMContentLoaded",d);document.addEventListener("astro:page-load",d);document.addEventListener("astro:before-swap",()=>{const t=document.querySelector(".modal");t&&t.remove()});</script>

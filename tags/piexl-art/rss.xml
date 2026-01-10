@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: piexl-art</title><description>All posts tagged with piexl-art</description><link>https://blog.guanglai.me/</link><item><title>在 MacOS 上编译 Aseprite，Step By Step</title><link>https://blog.guanglai.me/posts/how-to-compile-aseprite-on-macos/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/how-to-compile-aseprite-on-macos/</guid><description>Aseprite 是一款像素画绘制工具软件，我有打算学习像素画，尝试在 MacOS 上编译 Aseprite，于是记录下编译过程中碰到的问题。我编译的版本是 `Aseprite v1.3.10.1`，对应的 skia 预编译文件是 `Skia-m102`。</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;Aseprite 是一款像素画绘制工具软件，我有打算学习像素画，尝试在 MacOS 上编译 Aseprite，于是记录下编译过程中碰到的问题。我编译的版本是 &lt;code&gt;Aseprite v1.3.10.1&lt;/code&gt;，对应的 skia 预编译文件是 &lt;code&gt;Skia-m102&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Aseprite 在 Steam 是有在售卖的，中国区的价格是 70 元，后面打折的时候，可以支持下作者。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Github 上有源码可以下载自行编译，正常编译只需要几分钟就可以编译完成。&lt;/p&gt;
+&lt;h2&gt;官方文档&lt;/h2&gt;
+&lt;p&gt;官方文档是有指导如何在 Windows, Mac OS，Linux 三个主流操作系统上编译 Aseprite 的指导文档的，按照官方文档编译基本不会出什么问题。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/aseprite/aseprite/blob/main/INSTALL.md&quot;&gt;aseprite/INSTALL.md at main · aseprite/aseprite&lt;/a&gt; 安装文档，按照该文档编译即可&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/aseprite/skia&quot;&gt;aseprite/skia: Skia is a complete 2D graphic library for drawing Text, Geometries, and Images.&lt;/a&gt; Aseprite 的默认依赖，编译前需要先编译或者下载预编译的 skia 库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;准备工作&lt;/h2&gt;
+&lt;p&gt;获取源码。可以直接从 &lt;a href=&quot;https://github.com/aseprite/aseprite/releases&quot;&gt;Releases · aseprite/aseprite&lt;/a&gt; 页面下载当前稳定版本的源码。&lt;/p&gt;
+&lt;p&gt;skia 依赖库。同样可以从 &lt;a href=&quot;https://github.com/aseprite/skia/releases&quot;&gt;Releases · aseprite/skia&lt;/a&gt; 页面下载预编译的 skia 文件。把编译好的 skia 放在 &lt;code&gt;$HOME/deps/skia&lt;/code&gt; 目录下，编译过程时需要指定 skia 依赖的路径。&lt;/p&gt;
+&lt;p&gt;构建工具。可以使用 Homebrew 安装。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;brew install cmake ninja
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;macOS 系统依赖&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;On macOS you will need macOS 11.3 SDK and Xcode 13.1 (older versions might work).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;下载 Xcode 即可。&lt;/p&gt;
+&lt;h2&gt;编译&lt;/h2&gt;
+&lt;p&gt;先在项目根目录创建构建目录。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;mkdir build
+cd build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Apple Silicon 用户可以用下面的命令构建编译参数。其他平台或架构可以按照官方文档修改。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;cmake \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCMAKE_OSX_ARCHITECTURES=arm64 \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+  -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk \
+  -DLAF_BACKEND=skia \
+  -DSKIA_DIR=$HOME/deps/skia \
+  -DSKIA_LIBRARY_DIR=$HOME/deps/skia/out/Release-arm64 \
+  -DSKIA_LIBRARY=$HOME/deps/skia/out/Release-arm64/libskia.a \
+  -DPNG_ARM_NEON:STRING=on \
+  -G Ninja \
+  ..
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里的 &lt;code&gt;-DSKIA_DIR=$HOME/deps/skia&lt;/code&gt; 就是刚才下载的 skia 依赖库的路径。&lt;/p&gt;
+&lt;p&gt;使用下面的命令编译即可。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;ninja aseprite
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;编译好的二进制文件就在 &lt;code&gt;/build/bin&lt;/code&gt; 目录下， 即 &lt;code&gt;aseprite&lt;/code&gt;。到这边位置就算是编译完成了。&lt;/p&gt;
+&lt;h2&gt;美化&lt;/h2&gt;
+&lt;p&gt;编译完成的 &lt;code&gt;aseprite&lt;/code&gt; 打开较为繁琐，并且没有 icon。需要优化下打卡方式。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;官网下载试用版本的 &lt;code&gt;aseprite&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;安装试用版本的 &lt;code&gt;aseprite&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;进入 &lt;code&gt;Applications&lt;/code&gt; 目录，找到 &lt;code&gt;Aseprite&lt;/code&gt;，鼠标右键点击 &lt;code&gt;Show Package Contents&lt;/code&gt;，把编译好的 &lt;code&gt;aseprite&lt;/code&gt; 和 &lt;code&gt;gen&lt;/code&gt; 复制到 &lt;code&gt;Mac OS&lt;/code&gt; 文件夹下即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;中文汉化？&lt;/h2&gt;
+&lt;p&gt;我没有做~，先学起来吧。&lt;/p&gt;
+&lt;h2&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.lxchapu.com/posts/compile-aseprite-on-mac/&quot;&gt;在 Mac 系统手动编译 Aseprite - 柃夏chapu&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item></channel></rss>

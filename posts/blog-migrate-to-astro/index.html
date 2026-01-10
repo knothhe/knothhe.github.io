@@ -1,0 +1,662 @@
+<!DOCTYPE html><html dir="ltr" lang="zh" class="scroll-smooth" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://blog.guanglai.me/posts/blog-migrate-to-astro/"><meta name="generator" content="Astro v5.11.0"><!-- katex --><script src="/toggle-theme.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"><!-- General Meta Tags --><title>博客折腾小记，迁移 Astro | 人生即体验</title><meta name="title" content="博客折腾小记，迁移 Astro | 人生即体验"><meta name="description" content="折腾了下博客框架，记录下迁移过程中碰到的一些问题"><meta name="author" content="Guang Lai"><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title" content="博客折腾小记，迁移 Astro | 人生即体验"><meta property="og:description" content="折腾了下博客框架，记录下迁移过程中碰到的一些问题"><meta property="og:url" content="https://blog.guanglai.me/posts/blog-migrate-to-astro/"><meta property="og:image" content="https://blog.guanglai.me/og-image.png"><!-- Article Published/Modified time --><meta property="article:published_time" content="2025-02-07T17:04:19.000Z"><meta property="article:modified_time" content="2025-06-14T13:45:01.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://blog.guanglai.me/posts/blog-migrate-to-astro/"><meta property="twitter:title" content="博客折腾小记，迁移 Astro | 人生即体验"><meta property="twitter:description" content="折腾了下博客框架，记录下迁移过程中碰到的一些问题"><meta property="twitter:image" content="https://blog.guanglai.me/og-image.png"><!-- Google JSON-LD Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"博客折腾小记，迁移 Astro | 人生即体验","image":"https://blog.guanglai.me/og-image.png","datePublished":"2025-02-07T17:04:19.000Z","dateModified":"2025-06-14T13:45:01.000Z","author":[{"@type":"Person","name":"Guang Lai","url":"https://blog.guanglai.me/about"}]}</script><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml" title="人生即体验" href="https://blog.guanglai.me/rss.xml"><meta name="theme-color" content=""><meta name="google-site-verification" content="0geTufxIL_urRfGYXdanCSRXtO85KNnZTYDcIJ4M63Q"><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CtSceO8m.js"></script><script src="/toggle-theme.js"></script><link rel="stylesheet" href="/_astro/about.14UkGBsH.css">
+<style>@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media (prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+.image-grid[data-astro-cid-lijdpcmf]{display:grid;grid-template-columns:repeat(var(--grid-columns, 3),1fr);gap:1rem;width:100%;margin:0 auto}.image-item[data-astro-cid-lijdpcmf]{position:relative;width:100%;overflow:hidden;border-radius:8px;display:flex;flex-direction:column;gap:.5rem;height:100%}.image-item[data-astro-cid-lijdpcmf] img[data-astro-cid-lijdpcmf]{width:100%;height:100%;object-fit:contain;transition:transform .3s ease}.image-item[data-astro-cid-lijdpcmf]:hover img[data-astro-cid-lijdpcmf]{transform:scale(1.05)}.image-caption[data-astro-cid-lijdpcmf]{font-size:.9rem;color:#666;text-align:center;padding:.25rem}@media (max-width: 768px){.image-grid[data-astro-cid-lijdpcmf]{grid-template-columns:repeat(2,1fr)}}@media (max-width: 480px){.image-grid[data-astro-cid-lijdpcmf]{grid-template-columns:repeat(1,1fr)}}
+:where([data-astro-image]){object-fit:var(--fit);object-position:var(--pos);height:auto}:where([data-astro-image=full-width]){width:100%}:where([data-astro-image=constrained]){max-width:100%}
+</style><style>[data-astro-transition-scope="astro-fam6wyqg-1"] { view-transition-name: \535A\5BA2\6298\817E\5C0F\8BB0\FF0C\8FC1\79FB-astro; }@layer astro { ::view-transition-old(\535A\5BA2\6298\817E\5C0F\8BB0\FF0C\8FC1\79FB-astro) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(\535A\5BA2\6298\817E\5C0F\8BB0\FF0C\8FC1\79FB-astro) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(\535A\5BA2\6298\817E\5C0F\8BB0\FF0C\8FC1\79FB-astro) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(\535A\5BA2\6298\817E\5C0F\8BB0\FF0C\8FC1\79FB-astro) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-2"] { view-transition-name: astro; }@layer astro { ::view-transition-old(astro) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(astro) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(astro) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(astro) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-3"] { view-transition-name: hexo; }@layer astro { ::view-transition-old(hexo) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(hexo) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(hexo) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(hexo) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-4"] { view-transition-name: build-blog; }@layer astro { ::view-transition-old(build-blog) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(build-blog) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(build-blog) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(build-blog) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body data-astro-cid-sckkx6r4>  <header> <a id="skip-to-content" href="#main-content" class="absolute start-16 -top-full z-50 bg-background px-3 py-2 text-accent backdrop-blur-lg transition-all focus:top-4">
+Skip to content
+</a> <div id="nav-container" class="mx-auto flex max-w-app flex-col items-center justify-between sm:flex-row"> <div id="top-nav-wrap" class="relative flex w-full items-baseline justify-between bg-background p-4 sm:items-center sm:py-6"> <a href="/" class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"> 人生即体验 </a> <nav id="nav-menu" class="flex w-full flex-col items-center sm:ms-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0"> <button id="menu-btn" class="focus-outline self-end p-2 sm:hidden" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" id="close-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep" id="menu-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6h16" /><path d="M7 12h13" /><path d="M10 18h10" /></svg> </button> <ul id="menu-items" class="mt-4 grid w-44 grid-cols-2 place-content-center gap-2 [&#38;>li>a]:block [&#38;>li>a]:px-4 [&#38;>li>a]:py-3 [&#38;>li>a]:text-center [&#38;>li>a]:font-medium [&#38;>li>a]:hover:text-accent sm:[&#38;>li>a]:px-2 sm:[&#38;>li>a]:py-1 hidden sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0"> <li class="col-span-2"> <a href="/posts" class="active-nav">
+Posts
+</a> </li> <li class="col-span-2"> <a href="/tags">
+Tags
+</a> </li> <li class="col-span-2"> <a href="/about">
+About
+</a> </li> <li class="col-span-2"> <a href="/archives" class="group inline-block hover:text-accent focus-outline flex justify-center p-3 sm:p-1" aria-label="archives" title="Archives"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden sm:inline-block"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" /><path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" /><path d="M10 12l4 0" /></svg> <span class="sm:sr-only">Archives</span> </a> </li> <li class="col-span-1 flex items-center justify-center"> <a href="/search" class="group inline-block hover:text-accent focus-outline flex p-3 sm:p-1" aria-label="search" title="Search"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg> <span class="sr-only">Search</span> </a> </li> <li class="col-span-1 flex items-center justify-center"> <button id="theme-btn" class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent" title="Toggles light & dark" aria-label="auto" aria-live="polite"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" /><path d="M6.343 17.657l-1.414 1.414" /><path d="M6.343 6.343l-1.414 -1.414" /><path d="M17.657 6.343l1.414 -1.414" /><path d="M17.657 17.657l1.414 1.414" /><path d="M4 12h-2" /><path d="M12 4v-2" /><path d="M20 12h2" /><path d="M12 20v2" /></svg> </button> </li> </ul> </nav> </div> </div> <div class="mx-auto max-w-app px-4"> <hr class="border-border" aria-hidden="true"> </div> </header> <!-- { --> <!--   import.meta.env.PROD && ( --> <!--     <script --> <!--     async --> <!--     is:inline --> <!--     data-astro-rerun --> <!--     src="https://umami.guanglai.me/script.js" --> <!--     data-website-id="d3ab463e-e4cc-4f1c-976a-2799ff0394dc"></script> --> <!--   ) --> <!-- } --> <script type="module">function s(){const e=document.querySelector("#menu-btn"),t=document.querySelector("#menu-items"),n=document.querySelector("#menu-icon"),o=document.querySelector("#close-icon");!e||!t||!n||!o||e.addEventListener("click",()=>{const c=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",c?"false":"true"),e.setAttribute("aria-label",c?"Open Menu":"Close Menu"),t.classList.toggle("hidden"),n.classList.toggle("hidden"),o.classList.toggle("hidden")})}s();document.addEventListener("astro:after-swap",s);</script> <div class="mx-auto flex w-full max-w-app items-center justify-start px-2"><a id="back-button" href="/" class="group inline-block hover:text-accent focus-outline mt-8 mb-2 flex hover:text-foreground/75"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg><span>Go back</span></a></div><script type="module">function o(){const t=document.querySelector("#back-button"),e=sessionStorage.getItem("backUrl");e&&t&&(t.href=e)}document.addEventListener("astro:page-load",o);o();</script> <main id="main-content" class="mx-auto w-full max-w-app px-4 pb-12" data-pagefind-body> <h1 class="inline-block text-2xl font-bold text-accent sm:text-3xl" data-astro-transition-scope="astro-fam6wyqg-1"> 博客折腾小记，迁移 Astro </h1> <div class="my-2 flex items-center gap-2"> <div class="flex items-center gap-x-2 opacity-80"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 min-w-[1.375rem]"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg> <time class="text-sm sm:text-base" datetime="2025-02-07T17:04:19.000Z"> 8 Feb, 2025 </time>  <span class="text-sm sm:text-base"> <span class="mx-1">|</span>
+Updated:
+</span> <time class="text-sm sm:text-base" datetime="2025-06-14T13:45:01.000Z"> 14 Jun, 2025 </time>   <span class="mx-1">|</span> <span> 12 min read </span>  </div> <span aria-hidden="true" class="max-sm:hidden">|</span> <a href="https://github.com/knothhe/blog-astro/edit/blog/src/data/blog/_2025/blog-migrate-to-astro.md" target="_blank" rel="noopener noreferrer" class="flex justify-baseline gap-1.5 opacity-80 hover:text-accent max-sm:hidden"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg><span>Edit page</span></a> </div> <aside class="lg:block fixed left-[82%] top-32 order-2 -me-32 hidden basis-64"> <h2 class="font-semibold">Table of Contents</h2> <ul class="mt-4 text-sm max-h-[calc(100vh-15rem)] overflow-y-auto"> <li class> <a aria-label="Scroll to section: 起因" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#起因"><span class="me-0.5"></span>起因</a>  </li><li class> <a aria-label="Scroll to section: Astro Paper" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#astro-paper"><span class="me-0.5"></span>Astro Paper</a>  </li><li class> <a aria-label="Scroll to section: 博客基础配置" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#博客基础配置"><span class="me-0.5"></span>博客基础配置</a>  </li><li class> <a aria-label="Scroll to section: 迁移" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#迁移"><span class="me-0.5"></span>迁移</a> <ul> <li class="ms-2"> <a aria-label="Scroll to section: 博客文章迁移" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#博客文章迁移"><span class="me-0.5"></span>博客文章迁移</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: LaTeX 数学公式支持" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#latex-数学公式支持"><span class="me-0.5"></span>LaTeX 数学公式支持</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: 历史博客文章路径兼容" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#历史博客文章路径兼容"><span class="me-0.5"></span>历史博客文章路径兼容</a> <ul> <li class="ms-2"> <a aria-label="Scroll to section: 第一种方案" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#第一种方案"><span class="me-0.5"></span>第一种方案</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: 第二种方案" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#第二种方案"><span class="me-0.5"></span>第二种方案</a>  </li> </ul> </li><li class="ms-2"> <a aria-label="Scroll to section: 文章目录" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#文章目录"><span class="me-0.5"></span>文章目录</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: sitemap、rotbots.txt 和 RSS" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#sitemaprotbotstxt-和-rss"><span class="me-0.5"></span>sitemap、rotbots.txt 和 RSS</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: GitHub Page 自定义域名" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#github-page-自定义域名"><span class="me-0.5"></span>GitHub Page 自定义域名</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: OG 图片" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#og-图片"><span class="me-0.5"></span>OG 图片</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: facicon 图标" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#facicon-图标"><span class="me-0.5"></span>facicon 图标</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: 部署到 GitHub Page" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#部署到-github-page"><span class="me-0.5"></span>部署到 GitHub Page</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: Google Site Verification" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#google-site-verification"><span class="me-0.5"></span>Google Site Verification</a>  </li><li class="ms-2"> <a aria-label="Scroll to section: 评论" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-2 text-[0.80rem]" href="#评论"><span class="me-0.5"></span>评论</a>  </li> </ul> </li><li class> <a aria-label="Scroll to section: 后记" class="block line-clamp-2 hover:text-accent text-nowrap max-w-[14rem] overflow-hidden overflow-ellipsis mt-3" href="#后记"><span class="me-0.5"></span>后记</a>  </li> </ul> </aside> <article id="article" class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"> <h2 id="起因">起因</h2>
+<p>今天花了几乎一整天，把博客框架从 Hexo 迁移到了 Astro。我的博客最开始是在 2019 搭建的，哪个时候 Hexo 还是比较流行的静态博客生成框架，NexT 主题也是 Hexo 框架中比较流行的主题。在那一年，可以看到很多使用 NexT 主题的博客，如今看到的就似乎比较少了。经过六年的前端技术发展，Hexo 多少还是显得有点落后了，并不是基于当前流行的 React、Tailwind CSS、TypeScript 这样的主流前端框架，定制一些页面对我这个前端新手着实存在不小的困难。</p>
+<p>说起原来博客的页面，本身主题是基于 NexT。为了稍显一些个人博客的不同之处，当时硬编码 CSS，使用 Chrome Dev Console，参考 Twitter 的暗色主题，设计了一套暗色的 color scheme。但是如今再想让我去修改这些配置，完全就有心无力了。而且博客只有一种主题，虽然 NexT 支持配置亮色和暗色主题，但是并不支持动态切换，我又完全没有能力去修改博客框架，让其支持主题切换。</p>
+<p>恰巧又有很多博客主，都有迁移到 Astro 的博文。大致浏览了 Astro 的文档，基本满足我的需求。Astro 本身也是基于主流的前端技术，我也在这段时间里，粗糙地学了一遍前端的主流技术，这次就选择了 Astro 作为新的博客框架，还是希望能够使用长久一些，不再折腾博客框架，安安心心写博客文章。</p>
+<h2 id="astro-paper">Astro Paper</h2>
+<p>选定了 Astro 作为博客框架后，我选择的博客主题是 <a href="https://github.com/satnaing/astro-paper">AstroPaper</a>。吸引我的主要是主题样式和使用的技术栈。AstroPaper 主题足够简洁，基本没有影响阅读的元素。</p>
+<p>主要戳中我的是下面这些点：</p>
+<ul>
+<li>主要技术栈
+<ul>
+<li>Main Framework - Astro</li>
+<li>Type Checking - TypeScript</li>
+<li>Component Framework - ReactJS</li>
+<li>Styling - TailwindCSS</li>
+</ul>
+</li>
+<li>主要特性
+<ul>
+<li>SEO-friendly</li>
+<li>light &#x26; dark mode</li>
+<li>fuzzy search</li>
+<li>sitemap &#x26; rss feed</li>
+<li>highly customizable</li>
+</ul>
+</li>
+</ul>
+<p>我使用的是 pnpm 包管理器，也可以参考官网文档，使用其他包管理器，使用下面的命令就可以创建一个 AstroPaper 主题的博客：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">pnpm</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> dlx</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> create-astro</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> --template</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> satnaing/astro-paper</span></span></code></pre>
+<p><strong>更新：</strong></p>
+<p>过了一段时间之后，我发现上面这条命令也是 clone 的主题的官方仓库，考虑到后续同步上游的更新，<a href="https://blog.guanglai.me/posts/what-is-guanglai-doing-this-week-010/">我做了修改</a>。
+更换成了 fork 原仓库，在 blog 分支修改配置我的个人博客。</p>
+<h2 id="博客基础配置">博客基础配置</h2>
+<p>网站的相关配置，就直接配置在 <code>config.ts</code> 就可以了。参考原有 Hexo 配置，手动配置新的配置文件。</p>
+<p>如果不需要迁移博客，那么简单配置下，其实就已经可以使用，我则需要把历史的 Hexo 博客的重要配置迁移到 Astro Paper 上，以下是一些记录。</p>
+<h2 id="迁移">迁移</h2>
+<h3 id="博客文章迁移">博客文章迁移</h3>
+<p>Astro 的博客文章虽然和 Hexo 一样，都是 Markdown 语法，但是一些元数据方面的设置不太一样。</p>
+<ul>
+<li>date -> pubDatetime</li>
+<li>update -> modDatetime</li>
+<li><code>--- &#x3C;!-- more --></code> 之间的数据，转换成 description</li>
+<li>mathjax，categories 在 Astro 中属于无效标签，需要移除
+于是最开始的任务就是编写脚本，将历史数据转换内容到新的数据格式。最近也一直在尝试 AI 编程，Deepseek 的服务最近又一直不太稳定，没办法使用 vscode + deepseek api + cline 编程，就尝试了字节的 Trae，毕竟可以免费使用 <code>Claude-3.5-Sonnet</code>，效果非常 nice。脚本放在了<a href="https://github.com/knothhe/knot-scripts/blob/main/scripts/hexo-migrate-astro/convert_markdown-hexo-to-astro.py">这里</a>，以及<a href="https://github.com/knothhe/knot-scripts/tree/main/scripts/hexo-migrate-astro">使用说明</a>。</li>
+</ul>
+<h3 id="latex-数学公式支持">LaTeX 数学公式支持</h3>
+<p>基本参考官方文档操作， <a href="https://astro-paper.pages.dev/posts/how-to-add-latex-equations-in-blog-posts/">Adding LaTeX Equations in AstroPaper blog posts | AstroPaper</a></p>
+<ol>
+<li>Install the necessary remark and rehype plugins</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">pnpm</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> install</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> rehype-katex</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> remark-math</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> katex</span></span></code></pre>
+<ol start="2">
+<li>编辑 <code>astro.config.ts</code></li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="js"><code><span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// other imports</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">import</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> remarkMath </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">from</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> "remark-math"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">import</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> rehypeKatex </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">from</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> "rehype-katex"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">export</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> default</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> defineConfig</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">  // other configs</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">  markdown: {</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    remarkPlugins: [</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      remarkMath,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      remarkToc,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      [</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">        remarkCollapse,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">        {</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">          test: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Table of contents"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">        },</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      ],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    ],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    rehypePlugins: [rehypeKatex],</span></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">    // other markdown configs</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">  },</span></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">  // other configs</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">});</span></span></code></pre>
+<ol start="3">
+<li>编辑 <code>src/layouts/Layout.astro</code></li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="astro"><code><span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">---</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">import</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> { LOCALE, SITE } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">from</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> "@config"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// astro code</span></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">---</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">&#x3C;!</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">doctype</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> html</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">&#x3C;!-- others... --></span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">script</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> is:inline</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> src</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"/toggle-theme.js"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">>&#x3C;/</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">script</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">link</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">  rel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"stylesheet"</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">  href</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">/></span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">body</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">  &#x3C;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">slot</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> /></span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">&#x3C;/</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">body</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">></span></span></code></pre>
+<p>不过行间公式在暗色模式下存在渲染错误，在 <a href="https://github.com/satnaing/astro-paper/issues/412">issue</a> 区看到其他人也存在同样的问题，但是没能解决。我现在使用数据公式比较少，就暂时搁置不处理了。
+更新：尝试一翻之后，我找到了解决方案，放在了 <a href="https://github.com/satnaing/astro-paper/issues/412">issue 区</a>。</p>
+<h3 id="历史博客文章路径兼容">历史博客文章路径兼容</h3>
+<p>原本 hexo 的路径引用是 <code>blog.guanglai.me/post-name</code>，在 AstroPaper 主题中的文章路径是 <code>blog.guanglai.me/posts/post-name</code>，于是想到了下面两种解决方案。</p>
+<h4 id="第一种方案">第一种方案</h4>
+<p>修改 astro 的文章路径，保持一致</p>
+<ol>
+<li><code>posts</code> 下的文件放到上级目录 <code>pages</code> 下，删除 <code>index.astro</code>。</li>
+<li>修改其他页面的路径引用路由，/posts/${slug}/，删除 /posts
+<ol>
+<li><code>Posts.astro</code></li>
+<li><code>TagPosts.astro</code></li>
+</ol>
+</li>
+</ol>
+<h4 id="第二种方案">第二种方案</h4>
+<p>使用 Astro 提供的重定向功能，将原来的博客地址，重定向到新的博客地址。这是 Astro 的路由文档 <a href="https://docs.astro.build/en/guides/routing/#redirects">Routing | Docs</a>，修改 <code>astro.config.ts</code> 就可以定义静态路由重定向。于是同样编写了脚本，将原有的 <code>/post-name</code> 全部重定向到 <code>/posts/post-name</code>，脚本放在<a href="https://github.com/knothhe/knot-scripts/blob/main/scripts/hexo-migrate-astro/generate_routes.py">这里</a>。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="js"><code><span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// astro.config.ts</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">import</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> { defineConfig } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">from</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> 'astro/config'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">export</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> default</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> defineConfig</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">  redirects: {</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">    '/old-page'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">'/new-page'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">    '/blog'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">'https://example.com/blog'</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">});</span></span></code></pre>
+<h3 id="文章目录">文章目录</h3>
+<p>当时看到了这篇文章 <a href="https://4ark.me/posts/2024-03-20-hexo-to-astro/#%E6%95%B4%E4%BD%93%E6%84%9F%E5%8F%97">再见 Hexo，你好 Astro！ | 4Ark</a>，
+参考博主的配置，实现了大屏幕下的目录展示。具体修改直接参考博客的 <a href="https://github.com/gd4Ark/gd4Ark.github.io/commit/c233cc2aad413c2d4efb4dfb50b5fd8b507beeb9">commit</a> 即可。</p>
+<h3 id="sitemaprotbotstxt-和-rss">sitemap、rotbots.txt 和 RSS</h3>
+<p>AstroPaper 会自动生成需要的文件，但是使用 <code>pnpm dev</code> 开发阶段不会生成下面这些文件，<code>pnpm build</code> 构建最终产物才会生成。本地可以使用 <code>pnpm preview</code> 在构建好后预览。</p>
+<ul>
+<li>sitemap.xml (主题是分块 sitemap.xml，只有：sitemap-index.xml 和 sitemap-0.xml)</li>
+<li>rss.xml</li>
+<li>robots.txt</li>
+</ul>
+<h3 id="github-page-自定义域名">GitHub Page 自定义域名</h3>
+<p>CNAME 文件配置在 <code>public</code> 目录下，用于 GitHub 自定义域名。
+文件内容</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="txt"><code><span class="line"><span>blog.guanglai.me</span></span></code></pre>
+<h3 id="og-图片">OG 图片</h3>
+<p>AstroPaper 支持<a href="https://astro-paper.pages.dev/posts/dynamic-og-image-generation-in-astropaper-blog-posts/#issue-non-latin-characters">生成 OG 图片</a>，但是原有的主题字体默认只支持 <code>Latin</code> 字符，对于非 <code>Latin</code> 字符的博客，需要自定义加载相关字体。
+我加载了以下字体，后续看是否需要减少一些：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="js"><code><span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// file: loadGoogleFont.ts</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">async</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> function</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> loadGoogleFonts</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(</span></span>
+<span class="line"><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">  text</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> string</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">:</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> Promise</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">  Array</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">&#x3C;{ </span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">name</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> string</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">; </span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">:</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> ArrayBuffer</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">; </span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">weight</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> number</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">; </span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">style</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> string</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> }></span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">> {</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">  const</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> fontsConfig</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> [</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    {</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      name: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto Sans CJK JP"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// 日文字体</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      font: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto+Sans+JP"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// Google Fonts 中的名称</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      weight: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">400</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      style: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"normal"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    },</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    {</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      name: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto Sans CJK JP"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      font: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto+Sans+JP:wght@700"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// 加粗版本</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      weight: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">700</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      style: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"normal"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    },</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    {</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      name: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto Sans CJK SC"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// 简体中文字体</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      font: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto+Sans+SC"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// Google Fonts 中的名称</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      weight: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">400</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      style: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"normal"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    },</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    {</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      name: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto Sans CJK SC"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      font: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto+Sans+SC:wght@700"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// 加粗版本</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      weight: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">700</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      style: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"normal"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    },</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    {</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      name: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto Sans CJK TC"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// 繁体中文字体</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      font: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto+Sans+TC"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// Google Fonts 中的名称</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      weight: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">400</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      style: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"normal"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    },</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    {</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      name: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto Sans CJK TC"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      font: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Noto+Sans+TC:wght@700"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// 加粗版本</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      weight: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">700</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      style: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"normal"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    },</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">  ];</span></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">  // other codes</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="facicon-图标">facicon 图标</h3>
+<p>原有在 Hexo 上使用的图标格式是 <code>png</code> 和 <code>ico</code>，并且内容是动漫截图，其实也没有特别的含义，只是我曾经使用过的头像之一。于是这次就一起换了图标。</p>
+<ul>
+<li>使用 <a href="https://formito.com/tools/favicon">https://formito.com/tools/favicon</a> 生成</li>
+<li>font: ZCOOL QingKe HuangYou</li>
+<li>backgroud color: 2F3742</li>
+<li>放在 <code>public</code> 下，命名为 <code>favicon.svg</code> 即可</li>
+<li>删除了一些不需要的资源</li>
+</ul>
+<h3 id="部署到-github-page">部署到 GitHub Page</h3>
+<p>Astro 官方有<a href="https://docs.astro.build/en/guides/deploy/github/">部署到 GitHub Page 的指导</a>，提供了但是官方文件是源文件和网站在同一个 GitHub 仓库，我则是把源文件仓库设为私有，需要部署到目标仓库。经过了一翻调研，也就不使用官方部署指南提供的 GitHub Action 配置了。
+在 <code>.github/workflows</code> 下，新建文件 <code>deploy.yml</code>，文件内容如下：</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="yml"><code><span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">GitHub Pages</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">on</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">  push</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">    branches</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">main</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">  pull_request</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">jobs</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">  deploy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">    runs-on</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">ubuntu-latest</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">    permissions</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">      contents</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">write</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">    concurrency</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">      group</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">${{ github.workflow }}-${{ github.ref }}</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">    steps</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Checkout</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        uses</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">actions/checkout@v4</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Install pnpm</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        uses</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">pnpm/action-setup@v4</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        with</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">          run_install</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">false</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Install Node.js</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        uses</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">actions/setup-node@v4</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        with</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">          node-version</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">20</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">          cache</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">'pnpm'</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Install dependencies</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        run</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">pnpm install</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Build</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        run</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">pnpm build</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Deploy</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        uses</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">peaceiris/actions-gh-pages@v4</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        with</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">          deploy_key</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">${{ secrets.TARGET_REPO_DEPLOY_KEY }}</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D"> # targert repository deploy key secret</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">          external_repository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">knothhe/knothhe.github.io</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">          publish_dir</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">./dist</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">          publish_branch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">master</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">  # default: gh-pages</span></span></code></pre>
+<p>使用 <code>peaceiris/actions-gh-pages@v4</code> 的 deploy key 的方式推送的目标仓库，所以需要在目标仓库和源仓库配置 DEPLOY_KEY 的公钥和私钥。
+步骤参考：</p>
+<ol>
+<li>本地生成 ssh 公钥和私钥，不带 passphare。</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="sh"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">ssh-keygen</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> -C</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> "github@action"</span></span></code></pre>
+<ol start="2">
+<li>目标仓库配置公钥
+<ol>
+<li>依次点击 <code>Settings > Deploy keys > Add deplay key</code></li>
+<li><figure><img src="https://images-oss.guanglai.me/2025/202502080217080.png" alt="配置设置"><figcaption>配置设置</figcaption></figure></li>
+<li>生成的公钥，即带有 <code>.pub</code> 后缀的文件的内容复制到文本框中</li>
+</ol>
+</li>
+<li>源仓库配置私钥
+<ol>
+<li>依次点击 <code>Settings > Secrets and variables > Actions > New repository secret</code></li>
+<li><figure><img src="https://images-oss.guanglai.me/2025/202502080220179.png" alt="配置设置"><figcaption>配置设置</figcaption></figure></li>
+<li>生成的公钥，即不带有 <code>.pub</code> 后缀的文件的内容复制到文本框中</li>
+</ol>
+</li>
+</ol>
+<h3 id="google-site-verification">Google Site Verification</h3>
+<p>官方推荐是使用 <code>.env</code> 配置，但是 <code>.gitignore</code> 文件里，忽略了 <code>.env</code> 文件，所以考虑本地生成时，可以配置 <code>.env</code> 文件，使用 GitHub 时，将内容配置到 GitHub 仓库中。</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="txt"><code><span class="line"><span># in your environment variable file (.env)</span></span>
+<span class="line"><span>PUBLIC_GOOGLE_SITE_VERIFICATION=your-google-site-verification-value</span></span></code></pre>
+<p>采用密钥配合 GitHub Action 方式配置</p>
+<ul>
+<li>GitHub 仓库配置，同样是在源仓库的<code>Settings > Secrets and variables > Actions > New repository secret</code> 下配置，名称为 <code>GOOGLE_SITE_VERIFICATION_SECRET</code>，值配置为 Google Search Console 给的值。</li>
+<li>GitHub Action 中在 <code>checkout</code> 之后添加下面的配置：</li>
+</ul>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;--file-name-offset: -0.75rem;" tabindex="0" data-language="yml"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">Create .env file</span></span>
+<span class="line"><span style="--shiki-light:#22863A;--shiki-dark:#85E89D">        run</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">: </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">|</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">          echo "PUBLIC_GOOGLE_SITE_VERIFICATION=${{ secrets.GOOGLE_SITE_VERIFICATION_SECRET }}" >> .env</span></span></code></pre>
+<h3 id="评论">评论</h3>
+<p>采用 <a href="https://giscus.app/zh-CN">giscus</a>，参考 <a href="https://astro-paper.pages.dev/posts/how-to-integrate-giscus-comments/">AstroPaper 官方集成 Giscus 的文章</a>。</p>
+<h2 id="后记">后记</h2>
+<p>本次折腾基本就是做了上面这些步骤，花费了几乎一天的时间。</p> </article> <hr class="my-8 border-dashed"> <a href="https://github.com/knothhe/blog-astro/edit/blog/src/data/blog/_2025/blog-migrate-to-astro.md" target="_blank" rel="noopener noreferrer" class="flex justify-baseline gap-1.5 opacity-80 hover:text-accent sm:hidden"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg><span>Edit page</span></a> <ul class="mt-4 mb-8 sm:my-8"> <li class="group inline-block group-hover:cursor-pointer my-1 underline-offset-4"> <a href="/tags/astro/" class="relative pe-2 text-lg underline decoration-dashed group-hover:-top-0.5 group-hover:text-accent focus-visible:p-1 focus-visible:no-underline text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <!-- <IconHash
+      class:list={[
+        "inline-block opacity-80",
+        { "-me-3.5 size-4": size === "sm" },
+        { "-me-5 size-6": size === "lg" },
+      ]}
+    />
+    &nbsp; --> <span>astro</span> </a> </li><li class="group inline-block group-hover:cursor-pointer my-1 underline-offset-4"> <a href="/tags/hexo/" class="relative pe-2 text-lg underline decoration-dashed group-hover:-top-0.5 group-hover:text-accent focus-visible:p-1 focus-visible:no-underline text-sm" data-astro-transition-scope="astro-36ssibgs-3"> <!-- <IconHash
+      class:list={[
+        "inline-block opacity-80",
+        { "-me-3.5 size-4": size === "sm" },
+        { "-me-5 size-6": size === "lg" },
+      ]}
+    />
+    &nbsp; --> <span>hexo</span> </a> </li><li class="group inline-block group-hover:cursor-pointer my-1 underline-offset-4"> <a href="/tags/build-blog/" class="relative pe-2 text-lg underline decoration-dashed group-hover:-top-0.5 group-hover:text-accent focus-visible:p-1 focus-visible:no-underline text-sm" data-astro-transition-scope="astro-36ssibgs-4"> <!-- <IconHash
+      class:list={[
+        "inline-block opacity-80",
+        { "-me-3.5 size-4": size === "sm" },
+        { "-me-5 size-6": size === "lg" },
+      ]}
+    />
+    &nbsp; --> <span>build-blog</span> </a> </li> </ul> <div id="btt-btn-container" class="fixed end-4 bottom-8 z-50 md:sticky md:end-auto md:float-end md:me-1 translate-y-14 opacity-0 transition duration-500"> <button data-button="back-to-top" class="group relative bg-background px-2 py-1 size-14 rounded-full shadow-xl md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg"> <span id="progress-indicator" class="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"></span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block rotate-90 md:hidden"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <span class="sr-only text-sm group-hover:text-accent md:not-sr-only"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M16 9l-4 -4" /><path d="M8 9l4 -4" /></svg>
+Back To Top
+</span> </button> </div> <script data-astro-rerun>
+  /** Scrolls the document to the top when
+   * the "Back to Top" button is clicked. */
+  function backToTop() {
+    const rootElement = document.documentElement;
+    const btnContainer = document.querySelector("#btt-btn-container");
+    const backToTopBtn = document.querySelector("[data-button='back-to-top']");
+    const progressIndicator = document.querySelector("#progress-indicator");
+
+    if (!rootElement || !btnContainer || !backToTopBtn || !progressIndicator)
+      return;
+
+    // Attach click event handler for back-to-top button
+    backToTopBtn.addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+
+    // Handle button visibility according to scroll position
+    let lastVisible = null;
+    function handleScroll() {
+      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+      const scrollTop = rootElement.scrollTop;
+      const scrollPercent = Math.floor((scrollTop / scrollTotal) * 100);
+
+      progressIndicator.style.setProperty(
+        "background-image",
+        `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`
+      );
+
+      const isVisible = scrollTop / scrollTotal > 0.3;
+
+      if (isVisible !== lastVisible) {
+        btnContainer.classList.toggle("opacity-100", isVisible);
+        btnContainer.classList.toggle("translate-y-0", isVisible);
+        btnContainer.classList.toggle("opacity-0", !isVisible);
+        btnContainer.classList.toggle("translate-y-14", !isVisible);
+        lastVisible = isVisible;
+      }
+    }
+
+    let ticking = false;
+    document.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+  backToTop();
+</script> <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start"><span class="italic">Share this post on:</span><div class="text-center"><a href="https://wa.me/?text=https://blog.guanglai.me/posts/blog-migrate-to-astro/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post via WhatsApp"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg><span class="sr-only">Share this post via WhatsApp</span></a><a href="https://www.facebook.com/sharer.php?u=https://blog.guanglai.me/posts/blog-migrate-to-astro/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post on Facebook"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg><span class="sr-only">Share this post on Facebook</span></a><a href="https://x.com/intent/post?url=https://blog.guanglai.me/posts/blog-migrate-to-astro/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post on X"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg><span class="sr-only">Share this post on X</span></a><a href="https://t.me/share/url?url=https://blog.guanglai.me/posts/blog-migrate-to-astro/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post via Telegram"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" /></svg><span class="sr-only">Share this post via Telegram</span></a><a href="https://pinterest.com/pin/create/button/?url=https://blog.guanglai.me/posts/blog-migrate-to-astro/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post on Pinterest"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 20l4 -9" /><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /></svg><span class="sr-only">Share this post on Pinterest</span></a><a href="mailto:?subject=See%20this%20post&#38;body=https://blog.guanglai.me/posts/blog-migrate-to-astro/" class="group inline-block hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1" title="Share this post via email"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg><span class="sr-only">Share this post via email</span></a></div></div> <div class="license-notice mt-8 p-4 bg-skin-card border-l-4 border-skin-accent text-sm"> <div class="flex flex-col gap-2 mb-4"> <div class="flex items-center gap-2"> <span class="font-medium">文章标题：博客折腾小记，迁移 Astro</span> </div> <div class="flex items-center gap-2"> <span>文章链接：</span> <span class="text-skin-base truncate">https://blog.guanglai.me/posts/blog-migrate-to-astro/</span> <button class="copy-btn px-2 py-1 text-xs border rounded hover:bg-skin-accent hover:text-accent transition-colors" data-text="https://blog.guanglai.me/posts/blog-migrate-to-astro/">
+复制
+</button> </div> </div> <p class="mb-2">
+商业转载请联系站长获得授权，非商业转载请注明本文出处及文章链接。您可以自由地在任何媒体以任何形式复制和分发作品，也可以修改和创作，但分发衍生作品时必须采用相同的许可协议。
+</p> <p>
+本文采用 <a class="underline hover:text-skin-accent" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 进行许可。
+</p> </div> <script>
+  function setupCopyButtons() {
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', async () => {
+        const text = button.getAttribute('data-text');
+        if (text) {
+          try {
+            const originalText = button.textContent;
+            await navigator.clipboard.writeText(text);
+            button.textContent = '已复制!';
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 2000);
+          } catch {
+            button.textContent = '复制失败';
+            setTimeout(() => {
+              button.textContent = '复制';
+            }, 2000);
+          }
+        }
+      });
+    });
+  }
+
+  setupCopyButtons();
+</script> <hr class="my-6 border-dashed"> <!-- Previous/Next Post Buttons --> <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2"> <a href="/posts/markdown-style-guide" class="flex w-full gap-1 hover:opacity-75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <div> <span>Previous Post</span> <div class="text-sm text-accent/85">Markdown Style Guide</div> </div> </a> <a href="/posts/what-is-guanglai-doing-this-week-009" class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"> <div> <span>Next Post</span> <div class="text-sm text-accent/85">已读乱码 009</div> </div> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l6 6l-6 6" /></svg> </a> </div> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="ZQIRKt" component-url="/_astro/Comments.BmQV_tou.js" component-export="default" renderer-url="/_astro/client.BXWm451Q.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Comments&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> </main> <footer class="w-full mt-auto"> <div class="mx-auto max-w-app px-0"> <hr class="border-border" aria-hidden="true"> </div> <div class="flex flex-col items-center justify-between py-6 sm:flex-row-reverse sm:py-4"> <div class="flex-wrap justify-center gap-1 flex"> <a href="https://github.com/knothhe" class="group inline-block hover:text-accent p-2 hover:rotate-6 sm:p-1" title="GitHub"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /></svg> <span class="sr-only">GitHub</span> </a><a href="mailto:i[at]guanglai.me" class="group inline-block hover:text-accent p-2 hover:rotate-6 sm:p-1" title="Send an email to me(change [at] to @)"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg> <span class="sr-only">Send an email to me(change [at] to @)</span> </a><a href="https://linux.do/u/knothhe" class="group inline-block hover:text-accent p-2 hover:rotate-6 sm:p-1" title="LinuxDo"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110">
+    <clipPath id="a">
+        <circle cx="12" cy="12" r="8.6" />
+    </clipPath>
+    <circle cx="12" cy="12" r="10" />
+    <rect clip-path="url(#a)" x="2" y="2" width="20" height="6" />
+    <rect clip-path="url(#a)" x="2" y="8" width="20" height="8" />
+    <rect clip-path="url(#a)" x="2" y="16" width="20" height="6" />
+</svg> <span class="sr-only">LinuxDo</span> </a> </div> <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row"> <span>Copyright &#169; 2019 - 2026</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>All rights reserved.</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>Powered by <a href="https://github.com/satnaing/astro-paper" target="_blank" class="underline underline-offset-4 hover:text-skin-accent">AstroPaper</a></span> <span class="hidden sm:inline">&nbsp;</span> <span>v5.5.0</span> </div> </div> </footer>  </body></html> <script data-astro-rerun>
+  /** Create a progress indicator
+   *  at the top */
+  function createProgressBar() {
+    // Create the main container div
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    // Create the progress bar div
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    // Append the progress bar to the progress container
+    progressContainer.appendChild(progressBar);
+
+    // Append the progress container to the document body or any other desired parent element
+    document.body.appendChild(progressContainer);
+  }
+  createProgressBar();
+
+  /** Update the progress bar
+   *  when user scrolls */
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      if (document) {
+        const myBar = document.getElementById("myBar");
+        if (myBar) {
+          myBar.style.width = scrolled + "%";
+        }
+      }
+    });
+  }
+  updateScrollProgress();
+
+  /** Attaches links to headings in the document,
+   *  allowing sharing of sections easily */
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("h2, h3, h4, h5, h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+      link.href = "#" + heading.id;
+
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  /** Attaches copy buttons to code blocks in the document,
+   * allowing users to copy code easily. */
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      // Check if --file-name-offset custom property exists
+      const computedStyle = getComputedStyle(codeBlock);
+      const hasFileNameOffset =
+        computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
+
+      // Determine the top positioning class
+      const topClass = hasFileNameOffset
+        ? "top-(--file-name-offset)"
+        : "-top-3";
+
+      const copyButton = document.createElement("button");
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      // wrap codebock with relative parent element
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      const code = block.querySelector("code");
+      const text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      // visual feedback that task is completed
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  /* Go to page start after page swap */
+  document.addEventListener("astro:after-swap", () =>
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+  );
+</script> <!-- Image Modal Script --> <script type="module">function d(){const t=document.querySelector(".modal");t&&t.remove();const e=document.createElement("div");e.className="modal",document.body.appendChild(e),document.querySelectorAll(".app-prose img").forEach(a=>{a.addEventListener("click",o=>{o.preventDefault(),e.innerHTML=`
+        <div class="modal-content">
+          <img src="${a.src}" alt="${a.alt}" />
+        </div>
+      `,e.classList.add("active")})}),e.addEventListener("click",()=>{e.classList.remove("active")}),document.addEventListener("keydown",a=>{a.key==="Escape"&&e.classList.contains("active")&&e.classList.remove("active")})}document.addEventListener("DOMContentLoaded",d);document.addEventListener("astro:page-load",d);document.addEventListener("astro:before-swap",()=>{const t=document.querySelector(".modal");t&&t.remove()});</script>
