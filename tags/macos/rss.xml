@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: macOS</title><description>All posts tagged with macOS</description><link>https://blog.guanglai.me/</link><item><title>使用 Pass 进行密码管理</title><link>https://blog.guanglai.me/posts/use-password-store/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/use-password-store/</guid><description>本文是我使用 password-store 进行密码管理的实际经验，基本上覆盖了我密码管理的需求。</description><pubDate>Wed, 07 Jan 2026 15:02:15 GMT</pubDate><content:encoded>&lt;p&gt;在使用 Pass 之前，我主要依赖 Chrome 内置的密码管理器，而在 Chrome 无法覆盖的场景中，则通过一套自建的密码规则手动记忆密码。这种组合方式陪伴我使用了近九年电脑，虽然尚且安全，但始终让人心存隐忧——无论是手动记忆的可靠性，还是将密码托管给第三方服务都存在不确定性。虽然市面上有 1Password 等商业软件，以及支持自建或官方服务的 Bitwarden 可选，但只要是依赖第三方托管，就不可避免地面临数据泄露风险，各大厂商频发的数据拖库事件也印证了这一点。&lt;/p&gt;
+&lt;p&gt;经过分析，似乎只能选择自建 Bitwarden 服务端并配合客户端来实现密码管理。但最终我没有采用这个方案，而是发现了 &lt;a href=&quot;https://www.passwordstore.org/&quot;&gt;password-store&lt;/a&gt;（以下简称 Pass）。这个工具完全满足了我的需求，使用九个月以来，我已将所有历史密码替换为随机密码，显著提升了安全性。&lt;/p&gt;
+&lt;p&gt;本文将介绍如何基于 Pass 及其生态实现常用密码管理器的核心功能，包括加密存储、随机密码生成、版本控制、多端同步、浏览器插件和桌面客户端等。&lt;/p&gt;
+&lt;h2&gt;Pass 简介&lt;/h2&gt;
+&lt;p&gt;让我们思考一下密码管理器的核心需求：首先需要能够存储密码，其次最好支持加密存储。在此基础之上，若能提供搜索、同步等高级功能就更完善了。Pass 正是这样一款遵循 &lt;a href=&quot;https://en.wikipedia.org/wiki/Unix_philosophy&quot;&gt;Unix 哲学&lt;/a&gt; 的密码管理器，它坚持&quot;一切皆文件&quot;的设计理念。&lt;/p&gt;
+&lt;p&gt;简单来说，Pass 采用每个密码对应一个文件的方式，通过 GPG 加密存储密码，使用时再通过 GPG 解密查看。本质上，Pass 是对 GPG 工具的封装，使其具备了管理密码的能力。&lt;/p&gt;
+&lt;p&gt;关于密码管理器的需求拆解和 Pass 的详细介绍，推荐阅读这篇文章：&lt;a href=&quot;https://nyk.ma/posts/password-store/&quot;&gt;pass : 密码管理本不复杂&lt;/a&gt;。如果链接无法访问，可以查看 &lt;a href=&quot;https://web.archive.org/web/20250615173900/https://nyk.ma/posts/password-store/&quot;&gt;Web Archive&lt;/a&gt; 的备份。&lt;/p&gt;
+&lt;h2&gt;Pass 优缺点&lt;/h2&gt;
+&lt;p&gt;基于我的使用体验，以下是 Pass 的主要优缺点。&lt;/p&gt;
+&lt;h3&gt;优点&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;加密存储&lt;/strong&gt;——这是密码管理器的基础能力，如果做不到加密，还不如直接使用 Excel。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;纯文本存储&lt;/strong&gt;——便于使用 Git 进行版本控制和多端同步。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CLI 支持&lt;/strong&gt;——可以与各种命令行工具无缝集成。当然，对于不熟悉命令行的用户来说，这也是一个门槛。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;缺点&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;需要理解并使用 GPG&lt;/li&gt;
+&lt;li&gt;需要具备基础的加密知识&lt;/li&gt;
+&lt;li&gt;需要接受使用命令行的交互方式&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果不能接受这些缺点，自然也就无法享受 Pass 的优点——鱼和熊掌不可兼得。&lt;/p&gt;
+&lt;h2&gt;安装&lt;/h2&gt;
+&lt;p&gt;我日常使用的主力操作系统是 macOS 和基于 Arch Linux 的 Omarchy，因此这里仅列出这两个系统的安装方式。&lt;/p&gt;
+&lt;h3&gt;macOS&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;brew install pass
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Arch Linux&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo pacman -S pass
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;初始化设置&lt;/h2&gt;
+&lt;p&gt;安装完成 Pass 后，第一步是配置 GPG。&lt;/p&gt;
+&lt;h3&gt;GPG 配置&lt;/h3&gt;
+&lt;p&gt;执行以下命令生成 GPG 密钥对（包含主密钥和加密子密钥），按回车后将启动向导。如果对相关概念不够了解，建议先查阅资料或向 AI 寻求帮助，以充分理解 GPG 的核心概念。&lt;/p&gt;
+&lt;p&gt;也可以直接按照下方的参考选项配置，这对使用 Pass 已经足够了。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;gpg --full-generate-key
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;选择密钥种类&lt;/strong&gt;：建议选择 &lt;code&gt;(9) ECC (sign and encrypt)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;选择主密钥曲线&lt;/strong&gt;：建议选择 &lt;code&gt;(1) Curve 25519&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;设置密钥有效期&lt;/strong&gt;：这里的有效期仅作为提醒，实际不会限制使用。可以设置为 10 年，输入 &lt;code&gt;10y&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;提供用户身份信息&lt;/strong&gt;：邮箱地址将作为后续初始化 Pass 的 GPG ID，建议使用常用邮箱&lt;ul&gt;
+&lt;li&gt;真实姓名：输入你的姓名&lt;/li&gt;
+&lt;li&gt;电子邮件地址：输入关联的邮箱&lt;/li&gt;
+&lt;li&gt;注释：（可选）可留空&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;设置强密码&lt;/strong&gt;：这是密码本的&quot;主密码&quot;，一旦忘记，密码本中存储的所有密码将无法恢复，务必妥善记忆&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;生成密钥&lt;/strong&gt;：移动鼠标、敲打键盘以帮助系统收集随机熵&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;完成&lt;/strong&gt;：生成成功后会显示确认信息&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;完成后，可以通过以下命令查看生成的密钥对：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;gpg --list-secret-keys
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;需要注意的是，GPG 密钥对存在单点故障风险。一旦密钥丢失，所有加解密操作都将无法进行，因此强烈建议通过 U 盘等离线介质备份 GPG 的公私钥。&lt;/p&gt;
+&lt;h3&gt;Pass 初始化&lt;/h3&gt;
+&lt;p&gt;配置完成 GPG 后，即可初始化 Pass，过程非常简单。&lt;/p&gt;
+&lt;p&gt;命令中的 &lt;code&gt;mail@example.com&lt;/code&gt; 替换为之前生成 GPG 密钥对时使用的邮箱地址，我们以此作为 GPG ID。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;pass init mail@example.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行完成后，Pass 会在 &lt;code&gt;$HOME/.password-store&lt;/code&gt; 创建默认的工作目录，这也是未来存储所有密码的目录。虽然可以修改路径，但通常没有必要，直接使用默认目录即可。&lt;/p&gt;
+&lt;p&gt;至此，Pass 的初始化就完成了，过程本身并不复杂，主要难点在于对 GPG 的理解和使用。&lt;/p&gt;
+&lt;h3&gt;Git 初始化&lt;/h3&gt;
+&lt;p&gt;建议使用以下命令初始化 Git，相比直接使用 &lt;code&gt;git init&lt;/code&gt;，这条命令会额外创建 &lt;code&gt;.gitattributes&lt;/code&gt; 文件，用于配置所有 &lt;code&gt;.gpg&lt;/code&gt; 后缀文件在 diff 时自动解密后再进行对比。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;pass git init
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Pass 封装了 git 子命令，允许在不进入工作目录的情况下执行 git 操作。不过在实际使用中，我更习惯直接 &lt;code&gt;cd ~/.password-store&lt;/code&gt; 后使用常规 git 命令进行版本控制。&lt;/p&gt;
+&lt;h2&gt;历史密码导入&lt;/h2&gt;
+&lt;p&gt;pass 的密码导入工具还是很多的，这里可以参考官网的 &lt;strong&gt;Migrating to pass&lt;/strong&gt; 章节，这里我就不赘诉了。&lt;/p&gt;
+&lt;h2&gt;基本使用&lt;/h2&gt;
+&lt;p&gt;实际上，你只需要记住 &lt;code&gt;pass edit&lt;/code&gt; 这一个命令即可。&lt;/p&gt;
+&lt;p&gt;举个简单的例子：假设要存储 GitHub 的密码，网址为 &lt;code&gt;github.com&lt;/code&gt;，可以通过以下命令创建条目：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;pass edit github.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;按回车后，Pass 会调用系统的 &lt;code&gt;$EDITOR&lt;/code&gt; 编辑器让你输入内容（密码），退出编辑后，会在 &lt;code&gt;$HOME/.password-store&lt;/code&gt; 目录下创建一个名为 &lt;code&gt;github.com.gpg&lt;/code&gt; 的加密文件。&lt;/p&gt;
+&lt;p&gt;如果要创建多层级条目呢？同样很简单：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;pass edit guanglai/github.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这条命令会在 &lt;code&gt;$HOME/.password-store&lt;/code&gt; 下先创建 &lt;code&gt;guanglai&lt;/code&gt; 目录（如果不存在），然后创建 &lt;code&gt;github.com&lt;/code&gt; 条目。&lt;/p&gt;
+&lt;p&gt;总而言之，使用 Pass 时，我们本质上是在编辑文本文件，只是 Pass 通过封装的 GPG 命令在后台自动处理加密和解密。实际存储的是加密后的二进制或文本文件（如果 GPG 设置为 ASCII Armor 模式，则是一串加密后的文本）。这一切并没有想象中那么复杂。&lt;/p&gt;
+&lt;p&gt;若要更新密码，使用相同的命令即可。&lt;/p&gt;
+&lt;h2&gt;随机密码生成&lt;/h2&gt;
+&lt;p&gt;可以使用 Pass 自带的 &lt;code&gt;pass generate&lt;/code&gt; 命令生成密码，以 &lt;code&gt;github.com&lt;/code&gt; 条目为例：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# 生成长度为 16 的随机密码
+pass generate github.com 16
+# 生成长度为 16 的随机密码，不包含特殊符号
+pass generate -n github.com 16
+# 生成长度为 16 的随机密码（不含特殊符号），并复制到剪贴板
+pass generate -nc github.com 16
+# 生成长度为 16 的随机密码，并替换现有条目
+pass generate -i github.com 16
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果 Pass 的密码生成功能无法满足需求，可以使用 &lt;code&gt;pwgen&lt;/code&gt; 工具：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# 生成长度为 16 的 1 个完全随机的密码
+pwgen -ncys 16 1
+# 生成长度为 16 的 1 个相对简单的密码
+# 包含至少一个数字、小写字母、大写字母
+pwgen -ncy 16 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在 macOS 上，可以结合 &lt;code&gt;pbcopy&lt;/code&gt; 命令，生成密码后自动复制到剪贴板，然后使用 &lt;code&gt;pass edit&lt;/code&gt; 粘贴保存：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;pwgen -ncys 16 1 | pbcopy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;浏览器插件&lt;/h2&gt;
+&lt;p&gt;浏览器插件本质上是 Pass 的前端程序，提供了关联网站的自动填充用户名和密码功能。&lt;/p&gt;
+&lt;p&gt;我日常使用的是 Chrome 系浏览器，配合 &lt;a href=&quot;https://github.com/browserpass/browserpass-extension&quot;&gt;Browserpass&lt;/a&gt; 插件来实现密码的自动填充。&lt;/p&gt;
+&lt;h3&gt;安装浏览器插件&lt;/h3&gt;
+&lt;p&gt;首先从 Chrome Web Store 安装 Browserpass 扩展：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://chromewebstore.google.com/detail/browserpass/naepdomgkenhinolocfifgehidddafch&quot;&gt;Browserpass - Chrome Web Store&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;安装宿主程序&lt;/h3&gt;
+&lt;p&gt;Browserpass 需要一个本地宿主程序才能与 Pass 通信，不同系统的安装方式如下：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;macOS&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;brew tap amar1729/formulae
+brew install browserpass # this will print further installation instructions, e.g. for Firefox:
+PREFIX=&apos;/opt/homebrew/opt/browserpass&apos; make hosts-firefox-user -f &apos;/opt/homebrew/opt/browserpass/lib/browserpass/Makefile&apos;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Arch Linux&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo pacman -S browserpass
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;macOS 配置&lt;/h3&gt;
+&lt;p&gt;macOS 下，一般还需要配置 &lt;code&gt;~/.gnupg/gpg-agent.conf&lt;/code&gt; 配置，文件内容为：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;pinentry-program /opt/homebrew/bin/pinentry-mac
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;同时，安装 pinentry-mac：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;brew install pinentry-mac
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;配置密码条目格式&lt;/h3&gt;
+&lt;p&gt;Browserpass 会自动解析密码文件的内容，支持以下格式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一行：密码&lt;/li&gt;
+&lt;li&gt;后续行：元数据（Key: Value 格式）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;示例格式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;your-password-here
+username: your-username
+email: your@email.com
+url: https://example.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;使用方法&lt;/h3&gt;
+&lt;p&gt;配置完成后，在浏览器中：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;点击 Browserpass 图标打开密码列表&lt;/li&gt;
+&lt;li&gt;输入关键词搜索密码条目&lt;/li&gt;
+&lt;li&gt;选择密码条目后，会自动填充用户名和密码&lt;/li&gt;
+&lt;li&gt;如果密码条目包含 &lt;code&gt;url&lt;/code&gt; 字段，插件会自动匹配当前网站&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;桌面程序&lt;/h2&gt;
+&lt;p&gt;我的桌面端采用 pass + fzf 的组合方案，通过一个 &lt;a href=&quot;https://github.com/knothhe/dotfiles/blob/main/home/dot_local/xbin/executable_pass_fzf&quot;&gt;自定义脚本&lt;/a&gt; 构建 TUI 界面。该脚本由 Claude Code 配合 GLM 辅助完成，我已将其命名为 &lt;code&gt;pass_fzf&lt;/code&gt;，并高度依赖它来管理密码仓库。前文提到的密码生成功能，&lt;code&gt;pass_fzf&lt;/code&gt; 同样提供了开箱即用的便捷配置，无需记忆复杂命令。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pass_fzf&lt;/code&gt; 的核心功能包括：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建新的密码条目&lt;/li&gt;
+&lt;li&gt;复制指定条目的密码&lt;/li&gt;
+&lt;li&gt;使用默认编辑器修改指定密码&lt;/li&gt;
+&lt;li&gt;为指定密码条目重新生成密码&lt;/li&gt;
+&lt;li&gt;重命名指定密码条目&lt;/li&gt;
+&lt;li&gt;删除指定密码条目&lt;/li&gt;
+&lt;li&gt;查看指定密码条目&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2026/01-07-e78c4ea5ecb211489540966848544509.webp&quot; alt=&quot;pass_fzf TUI 界面&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;快捷键配置&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Linux 系统&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 Omarchy（基于 Arch Linux）系统上，我使用 Hyprland 窗口管理器，通过以下配置即可轻松绑定全局快捷键：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;bindd = SUPER SHIFT, SLASH, Passwords, exec, omarchy-launch-tui ~/.local/xbin/pass_fzf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;macOS 系统&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 macOS 上，我依赖 &lt;a href=&quot;https://github.com/asmvik/skhd&quot;&gt;skhd&lt;/a&gt; 绑定全局快捷键，配置可参考 &lt;a href=&quot;https://github.com/knothhe/dotfiles/blob/main/home/dot_config/skhd/skhdrc&quot;&gt;我的配置文件&lt;/a&gt;。不过需要注意的是，macOS 对真正的全局快捷键支持仍然存在一定限制。&lt;/p&gt;
+&lt;h2&gt;结语&lt;/h2&gt;
+&lt;p&gt;经过三个月的实际使用，这套组合已经能够满足我的绝大部分需求：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;桌面端：&lt;a href=&quot;https://github.com/knothhe/dotfiles/blob/main/home/dot_local/xbin/executable_pass_fzf&quot;&gt;pass_fzf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;iOS：&lt;a href=&quot;https://mssun.github.io/passforios/&quot;&gt;passforios&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;浏览器插件：&lt;a href=&quot;https://github.com/browserpass/browserpass-extension&quot;&gt;Browserpass&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这套方案在安全性、可控性和使用体验上取得了很好的平衡。&lt;/p&gt;
+</content:encoded></item><item><title>已读乱码 015 | 一场乌龙</title><link>https://blog.guanglai.me/posts/what-is-guanglai-doing-this-week-015/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/what-is-guanglai-doing-this-week-015/</guid><description>这周周六见了同事介绍的女生，结果见面却发生了乌龙。周日依旧是和屠去世纪公园聊天闲逛。</description><pubDate>Sat, 14 Jun 2025 13:45:03 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/996fe1a75ee7fe09e0a9a8eaf7307085.webp&quot; alt=&quot;周日世纪公园的夕阳&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;这里是已读乱码的第十五期，这个周刊的名字也没有特别的含义，让 deepseek 帮我批量生成了 100 个类似的四字词语，选中的已读乱码，大概是捏他的已读乱回。起这个名字多少是看重特殊性，不太有重名的可能，以及一种自顾自的疯癫感觉。&lt;/p&gt;
+&lt;p&gt;这周的天气还是偏冷的，周内天气都不太好，周六又下了下雨，周日倒是出了太阳，但是风比周六大不少，冻死个人。屠买了台尼康 Z30 相机，周日出了太阳，和他一起逛了逛世纪公园附近，顺便陪他扫街，拍拍街道，夕阳，鸽子等等，我也在考虑要不要买个相机了，屠也在怂恿我买台 Z50 二代，毕竟拍照的效果真的很棒。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/0950b04941d6808851006545efbe43cc.webp&quot; alt=&quot;屠使用 Z30 拍摄的世纪公园的鸽子&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;大乌龙事件&lt;/h2&gt;
+&lt;p&gt;新的工作组的合作工作组的同事年前就有说介绍下他小姨子给我，让我们认识一下。最近他又有提到，上周六他把我的微信推给了他的小姨子，我们也就周六晚上简单聊了聊，约好了下如果这周末不下雨的话，就一起去徒步。之所以是徒步这项运动，是因为她几乎每周都会去徒步。&lt;/p&gt;
+&lt;p&gt;周内的话就几乎没有以聊天，周五晚上又联系起来，因为周六下雨，就聊好不去徒步，找个室内的活动，她提议去海洋公园，问我去过没有，我回复是陆家嘴的那个我也有几年没去了。我觉得去一趟有人一起逛逛也是不错的。就这么约定好了，周六下午一点海洋公园门口碰面。&lt;/p&gt;
+&lt;p&gt;乌龙的事件就这么发生了。第二天下午一点多，我到了陆家嘴的上海海洋水族馆门口，她说她也快到了。之后共享定位，她在海昌海洋公园，我在上海海洋水族馆，完全的大乌龙事件。最后聊了聊，还是觉得各逛各的，晚上碰面吃个饭就好。&lt;/p&gt;
+&lt;h2&gt;家庭服务器&lt;/h2&gt;
+&lt;p&gt;想了很久，我还是蛮想有一台自己的 home server 的，一直没动手购买是不知道购买哪些硬件比较合适。买 arm 害怕硬件兼容性有问题，某些软件跑不起来就糟糕了。买普通台式机又害怕功耗太高，要是使用上电费太高就没有必要，并且一般功耗高的机器风扇的声音也挺大的。最近看到 mac mini M4 国补下的价格的话，16G 内存、256G 硬盘的最低配置，3000 的话就比较合适，再高些我就觉得没有性价比，也没有必要。不过我看的几乎都是 4000 左右的价格，完全也蹲不到 3000 的国补价格。此外，买 mac 硬件，我还需要考虑安装 macOS 还是 linux，毕竟我还是挺想要服务器跑的是 linux 的。也怕买回来的主机如果功耗高，性能强的话，风扇会比较扰民，指我自己和室友。成品 NSA 的话，比如群晖，我觉得性价比也太低了。想来想去，就一直到拖着，现在都没买好硬件，一如我一直想的投资这件事情。&lt;/p&gt;
+&lt;p&gt;不过这两天心头又起，并且研究了下论坛网友购买的硬件，和屠周日晚上吃饭的时候简单聊了聊，发现 N150 CPU、32G 内存、1 T固态，对我来说就是完美配置了。总共花费了不到 1300，虽然不如垃圾佬捡垃圾的性价比高，但是对我来说性价比相当高。功耗低，噪声小。至于网口，因为我并不考虑搭建软路由，所以单网口就足够了。其他的板载 wifi，蓝牙之类的硬件，也基本满足需求。下周应该就能到手尝试，届时我想在单独文章里聊聊，现在相当期待收到货。&lt;/p&gt;
+&lt;p&gt;其实我是有一台树莓派 3b 的，不过性能实在是过于羸弱，网卡的带宽也不够大。之前只用来跑了 home assistant，挂载了一块硬盘，用 smb 服务局域网共享给其他设备访问。不过因为网卡的限制，使用效果上有些差。年前觉得似乎用处也不大，我就把这台树莓派停电收纳，不再使用。我也就没了唯一的一台 home server。&lt;/p&gt;
+&lt;h2&gt;我对现今找对象的一点简单看法&lt;/h2&gt;
+&lt;p&gt;找对象很多时候就像一个漏斗，先是学历漏斗，再来身高，长相，工作，工资漏斗，然后再来性格，眼缘漏斗，筛选筛选还能剩下多少人呢？个人条件越好，要求一般就越高。所以条件越好，现在就很难找对象。这点虽然反直觉，但我觉得就是当前社会现状。&lt;/p&gt;
+&lt;p&gt;我觉得现在网上找对象，很看重条件，这样子先经过条件筛选一下，其实也剩下不了多少人。再之后，即使作为朋友关系条件合适，聊不聊得来是一回事，对方人品是否认可又是一回事了。所以找不到合适的对象也正常，大家都单着吧。&lt;/p&gt;
+&lt;p&gt;既要也要是一件不太可能的事情。&lt;/p&gt;
+&lt;h2&gt;自建服务&lt;/h2&gt;
+&lt;p&gt;本周又自建了 &lt;a href=&quot;https://umami.is/&quot;&gt;umami&lt;/a&gt; 用于统计博客的访问来源，是 Google analytics 开源替代。不过搭建好之后，发现访问者确实只有我自己。&lt;/p&gt;
+&lt;p&gt;搭建了 &lt;a href=&quot;https://beszel.dev/zh/&quot;&gt;Beszel&lt;/a&gt; 用于监控服务器的资源使用情况，这次也是顺利搭建成功。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/1c54bf19c0069af3eb3ec51cb4ce8fd6.webp&quot; alt=&quot;当前这台 1C1G vps 上自建服务的 docker 资源占用&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/cb6d53f5b32ed517a52a0f848ffd71e4.webp&quot; alt=&quot;当前这台 1C1G vps 上自建服务的物理资源占用&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;本周摘录&lt;/h2&gt;
+&lt;h3&gt;macOS 的一些特别设置&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;设置 Trackpad 轻点来点按
+默认情况下按下触摸板才是点按（click）。我喜欢设置成用轻点作为点按：
+选择 [System Settings] &amp;gt; [Trackpad]，在 [Point &amp;amp; Click] 标签页中选中 [Tap to click]。&lt;/li&gt;
+&lt;li&gt;三指拖动
+我习惯于三指拖动窗口。设置方法：选择 [System Settings] &amp;gt; Accessibility] &amp;gt; [Pointer Control] &amp;gt; [Trackpad Options]，选中 [Use trackpad for dragging]，并且选择 [Dragging style] &amp;gt; [Three Finger Drag]。
+设置完成后，还可以使用三指拖动的方式选择文本。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我比较喜欢上面这个设置，有了三指拖动，大部分的场景，我总算不再需要点击按下触摸板了，只需要三指轻点和拖动就可以了。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/macdao/ocds-guide-to-setting-up-mac?tab=readme-ov-file&quot;&gt;macdao/ocds-guide-to-setting-up-mac: OCD&apos;s Guide to Setting up Mac&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;macOS default list&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;macOS applications and other programs use the defaults system to record user preferences and other information to be maintained when the application isn&apos;t running (font for new documents, or the position of an Info panel). Much of this information is accessible through an application&apos;s Preferences panel but sometimes they&apos;re hidden.&lt;/p&gt;
+&lt;p&gt;macOS 应用程序和其他程序使用 defaults 系统记录用户首选项和其他信息，以便在应用程序不运行时进行维护（新文档的字体或信息面板的位置）。这些信息大多可通过应用程序的首选项面板访问，但有时也会隐藏起来。&lt;/p&gt;
+&lt;p&gt;User defaults belong to domains, which typically correspond to individual applications. Applications, system services, and other programs have their own domains, they also share a domain named NSGlobalDomain. If a default isn&apos;t specified in the application&apos;s domain, it may be specified in NSGlobalDomain.&lt;/p&gt;
+&lt;p&gt;用户默认设置属于域，通常与单个应用程序相对应。应用程序、系统服务和其他程序都有自己的域，它们还共享一个名为 NSGlobalDomain 的域。如果默认值没有在应用程序的域中指定，则可以在 NSGlobalDomain 中指定。&lt;/p&gt;
+&lt;p&gt;Each domain has a dictionary of keys and values representing its defaults; e.g. &quot;Default Font&quot; = &quot;Helvetica&quot;. Keys are strings, values can be complex data structures comprising arrays, dictionaries, strings, and binary data. They&apos;re stored as XML Property List.&lt;/p&gt;
+&lt;p&gt;每个域都有一个由键和值组成的字典，代表其默认值；例如，&quot;默认字体&quot;=&quot;Helvetica&quot;。键是字符串，值可以是由数组、字典、字符串和二进制数据组成的复杂数据结构。它们以 XML 属性列表的形式存储。&lt;/p&gt;
+&lt;p&gt;The defaults command line interface is a way to interact with these values.&lt;/p&gt;
+&lt;p&gt;defaults 命令行界面是与这些值交互的一种方式。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;链接地址是一份 macOS default list 的整理，如果之后会换新的一台 macOS 的电脑的话，我会尝试使用 default 控制这些默认行为，并且编写成脚本，而不是修改 System Preferences。这样在切换到新设备时，只需要执行脚本就可以获得相同的体验了。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://macos-defaults.com/&quot;&gt;macOS defaults list&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;聊天软件上的女生&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;聊天软件上的女性都不缺聊天的人，她们也享受被男人舔的感觉，而你，我的朋友，你是被筛掉的一批人，她在等你自觉无趣的时候停止发消息，你在等什么呢&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我在找对象的这段时间里的经历是，大部分的女生，只要我不主动发消息就等于断联。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://linux.do/t/topic/484928/5&quot;&gt;哭了佬友求安慰 - 搞七捻三 - LINUX DO&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;spaceship 域名注册&lt;/h3&gt;
+&lt;p&gt;来一份 AI 的话题总结：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;用户纯水在网页上分享了自己在 Spaceship 购买域名并托管到 Cloudflare 后， accounts 被封禁和域名被取消的经历。用户在睡觉后醒来发现这一情况，并且对此感到惊讶，因为自己没有进行任何违规操作，如反代 GitHub 等。Spaceship 团队给出的解释是认为用户的服务被创建用于滥用目的，尽管用户承认反代 GitHub，但这一行为是两个月前就被取消的，而账号当时并未被封禁。用户对此感到无法接受，并已经发送邮件进行辩论，甚至考虑向 ICANN 投诉。其他网友在评论中表达了对 Spaceship 的担忧，有的建议慎重选择域名服务商，有的分享了自己的类似经历，以及对 Spaceship 和 Namecheap 关系的讨论。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;看了这个帖子，当时很快就把 guanglai.me 的域名注册商修改到 cloudflare 吧，就是害怕万一帐号被封了，我就难受了。结果惊讶的发现，cloudflare 上，我的域名一年费用比 spaceship 都便宜。每次迁移到新的域名服务商的时候都需要续费一年的域名，由于域名经过了两次域名服务商的迁移，我的域名已经续费到了 2027 年 11 月份。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://linux.do/t/topic/486137&quot;&gt;吐槽spaceship - 搞七捻三 - LINUX DO&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;AI 辅助编程&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我司给所有技术和测试序列的同学全部购买 Copilot Business，并且提供额外的 OpenAI 全系 + 按需申请 Gemini、Claude 等模型自行使用。&lt;/p&gt;
+&lt;p&gt;全部门，要求，所有开发同学必须使用 Copilot 辅助编码，有专门的 Copilot Dashboard 统计所有人的对话次数、AI 代码接受率等，从多维度评估开发同学的 AI 提效率。但暂时还没有对应的行政手段来对 AI 使用率低的开发同学采取什么措施，但是听说快了。&lt;/p&gt;
+&lt;p&gt;我们项目组：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;要求，所有开发同学不管前后端必须使用 VS Code（因为 vsc 上的 Copilot 才是完全体，预览版可以使用 Agent 模式），不允许在日常开发中使用脑浆炸裂社的 IDE。&lt;/li&gt;
+&lt;li&gt;要求，所有 QA 测试同学，必须使用内部的 AI 测试用例生成工具，只允许传送需求文档给 AI 以及自然语言描述测试点，不允许手动编写测试用例。&lt;/li&gt;
+&lt;li&gt;提供，在全部门的 Copilot Business 的基础上单独在本组购买 GitHub Enterprise，所有项目迁徙到 GE，使用 Copilot Workspace 对需求进行初步的自动规划和开发，再使用 Copilot 进行精细修改。&lt;/li&gt;
+&lt;li&gt;提供，组内成员认为一切合理的 AI 工具，包括 CodeParrot、Builder.io、v0.dev 等AI 开发工具。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;目前来看成效：本组内 AI 生成的直接可用代码 60% 以上；QA 同学提效 30% 以上，等到内部的自动化测试 Agent 开发完毕预计至少能再提效 20%-30%。&lt;/p&gt;
+&lt;p&gt;总结：
+好处：我司舍得花钱，愿意培养开发同学和测试同学的 AI 使用习惯和技能。
+坏处：低职级的开发同学陆续被优化，因为他们的工作可以被 AI 替代，并且完成的比他们还好。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;也算是实际了解到了真实公司使用 AI 编程工具的现状，我司现在并没有任何帮助员工购买 AI 工具的情况。我司之前有购买过 GitHub Copilot 的团队版本，不过也只是开白名单给了少数几个同事试用，后面就再无下文，并且已经是一年多之前的事情了，AI 在这一年多的时间里又经过了一翻大发展。我了解到的是，我朋友的公司倒是给他们购买了 GitHub Copilot 的商业版本，并且还购买了 Microsoft Copilot，真是让人羡慕。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://linux.do/t/topic/493196/8&quot;&gt;有没有软件公司现在要求员工工作中必须使用ai编程辅助的？ - 搞七捻三 - LINUX DO&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;美团 IP 地址库&lt;/h3&gt;
+&lt;p&gt;我算是知道美团为什么能够通过 IP 地址确定外卖的收货地址了，原来已经根据 ip 和地址做了数据库映射，而且接口还被人公开了。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://linux.do/t/topic/491600&quot;&gt;近期IP溯源，不知道多少佬友溯源成功了。 - 搞七捻三 / 搞七捻三, Lv1 - LINUX DO&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;discourse 论坛&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Discourse is the 100% open source discussion platform built for the next decade of the Internet. We make it easy to have meaningful conversations and collaborate anytime, anywhere.
+Discourse 是为互联网下一个十年打造的 100% 开源讨论平台。我们让随时随地进行有意义的对话和协作变得更容易。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这里有使用 discourse 搭建的简体中文论坛的列表，还蛮有意思的。我过去使用过的论坛，emacs-china, cursor-forum 之类的论坛都是使用 discourse 搭建的，当然，还有 linuxdo。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://discover.discourse.org/&quot;&gt;Discourse Discover&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;AI IDE 的使用建议&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;AI IDE 的话，可以试试 Windsurf ，我就用的这个。每月 15 刀（我是第一天就注册的早期用户，永久维持每月 10 刀价格）。个人感觉比 Cursor 舒服多了，Cursor 经常 Agent 一小时过去：很忙，但不知道在忙什么。Windsurf 这边思路就非常清晰，十五分钟出雏形。&lt;/p&gt;
+&lt;p&gt;我目前是最喜欢拿 Claude 3.7 Sonnet 做纯前端开发，做一些给自己用的小工具，好用的话，收集一些建议，就发到 GitHub 上以 GPLv3 证书开源分享。&lt;/p&gt;
+&lt;p&gt;当然，我这个人非常有耐心，确实是废寝忘食级别的，做 LLM API 比价器那次忙前忙后半个月……&lt;/p&gt;
+&lt;p&gt;看你似乎还是和我一样，出于兴趣折腾的？如果不盈利的话，就和我一样，随便搞搞就挺好了。盈利那我就没什么经验给你了。&lt;/p&gt;
+&lt;p&gt;最主要的还是放平心态，要能接受失败，沉得住气。并且最好别看 b 站啊，小红书啊什么上面分享的你说的那种一小时 xxx 的视频，没啥意义，做自己的东西就好！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;AI IDE 的建议，很受用。我也是 windsurf 早期注册用户，不过后面没怎么用了。我现在算是 github copilot, trae, cursor 都一定程度上使用过了。前段时间看 windsurf 的月费，确实比 cursor 便宜一半，这段时间打算也再体验试一试。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://linux.do/t/topic/493254/13&quot;&gt;佬们，用的 ai 工具越多，我越发现捷径不好走 - 搞七捻三 - LINUX DO&lt;/a&gt;&lt;/p&gt;
+</content:encoded></item></channel></rss>

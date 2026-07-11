@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: markdown-syntax-test</title><description>All posts tagged with markdown-syntax-test</description><link>https://blog.guanglai.me/</link><item><title>Markdown Style Guide</title><link>https://blog.guanglai.me/posts/markdown-style-guide/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/markdown-style-guide/</guid><description>Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;p&gt;Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/withastro/astro/blob/main/examples/blog/src/content/blog/markdown-style-guide.md&quot;&gt;Source&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Headings&lt;/h2&gt;
+&lt;p&gt;The following HTML &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;—&lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; elements represent six levels of section headings. &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; is the highest section level while &lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; is the lowest.&lt;/p&gt;
+&lt;h1&gt;H1&lt;/h1&gt;
+&lt;h2&gt;H2&lt;/h2&gt;
+&lt;h3&gt;H3&lt;/h3&gt;
+&lt;h4&gt;H4&lt;/h4&gt;
+&lt;h5&gt;H5&lt;/h5&gt;
+&lt;h6&gt;H6&lt;/h6&gt;
+&lt;h2&gt;Paragraph&lt;/h2&gt;
+&lt;p&gt;Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.&lt;/p&gt;
+&lt;p&gt;Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.&lt;/p&gt;
+&lt;h2&gt;Images&lt;/h2&gt;
+&lt;h3&gt;Syntax&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;![Alt text](./full/or/relative/path/of/image)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Output&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;../../../assets/images/AstroPaper-v4.png&quot; alt=&quot;blog placeholder&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;Blockquotes&lt;/h2&gt;
+&lt;p&gt;The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a &lt;code&gt;footer&lt;/code&gt; or &lt;code&gt;cite&lt;/code&gt; element, and optionally with in-line changes such as annotations and abbreviations.&lt;/p&gt;
+&lt;h3&gt;Blockquote without attribution&lt;/h3&gt;
+&lt;h4&gt;Syntax&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;gt; Tiam, ad mint andaepu dandae nostion secatur sequo quae.  
+&amp;gt; **Note** that you can use _Markdown syntax_ within a blockquote.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Output&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tiam, ad mint andaepu dandae nostion secatur sequo quae.&lt;br /&gt;&lt;strong&gt;Note&lt;/strong&gt; that you can use &lt;em&gt;Markdown syntax&lt;/em&gt; within a blockquote.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Blockquote with attribution&lt;/h3&gt;
+&lt;h4&gt;Syntax&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;gt; Don&apos;t communicate by sharing memory, share memory by communicating.&amp;lt;br&amp;gt;
+&amp;gt; — &amp;lt;cite&amp;gt;Rob Pike[^1]&amp;lt;/cite&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Output&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Don&apos;t communicate by sharing memory, share memory by communicating.&lt;br /&gt;
+— &lt;cite&gt;Rob Pike[^1]&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;[^1]: The above quote is excerpted from Rob Pike&apos;s &lt;a href=&quot;https://www.youtube.com/watch?v=PAAkCSZUG1c&quot;&gt;talk&lt;/a&gt; during Gopherfest, November 18, 2015.&lt;/p&gt;
+&lt;h2&gt;Tables&lt;/h2&gt;
+&lt;h3&gt;Syntax&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;| Italics   | Bold     | Code   |
+| --------- | -------- | ------ |
+| _italics_ | **bold** | `code` |
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Output&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Italics&lt;/th&gt;
+&lt;th&gt;Bold&lt;/th&gt;
+&lt;th&gt;Code&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;&lt;em&gt;italics&lt;/em&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;bold&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;code&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;h2&gt;Code Blocks&lt;/h2&gt;
+&lt;h3&gt;Syntax&lt;/h3&gt;
+&lt;p&gt;we can use 3 backticks ``` in new line and write snippet and close with 3 backticks on new line and to highlight language specific syntax, write one word of language name after first 3 backticks, for eg. html, javascript, css, markdown, typescript, txt, bash&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;```html
+&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang=&quot;en&quot;&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;meta charset=&quot;utf-8&quot; /&amp;gt;
+    &amp;lt;title&amp;gt;Example HTML5 Document&amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;Test&amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Output&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang=&quot;en&quot;&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;meta charset=&quot;utf-8&quot; /&amp;gt;
+    &amp;lt;title&amp;gt;Example HTML5 Document&amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;Test&amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;List Types&lt;/h2&gt;
+&lt;h3&gt;Ordered List&lt;/h3&gt;
+&lt;h4&gt;Syntax&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;1. First item
+2. Second item
+3. Third item
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Output&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;First item&lt;/li&gt;
+&lt;li&gt;Second item&lt;/li&gt;
+&lt;li&gt;Third item&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Unordered List&lt;/h3&gt;
+&lt;h4&gt;Syntax&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;- List item
+- Another item
+- And another item
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Output&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;List item&lt;/li&gt;
+&lt;li&gt;Another item&lt;/li&gt;
+&lt;li&gt;And another item&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Nested list&lt;/h3&gt;
+&lt;h4&gt;Syntax&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;- Fruit
+  - Apple
+  - Orange
+  - Banana
+- Dairy
+  - Milk
+  - Cheese
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Output&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Fruit&lt;ul&gt;
+&lt;li&gt;Apple&lt;/li&gt;
+&lt;li&gt;Orange&lt;/li&gt;
+&lt;li&gt;Banana&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Dairy&lt;ul&gt;
+&lt;li&gt;Milk&lt;/li&gt;
+&lt;li&gt;Cheese&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;GitHub Alerts&lt;/h2&gt;
+&lt;p&gt;通过集成 remark 插件 &lt;a href=&quot;https://github.com/jaywcjlove/remark-github-blockquote-alert&quot;&gt;remark-github-blockquote-alert&lt;/a&gt; 的方式支持。&lt;/p&gt;
+&lt;h3&gt;Syntax&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;gt; [!NOTE]
+&amp;gt; Useful information that users should know, even when skimming content.
+
+&amp;gt; [!TIP]
+&amp;gt; Helpful advice for doing things better or more easily.
+
+&amp;gt; [!IMPORTANT]
+&amp;gt; Key information users need to know to achieve their goal.
+
+&amp;gt; [!WARNING]
+&amp;gt; Urgent info that needs immediate user attention to avoid problems.
+
+&amp;gt; [!CAUTION]
+&amp;gt; Advises about risks or negative outcomes of certain actions.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Output&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]
+Useful information that users should know, even when skimming content.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!TIP]
+Helpful advice for doing things better or more easily.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!IMPORTANT]
+Key information users need to know to achieve their goal.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!WARNING]
+Urgent info that needs immediate user attention to avoid problems.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!CAUTION]
+Advises about risks or negative outcomes of certain actions.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Other Elements — abbr, sub, sup, kbd, mark&lt;/h2&gt;
+&lt;h3&gt;Syntax&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;lt;abbr title=&quot;Graphics Interchange Format&quot;&amp;gt;GIF&amp;lt;/abbr&amp;gt; is a bitmap image format.
+
+H&amp;lt;sub&amp;gt;2&amp;lt;/sub&amp;gt;O
+
+X&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; + Y&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; = Z&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt;
+
+Press &amp;lt;kbd&amp;gt;CTRL&amp;lt;/kbd&amp;gt; + &amp;lt;kbd&amp;gt;ALT&amp;lt;/kbd&amp;gt; + &amp;lt;kbd&amp;gt;Delete&amp;lt;/kbd&amp;gt; to end the session.
+
+Most &amp;lt;mark&amp;gt;salamanders&amp;lt;/mark&amp;gt; are nocturnal, and hunt for insects, worms, and other small creatures.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Output&lt;/h3&gt;
+&lt;p&gt;&lt;abbr&gt;GIF&lt;/abbr&gt; is a bitmap image format.&lt;/p&gt;
+&lt;p&gt;H&lt;sub&gt;2&lt;/sub&gt;O&lt;/p&gt;
+&lt;p&gt;X&lt;sup&gt;n&lt;/sup&gt; + Y&lt;sup&gt;n&lt;/sup&gt; = Z&lt;sup&gt;n&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;Press &lt;kbd&gt;CTRL&lt;/kbd&gt; + &lt;kbd&gt;ALT&lt;/kbd&gt; + &lt;kbd&gt;Delete&lt;/kbd&gt; to end the session.&lt;/p&gt;
+&lt;p&gt;Most &lt;mark&gt;salamanders&lt;/mark&gt; are nocturnal, and hunt for insects, worms, and other small creatures.&lt;/p&gt;
+</content:encoded></item><item><title>Markdown 语法支持测试</title><link>https://blog.guanglai.me/posts/markdown-syntax-support-test/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/markdown-syntax-support-test/</guid><description>Markdown 语法支持的测试博文</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;有关 Markdown 的语法可参考 &lt;a href=&quot;https://www.markdownguide.org/basic-syntax&quot;&gt;Markdown Guide&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;列表&lt;/h2&gt;
+&lt;h3&gt;无序列表&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;粗体&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;斜体&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;粗体和斜体&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;有序列表&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;First item&lt;/li&gt;
+&lt;li&gt;Second item&lt;/li&gt;
+&lt;li&gt;Third item&lt;/li&gt;
+&lt;li&gt;Fourth item&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;引用&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;代码块及代码高亮&lt;/h2&gt;
+&lt;h3&gt;bash&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;hexo new &quot;My New Post&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;C 语言&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+
+int main(void) {
+    printf(&quot;Hello world\n&quot;);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;转义标记&lt;/h2&gt;
+&lt;p&gt;比如　&lt;code&gt;LaTeX&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;链接&lt;/h2&gt;
+&lt;h3&gt;有内容的链接&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.markdownguide.org/basic-syntax&quot;&gt;Markdown Guide&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;无内容的链接(URL 和 Email)&lt;/h3&gt;
+&lt;h4&gt;URL&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.guanglai.me/blog&quot;&gt;https://blog.guanglai.me/blog&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Email&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;mailto:mail@guanglai.me&quot;&gt;mail@guanglai.me&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;图片&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/de8bcc5964a5e187dbe4cbe1c1d038b2.webp&quot; alt=&quot;This is an image&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;数学公式&lt;/h2&gt;
+&lt;h3&gt;行内公式&lt;/h3&gt;
+&lt;p&gt;质能方程：$E = mc^2$&lt;/p&gt;
+&lt;h3&gt;行间公式&lt;/h3&gt;
+&lt;p&gt;黎曼 $\zeta$ 函数&lt;/p&gt;
+&lt;p&gt;$$
+    \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}
+$$&lt;/p&gt;
+</content:encoded></item></channel></rss>

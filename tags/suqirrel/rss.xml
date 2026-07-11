@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: suqirrel</title><description>All posts tagged with suqirrel</description><link>https://blog.guanglai.me/</link><item><title>提升 Rime 输入法的使用体验</title><link>https://blog.guanglai.me/posts/use-rime-with-better-exprenece/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/use-rime-with-better-exprenece/</guid><description>我在个人电脑上使用 Rime 很长时间了。由于 Rime 并没有很好的配置工具和词库，一直以来的使用体验都不算特别友好。本文聊聊我现在在用的可以提升 Rime 使用体验的使用方法。</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;p&gt;Rime 是一款高度可定制的开源输入法引擎，支持多种输入方案（如拼音、五笔、仓颉等）。本文介绍如何通过合理的使用方式让 Rime 更加顺手。&lt;/p&gt;
+&lt;h2&gt;起因&lt;/h2&gt;
+&lt;p&gt;最近一直在水论坛，某一天发现有人发帖 &lt;a href=&quot;https://linux.do/t/topic/348495&quot;&gt;Rime 输入法多端同步方案分享 - LINUX DO&lt;/a&gt;，使用的配置是雾凇拼音。文章没怎么看，倒是动了想要更换配置的念头。我原先使用的是 &lt;a href=&quot;https://github.com/wongdean/rime-settings&quot;&gt;wongdean/rime-settings: 接近原生的鼠须管 Rime 配置&lt;/a&gt;，当时并没有 fork 仓库，而是下载文件到本地，在自己同步一份备份。这样在使用上并没有什么问题，只是维护起来比较困难，而且后续更新也不再能够同步配置。&lt;/p&gt;
+&lt;p&gt;一直以来，我都没能很好的管理自己的 Rime 配置，基本都是随用随丢。一个配置用好几年，然后发现新的好用的配置，折腾一下。这次切换新的配置方案，就考虑需要能够更好地维护这份个人配置。&lt;/p&gt;
+&lt;h2&gt;tldr 太长不看版本&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;fork 一份&lt;a href=&quot;https://github.com/iDvel/rime-ice&quot;&gt;雾凇拼音&lt;/a&gt; / &lt;a href=&quot;https://github.com/gaboolic/rime-frost&quot;&gt;白霜拼音&lt;/a&gt; 的配置到个人仓库，我目前在使用的是雾凇拼音。&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;git clone&lt;/code&gt; 命令下载个人仓库的配置到配置目录下, macOS 平台为 &lt;code&gt;~/Library/Rime&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;创建自定义配置文件 &lt;code&gt;default.custom.yaml&lt;/code&gt; 和 &lt;code&gt;squirrel.custom.yaml&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;参考 &lt;code&gt;default.yaml&lt;/code&gt; 和 &lt;code&gt;squirrel.yaml&lt;/code&gt; 文件的内容进行定制化配置即可。&lt;/li&gt;
+&lt;li&gt;迁移历史词库可以参考 &lt;a href=&quot;https://dvel.me/posts/rime-ice/#%e7%94%a8%e6%88%b7%e8%af%8d%e5%85%b8%e8%bf%81%e7%a7%bb&quot;&gt;用户词典迁移&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;配置文件多平台同步可以参考 &lt;a href=&quot;https://dvel.me/posts/rime-ice/#%e5%a4%9a%e8%ae%be%e5%a4%87%e5%90%8c%e6%ad%a5&quot;&gt;多设备同步&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;至此，就拥有了一个可以更新的，词库同步的，可定制个人输入配置的 Rime 输入方案。后续 fork 的仓库更新时，直接 sync 后，本地配置目录 &lt;code&gt;git pull&lt;/code&gt; 即可。&lt;/p&gt;
+&lt;h2&gt;配置目录&lt;/h2&gt;
+&lt;p&gt;Suqirrel，中文名称为鼠须管，是 Rime 在 macOS 平台的实现，其他平台有类似的实现。主流的桌面平台上，Rime 输入法的配置方式大致相同。Suqirrel 的配置目录为 &lt;code&gt;~/Library/Rime&lt;/code&gt;，所有的个人配置都保存在这个目录下。&lt;/p&gt;
+&lt;h2&gt;雾凇拼音&lt;/h2&gt;
+&lt;p&gt;首先 fork &lt;a href=&quot;https://github.com/iDvel/rime-ice&quot;&gt;雾凇拼音&lt;/a&gt;的仓库到个人 GitHub 仓库。&lt;/p&gt;
+&lt;p&gt;我原先在使用的配置方案进年来已经不再更新，也就直接废弃就好了。直接备份原有配置，将新的配置 &lt;code&gt;git clone&lt;/code&gt; 到配置目录下。雾凇拼音仓库新增提交后，可以在 GitHub 平台同步 commit 到个人仓库，本地仓库拉取配置后也就能够同步更新了。&lt;/p&gt;
+&lt;h2&gt;自定义配置文件&lt;/h2&gt;
+&lt;p&gt;主要的自定义配置文件就是两个 &lt;code&gt;default.custom.yaml&lt;/code&gt; 和 &lt;code&gt;squirrel.custom.yaml&lt;/code&gt;。按照 &lt;a href=&quot;https://github.com/rime/home/wiki/RimeWithSchemata#%E5%AE%9A%E8%A3%BD%E6%8C%87%E5%8D%97&quot;&gt;Rime 定制指南&lt;/a&gt; 的描述，custom 文件中的配置以 &lt;code&gt;patch&lt;/code&gt; 开头，以打补丁的方式修改原配置文件的值。那么参考 &lt;code&gt;default.yaml&lt;/code&gt;，&lt;code&gt;squirrel.yaml&lt;/code&gt; 就是最合适不过的了。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;patch:
+  &quot;一級設定項/二級設定項/三級設定項&quot;: 新的設定值
+  &quot;另一個設定項&quot;: 新的設定值
+  &quot;再一個設定項&quot;: 新的設定值
+  &quot;含列表的設定項/@0&quot;: 列表第一個元素新的設定值
+  &quot;含列表的設定項/@last&quot;: 列表最後一個元素新的設定值
+  &quot;含列表的設定項/@before 0&quot;: 在列表第一個元素之前插入新的設定值（不建議在補靪中使用）
+  &quot;含列表的設定項/@after last&quot;: 在列表最後一個元素之後插入新的設定值（不建議在補靪中使用）
+  &quot;含列表的設定項/@next&quot;: 在列表最後一個元素之後插入新的設定值（不建議在補靪中使用）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;其他&lt;/h2&gt;
+&lt;p&gt;历史数据迁移和多设备同步，直接参考 &lt;a href=&quot;https://dvel.me/posts/rime-ice/&quot;&gt;Rime 配置：雾凇拼音 - Dvel&apos;s Blog&lt;/a&gt; 即可，足够详细。&lt;/p&gt;
+&lt;h2&gt;聊聊配置文件&lt;/h2&gt;
+&lt;p&gt;对于 Rime 的配置文件方案，我个人使用下来，觉得是一套高效且优雅的设计，体现了模块化、可维护性和用户友好性的结合。个人用户可以同步 &lt;code&gt;*.custom.yaml&lt;/code&gt; 定制个人方案，实现非侵入式设计，不需要修改公共方案。用户自定义内容与官方/公共配置完全解耦，更新输入方案时无需手动合并冲突，降低了维护成本。&lt;/p&gt;
+&lt;p&gt;只是之前一直没有仔细了解过 Rime 的方案设计，拿来即用，用久即弃，这次切换使用方式和配置方式后，就可以一直使用下去了，除非是碰见更好用的输入方案和词库了。不过使用的方式是相同的，后面也不再需要大范围的调整。&lt;/p&gt;
+</content:encoded></item></channel></rss>
