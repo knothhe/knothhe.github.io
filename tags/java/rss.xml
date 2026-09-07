@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: java</title><description>All posts tagged with java</description><link>https://blog.guanglai.me/</link><item><title>ThreadLocal 为什么这么设计</title><link>https://blog.guanglai.me/posts/why-is-threadlocal-designed-this-way/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/why-is-threadlocal-designed-this-way/</guid><description>ThreadLocal 使用弱引用的面试题已经是老生长谈的了，这篇文章我想完整梳理下这么设计的原因。</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;熟悉 Java 开发的人都知道，ThreadLocal 是 Java 中实现线程隔离的重要工具，它通过为每个线程创建独立的变量副本，解决了多线程环境下的资源隔离问题。典型应用场景包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;上下文传递：在 Web 开发中保存用户会话信息&lt;/li&gt;
+&lt;li&gt;线程安全工具：SimpleDateFormat 等非线程安全对象的线程级复用&lt;/li&gt;
+&lt;li&gt;性能优化：避免方法调用时的参数传递&lt;/li&gt;
+&lt;li&gt;事务管理：数据库连接与事务的线程绑定&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文会从 ThreadLocal 的实现角度来探讨 ThreadLocal 为什么会这么设计，为什么这么设计就可以实现多线线程间的资源隔离。&lt;/p&gt;
+&lt;h2&gt;ThreadLocal 的典型使用场景&lt;/h2&gt;
+&lt;p&gt;ThreadLocal 的两个最重要的，也是使用最多的对外方法就是 set(value) 和 get() 方法&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;// 典型使用示例
+private static ThreadLocal&amp;lt;User&amp;gt; currentUser = new ThreadLocal&amp;lt;&amp;gt;();
+
+void handleRequest() {
+    currentUser.set(getUser()); // 每个线程独立存储
+    process();
+}
+
+void process() {
+    User user = currentUser.get(); // 获取本线程专属对象
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;ThreadLocal 的设计核心&lt;/h2&gt;
+&lt;p&gt;ThreadLocal 首先依附于 Thread 类，我们从 Thread 类出发，一路查看下 ThreadLocal 的核心数据结构。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;// Thread.java
+public class Thread implements Runnable {
+        /* ThreadLocal values pertaining to this thread. This map is maintained
+     * by the ThreadLocal class. */
+    ThreadLocal.ThreadLocalMap threadLocals = null;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;// ThreadLocal.java
+public class ThreadLocal&amp;lt;T&amp;gt; {
+    static class ThreadLocalMap {
+        /**
+         * The entries in this hash map extend WeakReference, using
+         * its main ref field as the key (which is always a
+         * ThreadLocal object).  Note that null keys (i.e. entry.get()
+         * == null) mean that the key is no longer referenced, so the
+         * entry can be expunged from table.  Such entries are referred to
+         * as &quot;stale entries&quot; in the code that follows.
+         */
+        static class Entry extends WeakReference&amp;lt;ThreadLocal&amp;lt;?&amp;gt;&amp;gt; {
+            /** The value associated with this ThreadLocal. */
+            Object value;
+
+            Entry(ThreadLocal&amp;lt;?&amp;gt; k, Object v) {
+                super(k);
+                value = v;
+            }
+        }
+    }
+
+    /**
+     * Returns the value in the current thread&apos;s copy of this
+     * thread-local variable.  If the variable has no value for the
+     * current thread, it is first initialized to the value returned
+     * by an invocation of the {@link #initialValue} method.
+     *
+     * @return the current thread&apos;s value of this thread-local
+     */
+    public T get() {
+        Thread t = Thread.currentThread();
+        ThreadLocalMap map = getMap(t);
+        if (map != null) {
+            ThreadLocalMap.Entry e = map.getEntry(this);
+            if (e != null) {
+                @SuppressWarnings(&quot;unchecked&quot;)
+                T result = (T)e.value;
+                return result;
+            }
+        }
+        return setInitialValue();
+    }
+
+    /**
+     * Sets the current thread&apos;s copy of this thread-local variable
+     * to the specified value.  Most subclasses will have no need to
+     * override this method, relying solely on the {@link #initialValue}
+     * method to set the values of thread-locals.
+     *
+     * @param value the value to be stored in the current thread&apos;s copy of
+     *        this thread-local.
+     */
+    public void set(T value) {
+        Thread t = Thread.currentThread();
+        ThreadLocalMap map = getMap(t);
+        if (map != null) {
+            map.set(this, value);
+        } else {
+            createMap(t, value);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;内存关系示意图&lt;/h2&gt;
+&lt;p&gt;内存关系是理解 ThreadLocal 设计的核心，从上面列出的 ThreadLocal 的关键源码，我们可以梳理出下面的 ThreadLocal 内存关系示意图。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;[线程对象] → [ThreadLocalMap] → [Entry数组] → Entry(key:弱引用, value:强引用)
+                                     ↑
+                                 实际存储值
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们通过 &lt;code&gt;getMap(Thread.currentThread())&lt;/code&gt; 的方式从当前线程的 &lt;code&gt;Thread&lt;/code&gt; 对象中，获取到了 &lt;code&gt;ThreadLocalMap&lt;/code&gt;，&lt;code&gt;ThreadLocalMap&lt;/code&gt; 内部则维护了一个 &lt;code&gt;Entry[]&lt;/code&gt; 数组结构，我们存储的资源实际就存储在 &lt;code&gt;Entry&lt;/code&gt; 对象的 &lt;code&gt;value&lt;/code&gt; 中，&lt;code&gt;key&lt;/code&gt; 则是当前的 &lt;code&gt;ThreadLocal&lt;/code&gt; 对象。&lt;/p&gt;
+&lt;h2&gt;内存回收&lt;/h2&gt;
+&lt;p&gt;我们以 GC 的角度，考虑下，对于我们创建的 &lt;code&gt;ThreadLocal&lt;/code&gt; 变量的引用。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;首先，我们创建的 &lt;code&gt;ThreadLocal&lt;/code&gt; 变量拥有一个强引用。&lt;/li&gt;
+&lt;li&gt;其次，&lt;code&gt;Entry[]&lt;/code&gt; 中，存在一个 &lt;code&gt;Entry&lt;/code&gt; 项，其中的 &lt;code&gt;key&lt;/code&gt; 拥有 &lt;code&gt;ThreadLocal&lt;/code&gt; 的弱引用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;那么，我们要使得我们创建的 &lt;code&gt;ThreadLocal&lt;/code&gt; 对象能够被 &lt;code&gt;GC&lt;/code&gt; 回收，在弱引用的设计下，我们只需要创建的 &lt;code&gt;ThreadLocal&lt;/code&gt; 变量失去引用，&lt;code&gt;ThreadLocal&lt;/code&gt; 对象就能够被 &lt;code&gt;GC&lt;/code&gt; 回收。否则，我们需要等待这个线程结束，&lt;code&gt;ThreadLocal&lt;/code&gt; 对象才能够被回收，这通常不是我们希望的。&lt;/p&gt;
+&lt;p&gt;这里节选一段为什么选择 &lt;code&gt;key&lt;/code&gt; 作为弱引用的解释。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;让key（threadLocal对象）为弱引用，自动被垃圾回收，key就变为null了，下次，我们就可以通过Entry不为null，而key为null来判断该Entry对象该被清理掉了。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;以及，即使我们不手动 remove，且线程对象长期存在。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Entry的key被设计为弱引用就是为了让程序自动的对访问不到的数据进行回收提醒，所以，在访问不到的数据被回收之前，内存泄漏确实是存在的，但是我们不用担心，就算我们不调用remove，ThreadLocalMap在内部的set，get和扩容时都会清理掉泄漏的Entry，内存泄漏完全没必要过于担心。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;为什么 ThreadLocalMap 要使用 Entry 数组存储数据&lt;/h2&gt;
+&lt;p&gt;既然 Entry 的 key 设计为了弱引用，那么我们能不能用 Object[] 替代 Entry[]，这样就不会有对 &lt;code&gt;ThreadLocal&lt;/code&gt; 的引用了。当然不行。&lt;/p&gt;
+&lt;p&gt;这里的简单解释是，如果 ThreadLocalMap 使用 Object[] 数组，而不采用 Entry[] 数组，如果发生 hash 冲突，那我们就没有办法处理了。&lt;/p&gt;
+&lt;p&gt;当前 ThreadLocalMap 用于处理哈希冲突的简单方法就是开放寻址法，当遇到相同 hash 值时，通过比对 Entry 数组中的 key 的值，如果不相等，则依次往寻找地址。如果是 set 方法，则是找到第一个 key == null，或者当前数组槽为 null 的索引，此处就是存在新值的位置。如果是 get 方法，则是找到第一个 entry.key == 当前 key 的索引，此处需要寻找的位置。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;这里就是我对 &lt;code&gt;ThreadLocal&lt;/code&gt; 设计的思考，主要存在两点。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;ThreadLocalMap 的 Entry 的 key 设计为弱引用，是从 GC 角度考虑，只要我们失去了对 ThreadLocal 变量的引用，那么 ThreadLocal 变量就能够被回收，Entry 中对应的 key 也同样成为了 null。&lt;/li&gt;
+&lt;li&gt;使用 Entry(key, value) 的设计，是为了让 ThreadLocalMap 能够通过开放寻址法解决 hash 冲突存在的。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/304240519&quot;&gt;谈谈ThreadLocal为什么被设计为弱引用 - 知乎&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item></channel></rss>

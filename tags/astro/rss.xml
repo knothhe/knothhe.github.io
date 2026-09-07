@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: astro</title><description>All posts tagged with astro</description><link>https://blog.guanglai.me/</link><item><title>Astro mdx 格式测试</title><link>https://blog.guanglai.me/posts/astro-mdx-style-test/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/astro-mdx-style-test/</guid><description>Astro mdx 格式测试</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;h2&gt;Hello, world!&lt;/h2&gt;
+&lt;div&gt;
+  &amp;gt; Some notable things in a block quote!
+&lt;/div&gt;
+
+&lt;h2&gt;Autolink literals&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.example.com&quot;&gt;www.example.com&lt;/a&gt;, &lt;a href=&quot;https://example.com&quot;&gt;https://example.com&lt;/a&gt;, and &lt;a href=&quot;mailto:contact@example.com&quot;&gt;contact@example.com&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Footnote&lt;/h2&gt;
+&lt;p&gt;A note[^1]&lt;/p&gt;
+&lt;p&gt;[^1]: Big note.&lt;/p&gt;
+&lt;h2&gt;Strikethrough&lt;/h2&gt;
+&lt;p&gt;one or two tildes.&lt;/p&gt;
+&lt;h2&gt;Table&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;a&lt;/th&gt;
+&lt;th&gt;b&lt;/th&gt;
+&lt;th&gt;c&lt;/th&gt;
+&lt;th&gt;d&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;/table&gt;
+&lt;h2&gt;Tasklist&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt; to do&lt;/li&gt;
+&lt;li&gt; done&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;&lt;a&gt;&lt;/a&gt;图片集&lt;/h2&gt;
+&lt;p&gt;import ImageGrid from &apos;@/components/ImageGrid.astro&apos;;
+export const images = [
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/996fe1a75ee7fe09e0a9a8eaf7307085.webp&quot;&gt;https://images-oss.guanglai.me/2025/996fe1a75ee7fe09e0a9a8eaf7307085.webp&lt;/a&gt;&quot;,
+    alt: &quot;周日世纪公园的夕阳&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/0950b04941d6808851006545efbe43cc.webp&quot;&gt;https://images-oss.guanglai.me/2025/0950b04941d6808851006545efbe43cc.webp&lt;/a&gt;&quot;,
+    alt: &quot;屠使用 Z30 拍摄的世纪公园的鸽子&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/e698d6dfc3b191b856120146f0358051.webp&quot;&gt;https://images-oss.guanglai.me/2025/e698d6dfc3b191b856120146f0358051.webp&lt;/a&gt;&quot;,
+    alt: &quot;世纪公园夜晚长椅的树枝、月亮和星星&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/f47b28d319ca864f6c5c76365277b9dc.webp&quot;&gt;https://images-oss.guanglai.me/2025/f47b28d319ca864f6c5c76365277b9dc.webp&lt;/a&gt;&quot;,
+    alt: &quot;三月初世纪公园的梅花&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/d38a03a1947fd7880d1b76e0f6ecd80e.webp&quot;&gt;https://images-oss.guanglai.me/2025/d38a03a1947fd7880d1b76e0f6ecd80e.webp&lt;/a&gt;&quot;,
+    alt: &quot;浦东图书馆南边面对公园&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/250117disney-01.jpg&quot;&gt;https://images-oss.guanglai.me/2025/250117disney-01.jpg&lt;/a&gt;&quot;,
+    alt: &quot;迪士尼大门&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/250117disney-02.jpg&quot;&gt;https://images-oss.guanglai.me/2025/250117disney-02.jpg&lt;/a&gt;&quot;,
+    alt: &quot;晚上的奇幻童话城堡&quot;
+  },
+  {
+    src: &quot;&lt;a href=&quot;https://images-oss.guanglai.me/2025/naiyou-250112.jpg&quot;&gt;https://images-oss.guanglai.me/2025/naiyou-250112.jpg&lt;/a&gt;&quot;,
+    alt: &quot;不过猫不是我的&quot;
+  }
+];&lt;/p&gt;
+</content:encoded></item><item><title>折腾 Astro，美化展示，添加实用功能</title><link>https://blog.guanglai.me/posts/tweak-astro-beautify-the-display-and-add-practical-features/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/tweak-astro-beautify-the-display-and-add-practical-features/</guid><description>博客切换到 Astro 已经几天了，这几天在现有主题上，折腾了不少有趣的玩意。给归档页面添加了热力图，按照官方博客增加阅读时间和自动更发布和更新时间功能，图片的展示优化。</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;p&gt;这篇博客很短，主要就是展示下我这几天折腾博客的一些小成果，如果有人感兴趣，我再把这些功能拆分出来，单独写成博客。&lt;/p&gt;
+&lt;h2&gt;时间展示&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;日期时间转换成了 ISO 字符串，对于处于东八区的我的博客来说，展示上存在问题，我就都修改成了 toLocalDateTime，转换成东八区时间展示。&lt;/li&gt;
+&lt;li&gt;AstroPaper 的日期时间展示逻辑是，如果存在修改时间，并且修改时间大于发布时间，则只展示更新时间。我修改成了同时展示创建时间和更新时间。&lt;/li&gt;
+&lt;li&gt;和第二点类似，因为 AstroPaper 只展示了一个时间，全部文章页面就按照第二点获取的时间进行排序。也就是说，如果我在一月一号发布了一篇博文，在一月十号那天修改了文章内容，这边文章的时间就是一月十号。我的需求是只按照创建时间排序，更新时间展示在后头，显示什么时候修改过就可以了。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;热力图&lt;/h2&gt;
+&lt;p&gt;真的就是用 Cursor，全程指挥，写出了第一版的博客文章编写热力图。我的职责更多是提出产品需求和测试验收。第一版的展示是下面这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502120814212.png&quot; alt=&quot;文章热力图&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;这版的展示实际上基本是没有什么问题了，我的想法需要让热力图居中展示，并且设计了一套颜色适配我当前正在使用的博客主题的热力图主题颜色。于是第二版出现了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502122135112.png&quot; alt=&quot;文章热力图适配博客主题&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;在归档页面可以看到这版的实际交互。&lt;/p&gt;
+&lt;h2&gt;图片展示&lt;/h2&gt;
+&lt;p&gt;原版主题的图片展示永远是居中，宽度和文章相同。我的大部分图片的宽度都比文章长，就占满了文章，不是很没美观。还有竖版的图片，宽度占满文章展示，实在也不够友好。&lt;/p&gt;
+&lt;p&gt;优化后现在的展示是图片默认宽度最大 80%，高度 600px，鼠标悬浮放大，点击全屏展示。&lt;/p&gt;
+&lt;h2&gt;阅读时长和自动更新文章时间&lt;/h2&gt;
+&lt;p&gt;这两个优化的点，官方文章都有提到，按照文章操作就可以实现。不过我不是很理解为什么是单独编写文章，而不是提供成配置项。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://astro-paper.pages.dev/posts/setting-dates-via-git-hooks/&quot;&gt;How to use Git Hooks to set Created and Modified Dates | AstroPaper&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://astro-paper.pages.dev/posts/how-to-add-estimated-reading-time/&quot;&gt;How to add an estimated reading time in AstroPaper | AstroPaper&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;LaTeX 行间公式展示&lt;/h2&gt;
+&lt;p&gt;官方有给出如何给文章加上 LaTeX 数学公式的展示，不过行间公式存在展示上的问题。花了好几个小时尝试排查后，总算是解决了问题。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Astro 使用 tailwindlabs/tailwindcss-typography 来样式化富文本内容，这些内容通常是从非 HTML 格式转换而来的。
+大多数内容可以正确渲染，因为这些元素具有明确的语义，例如链接 &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;、列表 &lt;code&gt;&amp;lt;li&amp;gt;&lt;/code&gt;、段落 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt;，排版会正确渲染这些元素，因为 AstroPaper 已经在 &lt;code&gt;src/styles/base.css&lt;/code&gt; 中配置了这些元素的样式。
+问题在于块方程没有被包装在已正确样式化的元素中。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;修改完成后，还给官方提了个 PR，不过不知道官方是否考虑合并了。&lt;/p&gt;
+&lt;h2&gt;博客主题颜色和字体&lt;/h2&gt;
+&lt;p&gt;备注 2025-02-15 更新：&lt;/p&gt;
+&lt;p&gt;对暗色模式下的博客主题颜色和字体进行了调整，调整后的颜色更加柔和，字体处理了中英文混排的展示问题。中英文混排时，中文使用 serif 字体，英文使用 mono 字体，希望整体能看起来更舒服一些。&lt;/p&gt;
+&lt;h2&gt;最后&lt;/h2&gt;
+&lt;p&gt;这两天折腾的成果基本就是这些了。我还想做的事情是，在博客编写好 md 文件后，使用命令上传的微信公众号和飞书文档，这样能简化一些备份和发布流程。不过这个功能最近估计不会打算开发，过一段时间再考虑。&lt;/p&gt;
+</content:encoded></item><item><title>博客折腾小记，迁移 Astro</title><link>https://blog.guanglai.me/posts/blog-migrate-to-astro/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/blog-migrate-to-astro/</guid><description>折腾了下博客框架，记录下迁移过程中碰到的一些问题</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;h2&gt;起因&lt;/h2&gt;
+&lt;p&gt;今天花了几乎一整天，把博客框架从 Hexo 迁移到了 Astro。我的博客最开始是在 2019 搭建的，哪个时候 Hexo 还是比较流行的静态博客生成框架，NexT 主题也是 Hexo 框架中比较流行的主题。在那一年，可以看到很多使用 NexT 主题的博客，如今看到的就似乎比较少了。经过六年的前端技术发展，Hexo 多少还是显得有点落后了，并不是基于当前流行的 React、Tailwind CSS、TypeScript 这样的主流前端框架，定制一些页面对我这个前端新手着实存在不小的困难。&lt;/p&gt;
+&lt;p&gt;说起原来博客的页面，本身主题是基于 NexT。为了稍显一些个人博客的不同之处，当时硬编码 CSS，使用 Chrome Dev Console，参考 Twitter 的暗色主题，设计了一套暗色的 color scheme。但是如今再想让我去修改这些配置，完全就有心无力了。而且博客只有一种主题，虽然 NexT 支持配置亮色和暗色主题，但是并不支持动态切换，我又完全没有能力去修改博客框架，让其支持主题切换。&lt;/p&gt;
+&lt;p&gt;恰巧又有很多博客主，都有迁移到 Astro 的博文。大致浏览了 Astro 的文档，基本满足我的需求。Astro 本身也是基于主流的前端技术，我也在这段时间里，粗糙地学了一遍前端的主流技术，这次就选择了 Astro 作为新的博客框架，还是希望能够使用长久一些，不再折腾博客框架，安安心心写博客文章。&lt;/p&gt;
+&lt;h2&gt;Astro Paper&lt;/h2&gt;
+&lt;p&gt;选定了 Astro 作为博客框架后，我选择的博客主题是 &lt;a href=&quot;https://github.com/satnaing/astro-paper&quot;&gt;AstroPaper&lt;/a&gt;。吸引我的主要是主题样式和使用的技术栈。AstroPaper 主题足够简洁，基本没有影响阅读的元素。&lt;/p&gt;
+&lt;p&gt;主要戳中我的是下面这些点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;主要技术栈&lt;ul&gt;
+&lt;li&gt;Main Framework - Astro&lt;/li&gt;
+&lt;li&gt;Type Checking - TypeScript&lt;/li&gt;
+&lt;li&gt;Component Framework - ReactJS&lt;/li&gt;
+&lt;li&gt;Styling - TailwindCSS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;主要特性&lt;ul&gt;
+&lt;li&gt;SEO-friendly&lt;/li&gt;
+&lt;li&gt;light &amp;amp; dark mode&lt;/li&gt;
+&lt;li&gt;fuzzy search&lt;/li&gt;
+&lt;li&gt;sitemap &amp;amp; rss feed&lt;/li&gt;
+&lt;li&gt;highly customizable&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我使用的是 pnpm 包管理器，也可以参考官网文档，使用其他包管理器，使用下面的命令就可以创建一个 AstroPaper 主题的博客：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;pnpm dlx create-astro --template satnaing/astro-paper
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;更新：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;过了一段时间之后，我发现上面这条命令也是 clone 的主题的官方仓库，考虑到后续同步上游的更新，&lt;a href=&quot;https://blog.guanglai.me/posts/what-is-guanglai-doing-this-week-010/&quot;&gt;我做了修改&lt;/a&gt;。
+更换成了 fork 原仓库，在 blog 分支修改配置我的个人博客。&lt;/p&gt;
+&lt;h2&gt;博客基础配置&lt;/h2&gt;
+&lt;p&gt;网站的相关配置，就直接配置在 &lt;code&gt;config.ts&lt;/code&gt; 就可以了。参考原有 Hexo 配置，手动配置新的配置文件。&lt;/p&gt;
+&lt;p&gt;如果不需要迁移博客，那么简单配置下，其实就已经可以使用，我则需要把历史的 Hexo 博客的重要配置迁移到 Astro Paper 上，以下是一些记录。&lt;/p&gt;
+&lt;h2&gt;迁移&lt;/h2&gt;
+&lt;h3&gt;博客文章迁移&lt;/h3&gt;
+&lt;p&gt;Astro 的博客文章虽然和 Hexo 一样，都是 Markdown 语法，但是一些元数据方面的设置不太一样。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;date -&amp;gt; pubDatetime&lt;/li&gt;
+&lt;li&gt;update -&amp;gt; modDatetime&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--- &amp;lt;!-- more --&amp;gt;&lt;/code&gt; 之间的数据，转换成 description&lt;/li&gt;
+&lt;li&gt;mathjax，categories 在 Astro 中属于无效标签，需要移除
+于是最开始的任务就是编写脚本，将历史数据转换内容到新的数据格式。最近也一直在尝试 AI 编程，Deepseek 的服务最近又一直不太稳定，没办法使用 vscode + deepseek api + cline 编程，就尝试了字节的 Trae，毕竟可以免费使用 &lt;code&gt;Claude-3.5-Sonnet&lt;/code&gt;，效果非常 nice。脚本放在了&lt;a href=&quot;https://github.com/knothhe/knot-scripts/blob/main/scripts/hexo-migrate-astro/convert_markdown-hexo-to-astro.py&quot;&gt;这里&lt;/a&gt;，以及&lt;a href=&quot;https://github.com/knothhe/knot-scripts/tree/main/scripts/hexo-migrate-astro&quot;&gt;使用说明&lt;/a&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;LaTeX 数学公式支持&lt;/h3&gt;
+&lt;p&gt;基本参考官方文档操作， &lt;a href=&quot;https://astro-paper.pages.dev/posts/how-to-add-latex-equations-in-blog-posts/&quot;&gt;Adding LaTeX Equations in AstroPaper blog posts | AstroPaper&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install the necessary remark and rehype plugins&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;pnpm install rehype-katex remark-math katex
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;编辑 &lt;code&gt;astro.config.ts&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;// other imports
+import remarkMath from &quot;remark-math&quot;;
+import rehypeKatex from &quot;rehype-katex&quot;;
+export default defineConfig({
+  // other configs
+  markdown: {
+    remarkPlugins: [
+      remarkMath,
+      remarkToc,
+      [
+        remarkCollapse,
+        {
+          test: &quot;Table of contents&quot;,
+        },
+      ],
+    ],
+    rehypePlugins: [rehypeKatex],
+    // other markdown configs
+  },
+  // other configs
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;编辑 &lt;code&gt;src/layouts/Layout.astro&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;---
+import { LOCALE, SITE } from &quot;@config&quot;;
+
+// astro code
+---
+&amp;lt;!doctype html&amp;gt;
+&amp;lt;!-- others... --&amp;gt;
+&amp;lt;script is:inline src=&quot;/toggle-theme.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;link
+  rel=&quot;stylesheet&quot;
+  href=&quot;https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css&quot;
+/&amp;gt;
+&amp;lt;body&amp;gt;
+  &amp;lt;slot /&amp;gt;
+&amp;lt;/body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;不过行间公式在暗色模式下存在渲染错误，在 &lt;a href=&quot;https://github.com/satnaing/astro-paper/issues/412&quot;&gt;issue&lt;/a&gt; 区看到其他人也存在同样的问题，但是没能解决。我现在使用数据公式比较少，就暂时搁置不处理了。
+更新：尝试一翻之后，我找到了解决方案，放在了 &lt;a href=&quot;https://github.com/satnaing/astro-paper/issues/412&quot;&gt;issue 区&lt;/a&gt;。&lt;/p&gt;
+&lt;h3&gt;历史博客文章路径兼容&lt;/h3&gt;
+&lt;p&gt;原本 hexo 的路径引用是 &lt;code&gt;blog.guanglai.me/post-name&lt;/code&gt;，在 AstroPaper 主题中的文章路径是 &lt;code&gt;blog.guanglai.me/posts/post-name&lt;/code&gt;，于是想到了下面两种解决方案。&lt;/p&gt;
+&lt;h4&gt;第一种方案&lt;/h4&gt;
+&lt;p&gt;修改 astro 的文章路径，保持一致&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;posts&lt;/code&gt; 下的文件放到上级目录 &lt;code&gt;pages&lt;/code&gt; 下，删除 &lt;code&gt;index.astro&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;修改其他页面的路径引用路由，/posts/${slug}/，删除 /posts&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Posts.astro&lt;/code&gt; &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TagPosts.astro&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;第二种方案&lt;/h4&gt;
+&lt;p&gt;使用 Astro 提供的重定向功能，将原来的博客地址，重定向到新的博客地址。这是 Astro 的路由文档 &lt;a href=&quot;https://docs.astro.build/en/guides/routing/#redirects&quot;&gt;Routing | Docs&lt;/a&gt;，修改 &lt;code&gt;astro.config.ts&lt;/code&gt; 就可以定义静态路由重定向。于是同样编写了脚本，将原有的 &lt;code&gt;/post-name&lt;/code&gt; 全部重定向到 &lt;code&gt;/posts/post-name&lt;/code&gt;，脚本放在&lt;a href=&quot;https://github.com/knothhe/knot-scripts/blob/main/scripts/hexo-migrate-astro/generate_routes.py&quot;&gt;这里&lt;/a&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;// astro.config.ts
+import { defineConfig } from &apos;astro/config&apos;;
+export default defineConfig({
+  redirects: {
+    &apos;/old-page&apos;: &apos;/new-page&apos;,
+    &apos;/blog&apos;: &apos;https://example.com/blog&apos;
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;文章目录&lt;/h3&gt;
+&lt;p&gt;当时看到了这篇文章 &lt;a href=&quot;https://4ark.me/posts/2024-03-20-hexo-to-astro/#%E6%95%B4%E4%BD%93%E6%84%9F%E5%8F%97&quot;&gt;再见 Hexo，你好 Astro！ | 4Ark&lt;/a&gt;，
+参考博主的配置，实现了大屏幕下的目录展示。具体修改直接参考博客的 &lt;a href=&quot;https://github.com/gd4Ark/gd4Ark.github.io/commit/c233cc2aad413c2d4efb4dfb50b5fd8b507beeb9&quot;&gt;commit&lt;/a&gt; 即可。&lt;/p&gt;
+&lt;h3&gt;sitemap、rotbots.txt 和 RSS&lt;/h3&gt;
+&lt;p&gt;AstroPaper 会自动生成需要的文件，但是使用 &lt;code&gt;pnpm dev&lt;/code&gt; 开发阶段不会生成下面这些文件，&lt;code&gt;pnpm build&lt;/code&gt; 构建最终产物才会生成。本地可以使用 &lt;code&gt;pnpm preview&lt;/code&gt; 在构建好后预览。 &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;sitemap.xml (主题是分块 sitemap.xml，只有：sitemap-index.xml 和 sitemap-0.xml)&lt;/li&gt;
+&lt;li&gt;rss.xml&lt;/li&gt;
+&lt;li&gt;robots.txt&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;GitHub Page 自定义域名&lt;/h3&gt;
+&lt;p&gt;CNAME 文件配置在 &lt;code&gt;public&lt;/code&gt; 目录下，用于 GitHub 自定义域名。
+文件内容&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;blog.guanglai.me
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;OG 图片&lt;/h3&gt;
+&lt;p&gt;AstroPaper 支持&lt;a href=&quot;https://astro-paper.pages.dev/posts/dynamic-og-image-generation-in-astropaper-blog-posts/#issue-non-latin-characters&quot;&gt;生成 OG 图片&lt;/a&gt;，但是原有的主题字体默认只支持 &lt;code&gt;Latin&lt;/code&gt; 字符，对于非 &lt;code&gt;Latin&lt;/code&gt; 字符的博客，需要自定义加载相关字体。
+我加载了以下字体，后续看是否需要减少一些：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;// file: loadGoogleFont.ts
+async function loadGoogleFonts(
+  text: string
+): Promise&amp;lt;
+  Array&amp;lt;{ name: string; data: ArrayBuffer; weight: number; style: string }&amp;gt;
+&amp;gt; {
+  const fontsConfig = [
+    {
+      name: &quot;Noto Sans CJK JP&quot;, // 日文字体
+      font: &quot;Noto+Sans+JP&quot;, // Google Fonts 中的名称
+      weight: 400,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK JP&quot;,
+      font: &quot;Noto+Sans+JP:wght@700&quot;, // 加粗版本
+      weight: 700,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK SC&quot;, // 简体中文字体
+      font: &quot;Noto+Sans+SC&quot;, // Google Fonts 中的名称
+      weight: 400,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK SC&quot;,
+      font: &quot;Noto+Sans+SC:wght@700&quot;, // 加粗版本
+      weight: 700,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK TC&quot;, // 繁体中文字体
+      font: &quot;Noto+Sans+TC&quot;, // Google Fonts 中的名称
+      weight: 400,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK TC&quot;,
+      font: &quot;Noto+Sans+TC:wght@700&quot;, // 加粗版本
+      weight: 700,
+      style: &quot;normal&quot;,
+    },
+  ];
+  // other codes
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;facicon 图标&lt;/h3&gt;
+&lt;p&gt;原有在 Hexo 上使用的图标格式是 &lt;code&gt;png&lt;/code&gt; 和 &lt;code&gt;ico&lt;/code&gt;，并且内容是动漫截图，其实也没有特别的含义，只是我曾经使用过的头像之一。于是这次就一起换了图标。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;a href=&quot;https://formito.com/tools/favicon&quot;&gt;https://formito.com/tools/favicon&lt;/a&gt; 生成&lt;/li&gt;
+&lt;li&gt;font: ZCOOL QingKe HuangYou&lt;/li&gt;
+&lt;li&gt;backgroud color: 2F3742&lt;/li&gt;
+&lt;li&gt;放在 &lt;code&gt;public&lt;/code&gt; 下，命名为 &lt;code&gt;favicon.svg&lt;/code&gt; 即可&lt;/li&gt;
+&lt;li&gt;删除了一些不需要的资源&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;部署到 GitHub Page&lt;/h3&gt;
+&lt;p&gt;Astro 官方有&lt;a href=&quot;https://docs.astro.build/en/guides/deploy/github/&quot;&gt;部署到 GitHub Page 的指导&lt;/a&gt;，提供了但是官方文件是源文件和网站在同一个 GitHub 仓库，我则是把源文件仓库设为私有，需要部署到目标仓库。经过了一翻调研，也就不使用官方部署指南提供的 GitHub Action 配置了。
+在 &lt;code&gt;.github/workflows&lt;/code&gt; 下，新建文件 &lt;code&gt;deploy.yml&lt;/code&gt;，文件内容如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yml&quot;&gt;name: GitHub Pages
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: &apos;pnpm&apos;
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.TARGET_REPO_DEPLOY_KEY }} # targert repository deploy key secret
+          external_repository: knothhe/knothhe.github.io
+          publish_dir: ./dist
+          publish_branch: master  # default: gh-pages
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用 &lt;code&gt;peaceiris/actions-gh-pages@v4&lt;/code&gt; 的 deploy key 的方式推送的目标仓库，所以需要在目标仓库和源仓库配置 DEPLOY_KEY 的公钥和私钥。
+步骤参考：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;本地生成 ssh 公钥和私钥，不带 passphare。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;ssh-keygen -C &quot;github@action&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;目标仓库配置公钥&lt;ol&gt;
+&lt;li&gt;依次点击 &lt;code&gt;Settings &amp;gt; Deploy keys &amp;gt; Add deplay key&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502080217080.png&quot; alt=&quot;配置设置&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;生成的公钥，即带有 &lt;code&gt;.pub&lt;/code&gt; 后缀的文件的内容复制到文本框中&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;源仓库配置私钥&lt;ol&gt;
+&lt;li&gt;依次点击 &lt;code&gt;Settings &amp;gt; Secrets and variables &amp;gt; Actions &amp;gt; New repository secret&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502080220179.png&quot; alt=&quot;配置设置&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;生成的公钥，即不带有 &lt;code&gt;.pub&lt;/code&gt; 后缀的文件的内容复制到文本框中&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Google Site Verification&lt;/h3&gt;
+&lt;p&gt;官方推荐是使用 &lt;code&gt;.env&lt;/code&gt; 配置，但是 &lt;code&gt;.gitignore&lt;/code&gt; 文件里，忽略了 &lt;code&gt;.env&lt;/code&gt; 文件，所以考虑本地生成时，可以配置 &lt;code&gt;.env&lt;/code&gt; 文件，使用 GitHub 时，将内容配置到 GitHub 仓库中。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;# in your environment variable file (.env)
+PUBLIC_GOOGLE_SITE_VERIFICATION=your-google-site-verification-value
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;采用密钥配合 GitHub Action 方式配置&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub 仓库配置，同样是在源仓库的&lt;code&gt;Settings &amp;gt; Secrets and variables &amp;gt; Actions &amp;gt; New repository secret&lt;/code&gt; 下配置，名称为 &lt;code&gt;GOOGLE_SITE_VERIFICATION_SECRET&lt;/code&gt;，值配置为 Google Search Console 给的值。&lt;/li&gt;
+&lt;li&gt;GitHub Action 中在 &lt;code&gt;checkout&lt;/code&gt; 之后添加下面的配置：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yml&quot;&gt;      - name: Create .env file
+        run: |
+          echo &quot;PUBLIC_GOOGLE_SITE_VERIFICATION=${{ secrets.GOOGLE_SITE_VERIFICATION_SECRET }}&quot; &amp;gt;&amp;gt; .env
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;评论&lt;/h3&gt;
+&lt;p&gt;采用 &lt;a href=&quot;https://giscus.app/zh-CN&quot;&gt;giscus&lt;/a&gt;，参考 &lt;a href=&quot;https://astro-paper.pages.dev/posts/how-to-integrate-giscus-comments/&quot;&gt;AstroPaper 官方集成 Giscus 的文章&lt;/a&gt;。&lt;/p&gt;
+&lt;h2&gt;后记&lt;/h2&gt;
+&lt;p&gt;本次折腾基本就是做了上面这些步骤，花费了几乎一天的时间。&lt;/p&gt;
+</content:encoded></item></channel></rss>

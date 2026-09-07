@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: astro-paper</title><description>All posts tagged with astro-paper</description><link>https://blog.guanglai.me/</link><item><title>博客折腾小记，文章子目录和图片网格组件</title><link>https://blog.guanglai.me/posts/astro-blog-post-subdir-and-image-grid/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/astro-blog-post-subdir-and-image-grid/</guid><description>博客文章支持子目录方式整理，总算是不用都放在一个目录下。同时引入 mdx 图片网格组件。</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/9aa30103a8c7f307d5185bfe44113dbd.webp&quot; alt=&quot;上海野生动物园的两只耳廓狐（Fennec Fox）&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;文章子目录&lt;/h2&gt;
+&lt;p&gt;astro-paper v5.1.0 主题更新了一项对我来说非常有用的功能，博客文章支持子目录方式整理。&lt;/p&gt;
+&lt;p&gt;我的博客是使用 astro paper 主题搭建的，在 v5.1.0 之前，博客文章的 md 文件只能在 v5.0 版本前 &lt;code&gt;src/page/blog&lt;/code&gt;，v5.0 版本后 &lt;code&gt;src/data/blog&lt;/code&gt; 目录下，不支持子目录组织文件。在 v5.1.0 版本，开发者总算是支持了子目录组织，并且很天才的是，以 _ 开头的文件，比如 _subdir 是不会加入博客文章路径里的。这样我就可以保证所有的博客文章都在 post/ 路径下，但是文件可以以子目录的方式组织了。避免写了太多的文章，一个目录下组织太多的文件。&lt;/p&gt;
+&lt;p&gt;详细介绍可以看&lt;a href=&quot;https://astro-paper.pages.dev/posts/adding-new-posts-in-astropaper-theme/#creating-a-blog-post&quot;&gt;官方文章&lt;/a&gt;，我非常喜欢这个功能，大赞。&lt;/p&gt;
+&lt;p&gt;为防止官方后续修改文章链接，或者删除文章之类的行为，我摘录在下面。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Starting from AstroPaper v5.1.0, you can now organize blog posts into subdirectories, making it easier to manage your content.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;For example, if you want to group posts under 2025, you can place them in src/data/blog/2025/. This also affects the post URL, so src/data/blog/2025/example-post.md will be available at /posts/2025/example-post.&lt;/p&gt;
+&lt;p&gt;If you don’t want subdirectories to affect the post URL, just prefix the folder name with an underscore _.&lt;/p&gt;
+&lt;p&gt;Example: blog post structure and URLs&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;src/data/blog/very-first-post.md          -&amp;gt; mysite.com/posts/very-first-post
+src/data/blog/2025/example-post.md        -&amp;gt; mysite.com/posts/2025/example-post
+src/data/blog/_2026/another-post.md       -&amp;gt; mysite.com/posts/another-post
+src/data/blog/docs/_legacy/how-to.md      -&amp;gt; mysite.com/docs/how-to
+src/data/blog/Example Dir/Dummy Post.md   -&amp;gt; mysite.com/example-dir/dummy-postCopy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;💡 Tip: You can override a blog post’s slug in the frontmatter as well. See the next section for more details.&lt;/p&gt;
+&lt;p&gt;If the subdirectory URL doesn’t appear in the build output, remove node_modules, reinstall packages, and then rebuild.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;图片网格组件&lt;/h2&gt;
+&lt;p&gt;我之前为博客引入 mdx 格式，主要就是为了方便展示图片网格，让 AI IDE 帮我写了这个组件功能。&lt;/p&gt;
+&lt;p&gt;详细的 demo 可以看&lt;a href=&quot;/posts/astro-mdx-style-test#image-grid&quot;&gt;这篇文章&lt;/a&gt;，我觉得勉强是可用的。&lt;/p&gt;
+</content:encoded></item><item><title>折腾 Astro，美化展示，添加实用功能</title><link>https://blog.guanglai.me/posts/tweak-astro-beautify-the-display-and-add-practical-features/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/tweak-astro-beautify-the-display-and-add-practical-features/</guid><description>博客切换到 Astro 已经几天了，这几天在现有主题上，折腾了不少有趣的玩意。给归档页面添加了热力图，按照官方博客增加阅读时间和自动更发布和更新时间功能，图片的展示优化。</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;p&gt;这篇博客很短，主要就是展示下我这几天折腾博客的一些小成果，如果有人感兴趣，我再把这些功能拆分出来，单独写成博客。&lt;/p&gt;
+&lt;h2&gt;时间展示&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;日期时间转换成了 ISO 字符串，对于处于东八区的我的博客来说，展示上存在问题，我就都修改成了 toLocalDateTime，转换成东八区时间展示。&lt;/li&gt;
+&lt;li&gt;AstroPaper 的日期时间展示逻辑是，如果存在修改时间，并且修改时间大于发布时间，则只展示更新时间。我修改成了同时展示创建时间和更新时间。&lt;/li&gt;
+&lt;li&gt;和第二点类似，因为 AstroPaper 只展示了一个时间，全部文章页面就按照第二点获取的时间进行排序。也就是说，如果我在一月一号发布了一篇博文，在一月十号那天修改了文章内容，这边文章的时间就是一月十号。我的需求是只按照创建时间排序，更新时间展示在后头，显示什么时候修改过就可以了。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;热力图&lt;/h2&gt;
+&lt;p&gt;真的就是用 Cursor，全程指挥，写出了第一版的博客文章编写热力图。我的职责更多是提出产品需求和测试验收。第一版的展示是下面这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502120814212.png&quot; alt=&quot;文章热力图&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;这版的展示实际上基本是没有什么问题了，我的想法需要让热力图居中展示，并且设计了一套颜色适配我当前正在使用的博客主题的热力图主题颜色。于是第二版出现了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502122135112.png&quot; alt=&quot;文章热力图适配博客主题&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;在归档页面可以看到这版的实际交互。&lt;/p&gt;
+&lt;h2&gt;图片展示&lt;/h2&gt;
+&lt;p&gt;原版主题的图片展示永远是居中，宽度和文章相同。我的大部分图片的宽度都比文章长，就占满了文章，不是很没美观。还有竖版的图片，宽度占满文章展示，实在也不够友好。&lt;/p&gt;
+&lt;p&gt;优化后现在的展示是图片默认宽度最大 80%，高度 600px，鼠标悬浮放大，点击全屏展示。&lt;/p&gt;
+&lt;h2&gt;阅读时长和自动更新文章时间&lt;/h2&gt;
+&lt;p&gt;这两个优化的点，官方文章都有提到，按照文章操作就可以实现。不过我不是很理解为什么是单独编写文章，而不是提供成配置项。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://astro-paper.pages.dev/posts/setting-dates-via-git-hooks/&quot;&gt;How to use Git Hooks to set Created and Modified Dates | AstroPaper&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://astro-paper.pages.dev/posts/how-to-add-estimated-reading-time/&quot;&gt;How to add an estimated reading time in AstroPaper | AstroPaper&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;LaTeX 行间公式展示&lt;/h2&gt;
+&lt;p&gt;官方有给出如何给文章加上 LaTeX 数学公式的展示，不过行间公式存在展示上的问题。花了好几个小时尝试排查后，总算是解决了问题。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Astro 使用 tailwindlabs/tailwindcss-typography 来样式化富文本内容，这些内容通常是从非 HTML 格式转换而来的。
+大多数内容可以正确渲染，因为这些元素具有明确的语义，例如链接 &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;、列表 &lt;code&gt;&amp;lt;li&amp;gt;&lt;/code&gt;、段落 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt;，排版会正确渲染这些元素，因为 AstroPaper 已经在 &lt;code&gt;src/styles/base.css&lt;/code&gt; 中配置了这些元素的样式。
+问题在于块方程没有被包装在已正确样式化的元素中。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;修改完成后，还给官方提了个 PR，不过不知道官方是否考虑合并了。&lt;/p&gt;
+&lt;h2&gt;博客主题颜色和字体&lt;/h2&gt;
+&lt;p&gt;备注 2025-02-15 更新：&lt;/p&gt;
+&lt;p&gt;对暗色模式下的博客主题颜色和字体进行了调整，调整后的颜色更加柔和，字体处理了中英文混排的展示问题。中英文混排时，中文使用 serif 字体，英文使用 mono 字体，希望整体能看起来更舒服一些。&lt;/p&gt;
+&lt;h2&gt;最后&lt;/h2&gt;
+&lt;p&gt;这两天折腾的成果基本就是这些了。我还想做的事情是，在博客编写好 md 文件后，使用命令上传的微信公众号和飞书文档，这样能简化一些备份和发布流程。不过这个功能最近估计不会打算开发，过一段时间再考虑。&lt;/p&gt;
+</content:encoded></item></channel></rss>

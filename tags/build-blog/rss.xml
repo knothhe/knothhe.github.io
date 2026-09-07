@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: build-blog</title><description>All posts tagged with build-blog</description><link>https://blog.guanglai.me/</link><item><title>博客折腾小记，添加 Memos 展示和 Moe Counter 统计</title><link>https://blog.guanglai.me/posts/astro-blog-add-memos-and-moe-counter/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/astro-blog-add-memos-and-moe-counter/</guid><description>在 Codex 的帮助下，添加了把 Memos 的公开 memo 直接在博客展示的功能，以及使用 moe counter 统计并公开展示整站的访问量</description><pubDate>Sat, 11 Jul 2026 13:28:09 GMT</pubDate><content:encoded>&lt;p&gt;整件事情在 Codex 的帮助下还是比较顺利的，添加 Memos 的公开内容作为内容数据源大概花费两小时，使用 moe counter 统计并展示整站访问量大概花费一小时，其中还包含在 VPS 上部署 moe counter 服务端。&lt;/p&gt;
+&lt;p&gt;功能都比较简单，而且还都是 Codex 干活，本篇只做简单记录。&lt;/p&gt;
+&lt;h2&gt;添加 Memos 作为 CMS&lt;/h2&gt;
+&lt;p&gt;主要的功能在 Codex 总结之后，是下面这些：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;- 顶栏 Posts 后增加 Memos 导航
+- /memos/ 展示公开 memo 列表
+- 支持 pageToken 加载更多
+- 支持置顶 memo 优先展示
+- 列表 memo 可点击进入详情
+- 详情页可渲染 memo markdown
+- 详情页接入 Giscus 评论
+- 每条 memo 使用独立评论 term，避免所有 memo 共用一个评论区
+- 列表和详情都支持跳转到原始 Memos 实例：
+
+  https://memos.guanglai.me/memos/{memoId}
+
+- 列表支持图片附件预览
+- Memos 页面增加返回顶部按钮
+- 列表支持 Compact / Preview 两种展示模式，并记住用户选择
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;添加 Moe Counter 统计整站访问量&lt;/h2&gt;
+&lt;p&gt;想添加 moe counter 的来源是&lt;a href=&quot;https://blog.xinshijiededa.men/&quot;&gt;这个博客&lt;/a&gt;，我的实现结果也基本和这个博客类似。&lt;/p&gt;
+&lt;p&gt;添加 moe counter 统计整站访问量这件事情还是比较简单的，moe counter 的部署也就一行 docker 命令的事情，部署完成后添加域名映射和 nignx 反代也是很常见的操作了。&lt;/p&gt;
+&lt;p&gt;最后在 Footer 里添加 moe counter 的 Image SVG 组件引用就可以。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;figure class=&quot;flex flex-col items-center justify-center gap-1.5 pt-6 sm:pt-4&quot;&amp;gt;
+&amp;lt;img
+    src={counterUrl}
+    alt=&quot;博客访问次数&quot;
+    class=&quot;visit-counter&quot;
+    loading=&quot;lazy&quot;
+    decoding=&quot;async&quot;
+/&amp;gt;
+&amp;lt;figcaption class=&quot;text-sm opacity-70&quot;&amp;gt;
+    访问次数 · 自 {counter.startedAt}起统计
+&amp;lt;/figcaption&amp;gt;
+&amp;lt;/figure&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;不过本质上 count 计数是访问一次就 +1 访问次数，不会去重，识别机器人流量等等，数据并不完全准确，只是图一个好玩。&lt;/p&gt;
+&lt;h2&gt;其他&lt;/h2&gt;
+&lt;p&gt;最后还用 Codex 把上游 astro-paper 最新版本的内容合并了，现在是由 Astro Paper v6.1 驱动的博客，不过后面我可能不再打算合并上游的更新了。我博客的现在已经有不少的定制功能，每次合并都是很多的冲突，这次虽然有 Codex 的帮忙，合并之后也对博客原有的内容，样式照成了一些影响，也不知道那里少了什么，多了什么。&lt;/p&gt;
+</content:encoded></item><item><title>博客折腾小计，为每个标签添加 rss</title><link>https://blog.guanglai.me/posts/astro-blog-tag-rss/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/astro-blog-tag-rss/</guid><description>astro-paper 主题当前版本 v5.2.0 只有整站有 rss 订阅，但是有些标签有单独订阅的需求，我就使用 AI 辅助，为每个标签添加了 rss 订阅。</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/610f0abac2fa17929d205ef9372412f7.webp&quot; alt=&quot;动物园里呆坐的亚洲黑熊&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;astro-paper 主题当前版本 v5.2.0 只有整站有 rss 订阅，但是有些标签有单独订阅的需求，我就使用 AI 辅助，为每个标签添加了 rss 订阅。整体上比较简单，基于现有的 AI 辅助编程很简单就可以实现。&lt;/p&gt;
+&lt;h2&gt;为每个标签生成 RSS 订阅&lt;/h2&gt;
+&lt;p&gt;Astro 本身带有 RSS 组件，并且 astro-paper 已经在项目的根目录使用 RSS 组件生成了博客所有文章的 RSS 订阅，我们需要做的就是参考该文件为每个标签生成对应的 RSS 组件。按照下面的内容创建 &lt;code&gt;src/pages/tags/rss.xml.ts&lt;/code&gt; 文件。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import rss from &quot;@astrojs/rss&quot;;
+import { getCollection } from &quot;astro:content&quot;;
+import { getPath } from &quot;@/utils/getPath&quot;;
+import { SITE } from &quot;@/config&quot;;
+import getPostsByTag from &quot;@/utils/getPostsByTag&quot;;
+import { slugifyStr } from &quot;@/utils/slugify&quot;;
+
+interface Props {
+  tagName: string;
+}
+
+interface Params {
+  tag: string;
+}
+
+export async function getStaticPaths() {
+  const posts = await getCollection(&quot;blog&quot;);
+  const tags = posts
+    .flatMap(post =&amp;gt; post.data.tags)
+    .map(tag =&amp;gt; ({ tag: slugifyStr(tag), tagName: tag }))
+    .filter(
+      (value, index, self) =&amp;gt;
+        self.findIndex(tag =&amp;gt; tag.tag === value.tag) === index
+    );
+
+  return tags.map(({ tag, tagName }) =&amp;gt; ({
+    params: { tag },
+    props: { tagName },
+  }));
+}
+
+export async function GET({ params, props }: { params: Params; props: Props }) {
+  const posts = await getCollection(&quot;blog&quot;);
+  const tagPosts = getPostsByTag(posts, params.tag);
+
+  return rss({
+    title: `${SITE.title} | Tag: ${props.tagName}`,
+    description: `All posts tagged with ${props.tagName}`,
+    site: SITE.website,
+    items: tagPosts.map(({ data, id, filePath }) =&amp;gt; ({
+      link: getPath(id, filePath),
+      title: data.title,
+      description: data.description,
+      pubDate: new Date(data.modDatetime ?? data.pubDatetime),
+    })),
+  });
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;在标签页面展示订阅&lt;/h2&gt;
+&lt;p&gt;通过上面的方式，已经为每个 tag 生成了对应的 RSS 订阅，路径为 &lt;code&gt;/tags/{tagName}/rss.xml&lt;/code&gt;。按照下面的方式修改 &lt;code&gt;src/pages/tags/[tag]/[...page].astro&lt;/code&gt; 文件。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;import IconRss from &quot;@/assets/icons/IconRss.svg&quot;;
+&amp;lt;!-- 其他 import --&amp;gt;
+
+&amp;lt;Layout title={`Tag: ${tagName} | ${SITE.title}`}&amp;gt;
+  &amp;lt;Header /&amp;gt;
+  &amp;lt;Main
+    pageTitle={[`Tag:`, `${tagName}`]}
+    titleTransition={tag}
+    pageDesc={`All the articles with the tag &quot;${tagName}&quot;.`}
+  &amp;gt;
+    &amp;lt;h1 slot=&quot;title&quot; transition:name={tag}&amp;gt;{`Tag:${tag}`}&amp;lt;/h1&amp;gt;
+    &amp;lt;!-- 下面是需要增加用于展示 RSS 订阅的代码 --&amp;gt;
+    &amp;lt;div class=&quot;flex items-center gap-2&quot;&amp;gt;
+      &amp;lt;div&amp;gt;使用 RSS 订阅该标签&amp;lt;/div&amp;gt;
+      &amp;lt;a
+        href={`/tags/${tagName}/rss.xml`}
+        class=&quot;hover:text-accent&quot;
+        title={`RSS feed for ${tagName} tag`}
+        target=&quot;_blank&quot;
+      &amp;gt;
+        &amp;lt;IconRss class=&quot;size-5&quot; /&amp;gt;
+      &amp;lt;/a&amp;gt;
+    &amp;lt;/div&amp;gt;
+    &amp;lt;!-- 上面是需要增加用于展示 RSS 订阅的代码 --&amp;gt;
+    &amp;lt;ul&amp;gt;
+      {page.data.map(data =&amp;gt; &amp;lt;Card {...data} /&amp;gt;)}
+    &amp;lt;/ul&amp;gt;
+  &amp;lt;/Main&amp;gt;
+
+  &amp;lt;Pagination {page} /&amp;gt;
+
+  &amp;lt;Footer noMarginTop={page.lastPage &amp;gt; 1} /&amp;gt;
+&amp;lt;/Layout&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;最后&lt;/h2&gt;
+&lt;p&gt;至此，就为所有标签增加了对应的 rss 订阅。&lt;/p&gt;
+</content:encoded></item><item><title>博客折腾小记，文章子目录和图片网格组件</title><link>https://blog.guanglai.me/posts/astro-blog-post-subdir-and-image-grid/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/astro-blog-post-subdir-and-image-grid/</guid><description>博客文章支持子目录方式整理，总算是不用都放在一个目录下。同时引入 mdx 图片网格组件。</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/9aa30103a8c7f307d5185bfe44113dbd.webp&quot; alt=&quot;上海野生动物园的两只耳廓狐（Fennec Fox）&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;文章子目录&lt;/h2&gt;
+&lt;p&gt;astro-paper v5.1.0 主题更新了一项对我来说非常有用的功能，博客文章支持子目录方式整理。&lt;/p&gt;
+&lt;p&gt;我的博客是使用 astro paper 主题搭建的，在 v5.1.0 之前，博客文章的 md 文件只能在 v5.0 版本前 &lt;code&gt;src/page/blog&lt;/code&gt;，v5.0 版本后 &lt;code&gt;src/data/blog&lt;/code&gt; 目录下，不支持子目录组织文件。在 v5.1.0 版本，开发者总算是支持了子目录组织，并且很天才的是，以 _ 开头的文件，比如 _subdir 是不会加入博客文章路径里的。这样我就可以保证所有的博客文章都在 post/ 路径下，但是文件可以以子目录的方式组织了。避免写了太多的文章，一个目录下组织太多的文件。&lt;/p&gt;
+&lt;p&gt;详细介绍可以看&lt;a href=&quot;https://astro-paper.pages.dev/posts/adding-new-posts-in-astropaper-theme/#creating-a-blog-post&quot;&gt;官方文章&lt;/a&gt;，我非常喜欢这个功能，大赞。&lt;/p&gt;
+&lt;p&gt;为防止官方后续修改文章链接，或者删除文章之类的行为，我摘录在下面。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Starting from AstroPaper v5.1.0, you can now organize blog posts into subdirectories, making it easier to manage your content.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;For example, if you want to group posts under 2025, you can place them in src/data/blog/2025/. This also affects the post URL, so src/data/blog/2025/example-post.md will be available at /posts/2025/example-post.&lt;/p&gt;
+&lt;p&gt;If you don’t want subdirectories to affect the post URL, just prefix the folder name with an underscore _.&lt;/p&gt;
+&lt;p&gt;Example: blog post structure and URLs&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;src/data/blog/very-first-post.md          -&amp;gt; mysite.com/posts/very-first-post
+src/data/blog/2025/example-post.md        -&amp;gt; mysite.com/posts/2025/example-post
+src/data/blog/_2026/another-post.md       -&amp;gt; mysite.com/posts/another-post
+src/data/blog/docs/_legacy/how-to.md      -&amp;gt; mysite.com/docs/how-to
+src/data/blog/Example Dir/Dummy Post.md   -&amp;gt; mysite.com/example-dir/dummy-postCopy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;💡 Tip: You can override a blog post’s slug in the frontmatter as well. See the next section for more details.&lt;/p&gt;
+&lt;p&gt;If the subdirectory URL doesn’t appear in the build output, remove node_modules, reinstall packages, and then rebuild.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;图片网格组件&lt;/h2&gt;
+&lt;p&gt;我之前为博客引入 mdx 格式，主要就是为了方便展示图片网格，让 AI IDE 帮我写了这个组件功能。&lt;/p&gt;
+&lt;p&gt;详细的 demo 可以看&lt;a href=&quot;/posts/astro-mdx-style-test#image-grid&quot;&gt;这篇文章&lt;/a&gt;，我觉得勉强是可用的。&lt;/p&gt;
+</content:encoded></item><item><title>博客折腾小记，如何合并上游更新</title><link>https://blog.guanglai.me/posts/how-to-merge-upstream/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/how-to-merge-upstream/</guid><description>前段时间顺利合并 astro-paper v5 大版本更新，记录下合并上游更新的流程</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/bf1a45be4db0816e1b8ac23d0c9b5118.webp&quot; alt=&quot;上海野生动物园的环尾狐猴（Ring-tailed Lemur）&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;我目前的分支使用方式是下面这种模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;main 不做任何改动，仅用于同步上游改动。&lt;/li&gt;
+&lt;li&gt;blog 分支用作博客最终成品分支，用于构建博客最终产物。&lt;ul&gt;
+&lt;li&gt;配置的 GitHub Actions 也是根据该分支的 push 动作构建并推送博客。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;其他诸如不想触发 GitHub Actions 的草稿 draft/* 分支等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;合并操作流程&lt;/h2&gt;
+&lt;p&gt;基于上面的流程，梳理出一个可行的同步上游更新流程。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;切换到 main 分支&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;git checkout main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;main 分支设置上游源&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;# 这里只需要设置一次就即可
+git remote add astro-paper https://github.com/satnaing/astro-paper.git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;从指定的上游源 astro-paper 拉取 main 分支代码到当前分支&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;git pull astro-paper main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;创建合并分支&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;# 切换到当前博客分支
+git checkout blog
+git checkout -b blog-merge
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;合并 main 分支到合并分支&lt;ul&gt;
+&lt;li&gt;推荐使用 Jetbrains IDE，我比较习惯使用可视化工具。&lt;/li&gt;
+&lt;li&gt;一般都会有少量冲突。&lt;/li&gt;
+&lt;li&gt;如果是大版本更新，此步需要解决大量合并冲突。
+&lt;img src=&quot;https://images-oss.guanglai.me/2025/21dc77ef6835e460c56c607772eae242.webp&quot; alt=&quot;大版本更新存在大量合并冲突&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;合并完成&lt;/h2&gt;
+&lt;p&gt;到这步基本就完成上游分支合并了。合并完成后，可以修改合并分支为新的博客分支，或者把合并分支 merge 到博客分支都可以。&lt;/p&gt;
+&lt;h2&gt;最后&lt;/h2&gt;
+&lt;p&gt;astro-paper 也有一篇文章描述如何更新依赖，可以参考&lt;a href=&quot;https://astro-paper.pages.dev/posts/how-to-update-dependencies/#updating-astropaper-using-git&quot;&gt;该流程&lt;/a&gt;合并上游更新。&lt;/p&gt;
+&lt;h3&gt;fatal: refusing to merge unrelated histories&lt;/h3&gt;
+&lt;p&gt;如果出现上面这个问题，说明当前分支和上游分支没有关联。加上 &lt;code&gt;--allow-unrelated-histories&lt;/code&gt; 就可以。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;git pull astro-paper main --allow-unrelated-histories
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>已读乱码 012 | 沉迷博客，向外社交</title><link>https://blog.guanglai.me/posts/what-is-guanglai-doing-this-week-012/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/what-is-guanglai-doing-this-week-012/</guid><description>这周看了不少博主的博客，以及泛博客，比如小红书，论坛和即刻。向外社交则是开始尝试在社交平台评论，新增一类互动行为。</description><pubDate>Sat, 14 Jun 2025 13:45:03 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/d38a03a1947fd7880d1b76e0f6ecd80e.webp&quot; alt=&quot;浦东图书馆南边面对公园&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;本篇内容&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;一些流水账&lt;/li&gt;
+&lt;li&gt;聊聊我在看的博客，以及泛博客&lt;/li&gt;
+&lt;li&gt;折腾博客图床&lt;/li&gt;
+&lt;li&gt;向外社交，尝试在别人的帖子下发表评论，产生互动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;图书馆&lt;/h2&gt;
+&lt;p&gt;最近这两周，基本都会来浦东图书馆见朋友。不过说是来图书馆，实际在图书馆也不会待太长的时间。大概在下午一点前后到图书馆，有座位就坐在座位上，没有就找个台阶坐。一般坐到四点半就出去走走，聊聊天，半小时后再回到图书馆。坐到六点半左右，出发去吃晚饭。吃完晚饭到家基本就接近十点。我住的地方距离浦东图书馆并不算近，大概需要一小时二十分钟的路程。&lt;/p&gt;
+&lt;p&gt;我之前并不怎么会去图书馆，毕竟浦东图书馆离我也不算很近。最近也是因为朋友问我要不要去，才会在周末没事就会来图书馆坐坐。在图书馆也会减少些在家里待太久的压力。如果有人想要自救，破除一些过于沉闷的氛围，我觉得时不时来图书馆坐一坐也是不错的体验。&lt;/p&gt;
+&lt;h2&gt;看看博客&lt;/h2&gt;
+&lt;p&gt;我一直有在想用 RSS，奈何没有找到很称手的工具，也没有翻阅 RSS 的习惯，基本就还是没事去看看别人的博客。&lt;/p&gt;
+&lt;p&gt;我起初开始使用博客记录每周在做的事情，其中之一的原因也是有看到别人在记录的那些生动有趣的事情，也许我也可以记录下来这些事情。记录下来之后，多少就会有些，我输出了这么多的文字的感觉，也是一种自我满足。没有记录下来的那些事情，大概也就会随着我这个没什么记忆的脑袋消失在风中。&lt;/p&gt;
+&lt;p&gt;最近看得比较多的还是&lt;a href=&quot;https://blog.douchi.space/&quot;&gt;椒盐豆豉&lt;/a&gt;的博客，看了很多篇博客，这两天看得最多的是怎么写博客，为什么写博客这系列的文章。&lt;/p&gt;
+&lt;p&gt;只是看着别人博客的名字，就觉得起名的方式已经超过我了。我一直以来都是起名苦手，我猜想是因为我的自己的身份定位没有什么认同感，觉得没有什么名字和自己是想匹配的。想来想去，博客的名字起了一个俗得不能再俗的【来都来了】,当然是有划线版本的。我当然希望访客既然来都来了，那么不妨看一看。划线的意思则是，希望访客直接离开也没事，不用有来都来了，一定要看点什么再走的意思。我一直以来也不喜欢别人或直接或暗示地强迫我去做些什么事情。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.xinshijiededa.men/&quot;&gt;新世界的大门&lt;/a&gt;则又是另一种感受。博主的描述我有很多能够感同身受，博主的思考也足够深刻。无论是什么样的博客，我想大抵都是记录生活，输出感悟最为重要。豆豉的博客里有提到她的博客主要输出的是非技术类的文档，也许接下来我也会减少技术类文章的占比。不过我的博客实际也没有几篇文章，多是流水账和浅显的技术文章，思考这类事情纯属没什么意义。等写得足够多了再来谈论吧。&lt;/p&gt;
+&lt;p&gt;看着别人的博客，我也总能有些感悟之类的，下面是一些我记录在 meomos 里的，我直接摘录放在博客里。&lt;/p&gt;
+&lt;h3&gt;一些摘录&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.douchi.space/keep-blogging/#gsc.tab=0&quot;&gt;如何建立写博客的习惯 | 椒盐豆豉&lt;/a&gt;&lt;blockquote&gt;
+&lt;p&gt;Growth hacking 有一个简单的原则，想让用户做一件事情（如购买），要尽量将做这件事情变得简单无缝，提升加载速度、预填信息、一键下单、减少到终点前需要的点击数量的同时而呈现足够必须信息等都是为了达成这个目的。Atomic Habbit 等生产力书籍也有类似的说法——想养成一个习惯，把这件事融入到现有的生活流程里并优化其启动时间是很重要的。比如想从零引体向上最好的办法是在家里挂个引体向上架随时练，而不是需要穿衣出门等位跑去设备更好的健身房。做想做的事情本身之前需要做并且因此可能让你偷懒拖延要做的事本身的这些准备工作，就是 friction。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我的想法：有点道理，我一直以来懒得健身，以及不想做投资规划也是因为投资需要做的事情太多。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.douchi.space/how-i-write-blog/#%E5%8D%9A%E5%AE%A2%E4%B8%8D%E6%98%AF%E4%B8%80%E5%A4%A9%E5%BB%BA%E6%88%90%E7%9A%84&quot;&gt;我如何写博客 | 椒盐豆豉&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有摄入才有输出，吃了饭才会拉屎，读得够多才会想，想得够多才会写。多订阅博客、读书看电影打游戏、探索生活中的别的爱好、在网上或现实中跟别人交流。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这也是我在很多博主那里接受到的想法。想要有足够多的输出，先要有足够多的输入，多多读书，经历各种各样的事情才是拥有输出能力的王道。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有写作 cadence。最简单的方法是日/周/月记，书影游，游记。没想法总有生活嘛。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我的想法：我现在就有在写周记，如果能写道 100 篇，大概已经是两年左右的事情了。那时应该就已经能够养成使用文字记录输出的习惯了。&lt;/p&gt;
+&lt;p&gt;其实回头看看我的问题，很明显的一个习惯是，习惯在句子最后加上【了】。好像有了【了】，句子才足够完成。想要表达足够的语气，最终使得句子过于口语化，这点我要尝试修正。看吧，在我没有开始长期坚持写作之前，我是没有发现自己的这个习惯的。对我来讲，写博客，坚持写博客能够发现我的文字表达不那么好的地方就已经足够了。&lt;/p&gt;
+&lt;p&gt;说道有足够的输入，才能够有足够的输出这个点。我现在能够想到的是，语言的匮乏也是因为没有足够宽泛的语言的输入。面对一件令人惊讶的事情，如果只能使用牛x表达，那么也太令人沮丧和同情了。但是很遗憾，我现在就是只有这种表达能力的人。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.xinshijiededa.men/2024/#%E9%80%83%E9%81%BF%E5%8F%AF%E8%80%BB&quot;&gt;2024 | 清溪奔快，不管青山碍 | 新世界的大门&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一直逃避，生活就会反复出同一道题，直到你给出新的回应。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;陌生人一语成谶。很多时候我的不断尝试可能只是在等待运气，逃避根源，而非解决问题。一旦开始逃避了，就愈发不可收拾。每次有新的契机可以重新开始，也会眼睁睁地看着机会溜走。即使这件事情结束了，下一次我也会陷入同样的 pattern。这样的习得性无助甚至让我产生了对聊天软件、电话的 PTSD，有时也会用奶头乐 和 substance 麻痹自己。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我的想法：我也是在一直逃避。&lt;/p&gt;
+&lt;h3&gt;一些泛博客的摘录&lt;/h3&gt;
+&lt;p&gt;目前的主要在用的社交媒体是小红书，即刻和x，论坛主要就在 &lt;a href=&quot;https://linux.do&quot;&gt;linuxdo&lt;/a&gt;。这些对我来说都是泛博客的输入。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://x.com/Philo2022/status/1892575841843818996&quot;&gt;soucre | x&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;很多人，躺又躺不平，卷又卷不动，不能坦然接受已经拥有的，欲望和行动力又不匹配，只是让生命在无限内耗中悄悄流逝。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我的想法：我对自己很不满意的一个点是，我无法接受自己。低自尊，经常内耗的根源也许就在于我无法接受自己。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://linux.do/t/topic/443861/25&quot;&gt;source | linuxdo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;总之，我认为人不应当忽视自己，生活就是自己啊。总要无愧于自己才好。比方说我要无愧于自己就要好好地爱你才对。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;折腾博客图床&lt;/h2&gt;
+&lt;p&gt;自从开始写博客之后，一直要考虑图片存放的地方。我的博客从一开始就是静态博客，最开始我就是把图片和博客放在一起，也省去折腾图床的麻烦。虽然是省去图床的麻烦了，但是 &lt;a href=&quot;/posts/update-hexo-7-x-and-theme-next-8-x/#%E5%8D%9A%E5%AE%A2%E6%9C%AC%E5%9C%B0%E5%9B%BE%E7%89%87%E9%93%BE%E6%8E%A5%E4%BF%AE%E5%A4%8D&quot;&gt;Hexo 对 markdown 的图片相对路径的引用支持&lt;/a&gt;一直以来并不是很好，还是使用非 markdown 的语法引用本地图片会方便一点。也是一种另类的折腾。&lt;/p&gt;
+&lt;p&gt;于是在最近重新开始写博客之后，就一直想要搭建一个个人图床。最开始是使用的阿里云，倒也不错，不过阿里云还要备案才能设置自定义域名。在用了一两周之后就放弃了。后面又接触到了 cloudflare R2，开始 R2 的前提条件是得用张用于开通的信用卡，正好我是有张 visa 卡的，也就顺利开通。&lt;/p&gt;
+&lt;p&gt;cloudflare R2 有几个好处：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不需要域名备案。&lt;/li&gt;
+&lt;li&gt;存储收费，但是流量不收费。至少个人博客的话，免费存储额度肯定是够用的。
+&lt;img src=&quot;https://images-oss.guanglai.me/2025/182046ca5f97a0f2b490145ad77cdb44.webp&quot; alt=&quot;cloudflare R2 收费标准&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;选择完 R2 之后，一开始我是用 picgo 作为本地客户端的，只需要图片上传功能的话，安装下 s3 插件，其实也就足够了，不需要多折腾些什么。这里还是多说一句，国内的网络环境是真的糟糕，我在最开始配置好 s3 插件的配置后，上传一直失败，直到开了代理，才成功上传。也就是说，如果选用 R2 作为存储方案的话，还是需要有个个人代理用于上传的。&lt;/p&gt;
+&lt;p&gt;不过我对客户端还是有点额外的需求的，我想要在图片上传前，压缩图片，并且转换图片格式到 webp 格式，因为我的图片基本都是在博客上使用的，webp 格式是比较合适的。压缩图片则是因为我手机上拍出来的图片一般都比较大，10+M 这样，压缩之后基本可以达到 1M 一下，图片质量也没有肉眼可见的下划。最开始我都是用 &lt;a href=&quot;https://squoosh.app/&quot;&gt;squoosh&lt;/a&gt; 单个图片手动压缩了，次数多了之后，还是觉得有些麻烦。这周了解到了 piclist，在 picgo 的基础上增加了不少的功能，也就转而选用 piclist 了。我当然是之后 picgo 是有插件可能是可以实现上面的功能的，实在没有，我也可以自己写一个简单的插件实现上面的功能，毕竟也不算太麻烦，在现有工具库的帮助下，应该很快就能实现。不过还是采用现有的 piclist 方便一些。&lt;/p&gt;
+&lt;p&gt;不过 piclist 对我的需求，唯一现在没法满足的就是，我手机拍摄出来的 heic 格式的图片不会转换成 webp 格式，而 heic 格式的图片除了在 macOS 系统上能够展示，博客上是展示不了的。有搜索到 piclist 支持 heic 格式转换的 changelog，但是我实际使用并不行。这块还在考虑怎么处理比较好。&lt;/p&gt;
+&lt;p&gt;最终我的图床方案确定为 cloudflare R2 + piclist + 自定义域名。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;cloudflare R2 用于图片存储，也支持自定义域名&lt;/li&gt;
+&lt;li&gt;piclist 作为图片转换、压缩、上传的客户端&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;向外社交&lt;/h2&gt;
+&lt;p&gt;说到向外社交，也基本发生在我常逛的三个平台，小红书，即刻和 linuxdo 里。我原先使用社交平台的习惯更多只是读帖子，并不怎么评论和发帖。如果追溯得早一些，则是去年六月份左右，我在小红书发布的找对象的帖子，那时也是找到了很聊得来的女生，只是很可惜，别人对我并不怎么感冒，在我不再主动联系之后，也就彻底断联了。在这之后，我也有继续尝试在小红书找对象，断断续续也有聊天，接触，见面一些陌生网友。这段经历也让我的性格从内向变得相对没那么内向，不过我还是保留了不怎么在社交媒体上评论别人帖子的习惯。&lt;/p&gt;
+&lt;p&gt;这两周我是有准备重启找对象这件事情的，最近也有打算重新发帖，当然现在还没有发，还在组织语言中，我也不知道究竟什么时候能够找到合适的人，但是无论如何，向前走吧，继续寻找。&lt;/p&gt;
+&lt;p&gt;说回向外社交，这一周虽说没有高强度，但是也多多少少发了有几十条评论，当然大部分并不是直接抱着找对象的心态评论的，而是友好交流。我觉得找对象先要曝光自己，和其他人产生互动会好些。现在的大家都有陷入找对象困境的感觉，互相聊聊这样的感受也是不错的交流。&lt;/p&gt;
+&lt;p&gt;很令我意外的是，在我评论之后，有两个表白失败的女生主动找我聊了些感情的话题，不过主要也是集中在发泄自己失败的表白经历，每个人都有自己不一样的恋爱困境。女生表白失败这件事情多多少少有点超出我的认知，我的观念里，似乎只有男生表白失败，女生大多是接受表白的一方。&lt;/p&gt;
+&lt;p&gt;这两位女生，一个是和认识多年的弟弟关系的男生表明心意，两家人之间似乎也有着不少的纠葛，所以也都不太原因突破这层关系。虽然总有些暧昧关系，但也都没有捅破这层窗户纸，女生说破之后，这段关系也就走向了结束。另一位则是向着接触三个月的相亲对象询问两人之间的关系。这位男性一直都没有推进关系，在两人关系这件事情上，总是回避，拖延，总之不拒绝，不承认。据女生所说，男生的回复只是为了应付父母，对她并没有真的感情，也还找了个蹩脚的借口，哥哥对妹妹的喜欢，真的是有够逃避的。找对象很难，逃避的人也有很多。&lt;/p&gt;
+&lt;p&gt;以我的角度来看，上面这两件事情基本属实，也没有人有必要私信编一个故事骗骗陌生人吧。&lt;/p&gt;
+&lt;h3&gt;小红书上，我的一些评论记录&lt;/h3&gt;
+&lt;p&gt;原帖也许已经被删除了，至少的表达的我想要留下。如果原帖还在的话，我会留下链接。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我看下来的感受也是这样，现在觉得小红书的大环境就是这些摆出来条件优秀，或者对对方要求条件优秀的，至少上海这个 ip 是这样的。我觉得上海有房，或者有购房能力确实已经算优秀了，个人是否愿意负债这种情况另算。所以我这种条件很多就直接 pass 。至于说到聊天，也是同样的情况。不少轮回的。你说没回复吧，人也回复了。但是这样这样子聊天能交流到什么有用的信息呢。也是苦恼中。唯一现在觉得想好的是，如果再发生上面这些情况，该 over 就 over 吧，不用强行要求。沟通无果只能单方面离开是最好的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;恋爱要和对的人谈，但是也不知道谁是对的。&lt;a href=&quot;http://xhslink.com/a/ijpzb741JKs6&quot;&gt;source&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;哈哈，我没有身高歧视，但是聊过的女生基本都是有的。大概觉得男生低于 170 的是觉得矮了的。我觉得也没办法，身高歧视男女都有。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;陌生人社交有点防范心蛮重要的。不过小红书很早就有相亲软件的一部分功能？有社交功能，并且有找搭子的氛围。比相亲软件好挺多。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;感觉想得很明白，现在大家似乎也都不想结婚。我也觉得有些麻了，就休息了一段时间不在继续找。不过不在网络认识新的人，线下也接触不到合适的人，想想还是继续找吧。找不到的话一个人的状态也不错。如果真的要找对象，还是要开始找，持续找。向前走。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;最后&lt;/h2&gt;
+&lt;p&gt;这周基本就是这样，我觉得有进步不少。&lt;/p&gt;
+</content:encoded></item><item><title>折腾 Astro，美化展示，添加实用功能</title><link>https://blog.guanglai.me/posts/tweak-astro-beautify-the-display-and-add-practical-features/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/tweak-astro-beautify-the-display-and-add-practical-features/</guid><description>博客切换到 Astro 已经几天了，这几天在现有主题上，折腾了不少有趣的玩意。给归档页面添加了热力图，按照官方博客增加阅读时间和自动更发布和更新时间功能，图片的展示优化。</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;p&gt;这篇博客很短，主要就是展示下我这几天折腾博客的一些小成果，如果有人感兴趣，我再把这些功能拆分出来，单独写成博客。&lt;/p&gt;
+&lt;h2&gt;时间展示&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;日期时间转换成了 ISO 字符串，对于处于东八区的我的博客来说，展示上存在问题，我就都修改成了 toLocalDateTime，转换成东八区时间展示。&lt;/li&gt;
+&lt;li&gt;AstroPaper 的日期时间展示逻辑是，如果存在修改时间，并且修改时间大于发布时间，则只展示更新时间。我修改成了同时展示创建时间和更新时间。&lt;/li&gt;
+&lt;li&gt;和第二点类似，因为 AstroPaper 只展示了一个时间，全部文章页面就按照第二点获取的时间进行排序。也就是说，如果我在一月一号发布了一篇博文，在一月十号那天修改了文章内容，这边文章的时间就是一月十号。我的需求是只按照创建时间排序，更新时间展示在后头，显示什么时候修改过就可以了。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;热力图&lt;/h2&gt;
+&lt;p&gt;真的就是用 Cursor，全程指挥，写出了第一版的博客文章编写热力图。我的职责更多是提出产品需求和测试验收。第一版的展示是下面这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502120814212.png&quot; alt=&quot;文章热力图&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;这版的展示实际上基本是没有什么问题了，我的想法需要让热力图居中展示，并且设计了一套颜色适配我当前正在使用的博客主题的热力图主题颜色。于是第二版出现了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502122135112.png&quot; alt=&quot;文章热力图适配博客主题&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;在归档页面可以看到这版的实际交互。&lt;/p&gt;
+&lt;h2&gt;图片展示&lt;/h2&gt;
+&lt;p&gt;原版主题的图片展示永远是居中，宽度和文章相同。我的大部分图片的宽度都比文章长，就占满了文章，不是很没美观。还有竖版的图片，宽度占满文章展示，实在也不够友好。&lt;/p&gt;
+&lt;p&gt;优化后现在的展示是图片默认宽度最大 80%，高度 600px，鼠标悬浮放大，点击全屏展示。&lt;/p&gt;
+&lt;h2&gt;阅读时长和自动更新文章时间&lt;/h2&gt;
+&lt;p&gt;这两个优化的点，官方文章都有提到，按照文章操作就可以实现。不过我不是很理解为什么是单独编写文章，而不是提供成配置项。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://astro-paper.pages.dev/posts/setting-dates-via-git-hooks/&quot;&gt;How to use Git Hooks to set Created and Modified Dates | AstroPaper&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://astro-paper.pages.dev/posts/how-to-add-estimated-reading-time/&quot;&gt;How to add an estimated reading time in AstroPaper | AstroPaper&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;LaTeX 行间公式展示&lt;/h2&gt;
+&lt;p&gt;官方有给出如何给文章加上 LaTeX 数学公式的展示，不过行间公式存在展示上的问题。花了好几个小时尝试排查后，总算是解决了问题。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Astro 使用 tailwindlabs/tailwindcss-typography 来样式化富文本内容，这些内容通常是从非 HTML 格式转换而来的。
+大多数内容可以正确渲染，因为这些元素具有明确的语义，例如链接 &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;、列表 &lt;code&gt;&amp;lt;li&amp;gt;&lt;/code&gt;、段落 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt;，排版会正确渲染这些元素，因为 AstroPaper 已经在 &lt;code&gt;src/styles/base.css&lt;/code&gt; 中配置了这些元素的样式。
+问题在于块方程没有被包装在已正确样式化的元素中。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;修改完成后，还给官方提了个 PR，不过不知道官方是否考虑合并了。&lt;/p&gt;
+&lt;h2&gt;博客主题颜色和字体&lt;/h2&gt;
+&lt;p&gt;备注 2025-02-15 更新：&lt;/p&gt;
+&lt;p&gt;对暗色模式下的博客主题颜色和字体进行了调整，调整后的颜色更加柔和，字体处理了中英文混排的展示问题。中英文混排时，中文使用 serif 字体，英文使用 mono 字体，希望整体能看起来更舒服一些。&lt;/p&gt;
+&lt;h2&gt;最后&lt;/h2&gt;
+&lt;p&gt;这两天折腾的成果基本就是这些了。我还想做的事情是，在博客编写好 md 文件后，使用命令上传的微信公众号和飞书文档，这样能简化一些备份和发布流程。不过这个功能最近估计不会打算开发，过一段时间再考虑。&lt;/p&gt;
+</content:encoded></item><item><title>博客折腾小记，迁移 Astro</title><link>https://blog.guanglai.me/posts/blog-migrate-to-astro/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/blog-migrate-to-astro/</guid><description>折腾了下博客框架，记录下迁移过程中碰到的一些问题</description><pubDate>Sat, 14 Jun 2025 13:45:01 GMT</pubDate><content:encoded>&lt;h2&gt;起因&lt;/h2&gt;
+&lt;p&gt;今天花了几乎一整天，把博客框架从 Hexo 迁移到了 Astro。我的博客最开始是在 2019 搭建的，哪个时候 Hexo 还是比较流行的静态博客生成框架，NexT 主题也是 Hexo 框架中比较流行的主题。在那一年，可以看到很多使用 NexT 主题的博客，如今看到的就似乎比较少了。经过六年的前端技术发展，Hexo 多少还是显得有点落后了，并不是基于当前流行的 React、Tailwind CSS、TypeScript 这样的主流前端框架，定制一些页面对我这个前端新手着实存在不小的困难。&lt;/p&gt;
+&lt;p&gt;说起原来博客的页面，本身主题是基于 NexT。为了稍显一些个人博客的不同之处，当时硬编码 CSS，使用 Chrome Dev Console，参考 Twitter 的暗色主题，设计了一套暗色的 color scheme。但是如今再想让我去修改这些配置，完全就有心无力了。而且博客只有一种主题，虽然 NexT 支持配置亮色和暗色主题，但是并不支持动态切换，我又完全没有能力去修改博客框架，让其支持主题切换。&lt;/p&gt;
+&lt;p&gt;恰巧又有很多博客主，都有迁移到 Astro 的博文。大致浏览了 Astro 的文档，基本满足我的需求。Astro 本身也是基于主流的前端技术，我也在这段时间里，粗糙地学了一遍前端的主流技术，这次就选择了 Astro 作为新的博客框架，还是希望能够使用长久一些，不再折腾博客框架，安安心心写博客文章。&lt;/p&gt;
+&lt;h2&gt;Astro Paper&lt;/h2&gt;
+&lt;p&gt;选定了 Astro 作为博客框架后，我选择的博客主题是 &lt;a href=&quot;https://github.com/satnaing/astro-paper&quot;&gt;AstroPaper&lt;/a&gt;。吸引我的主要是主题样式和使用的技术栈。AstroPaper 主题足够简洁，基本没有影响阅读的元素。&lt;/p&gt;
+&lt;p&gt;主要戳中我的是下面这些点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;主要技术栈&lt;ul&gt;
+&lt;li&gt;Main Framework - Astro&lt;/li&gt;
+&lt;li&gt;Type Checking - TypeScript&lt;/li&gt;
+&lt;li&gt;Component Framework - ReactJS&lt;/li&gt;
+&lt;li&gt;Styling - TailwindCSS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;主要特性&lt;ul&gt;
+&lt;li&gt;SEO-friendly&lt;/li&gt;
+&lt;li&gt;light &amp;amp; dark mode&lt;/li&gt;
+&lt;li&gt;fuzzy search&lt;/li&gt;
+&lt;li&gt;sitemap &amp;amp; rss feed&lt;/li&gt;
+&lt;li&gt;highly customizable&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我使用的是 pnpm 包管理器，也可以参考官网文档，使用其他包管理器，使用下面的命令就可以创建一个 AstroPaper 主题的博客：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;pnpm dlx create-astro --template satnaing/astro-paper
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;更新：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;过了一段时间之后，我发现上面这条命令也是 clone 的主题的官方仓库，考虑到后续同步上游的更新，&lt;a href=&quot;https://blog.guanglai.me/posts/what-is-guanglai-doing-this-week-010/&quot;&gt;我做了修改&lt;/a&gt;。
+更换成了 fork 原仓库，在 blog 分支修改配置我的个人博客。&lt;/p&gt;
+&lt;h2&gt;博客基础配置&lt;/h2&gt;
+&lt;p&gt;网站的相关配置，就直接配置在 &lt;code&gt;config.ts&lt;/code&gt; 就可以了。参考原有 Hexo 配置，手动配置新的配置文件。&lt;/p&gt;
+&lt;p&gt;如果不需要迁移博客，那么简单配置下，其实就已经可以使用，我则需要把历史的 Hexo 博客的重要配置迁移到 Astro Paper 上，以下是一些记录。&lt;/p&gt;
+&lt;h2&gt;迁移&lt;/h2&gt;
+&lt;h3&gt;博客文章迁移&lt;/h3&gt;
+&lt;p&gt;Astro 的博客文章虽然和 Hexo 一样，都是 Markdown 语法，但是一些元数据方面的设置不太一样。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;date -&amp;gt; pubDatetime&lt;/li&gt;
+&lt;li&gt;update -&amp;gt; modDatetime&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--- &amp;lt;!-- more --&amp;gt;&lt;/code&gt; 之间的数据，转换成 description&lt;/li&gt;
+&lt;li&gt;mathjax，categories 在 Astro 中属于无效标签，需要移除
+于是最开始的任务就是编写脚本，将历史数据转换内容到新的数据格式。最近也一直在尝试 AI 编程，Deepseek 的服务最近又一直不太稳定，没办法使用 vscode + deepseek api + cline 编程，就尝试了字节的 Trae，毕竟可以免费使用 &lt;code&gt;Claude-3.5-Sonnet&lt;/code&gt;，效果非常 nice。脚本放在了&lt;a href=&quot;https://github.com/knothhe/knot-scripts/blob/main/scripts/hexo-migrate-astro/convert_markdown-hexo-to-astro.py&quot;&gt;这里&lt;/a&gt;，以及&lt;a href=&quot;https://github.com/knothhe/knot-scripts/tree/main/scripts/hexo-migrate-astro&quot;&gt;使用说明&lt;/a&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;LaTeX 数学公式支持&lt;/h3&gt;
+&lt;p&gt;基本参考官方文档操作， &lt;a href=&quot;https://astro-paper.pages.dev/posts/how-to-add-latex-equations-in-blog-posts/&quot;&gt;Adding LaTeX Equations in AstroPaper blog posts | AstroPaper&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install the necessary remark and rehype plugins&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;pnpm install rehype-katex remark-math katex
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;编辑 &lt;code&gt;astro.config.ts&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;// other imports
+import remarkMath from &quot;remark-math&quot;;
+import rehypeKatex from &quot;rehype-katex&quot;;
+export default defineConfig({
+  // other configs
+  markdown: {
+    remarkPlugins: [
+      remarkMath,
+      remarkToc,
+      [
+        remarkCollapse,
+        {
+          test: &quot;Table of contents&quot;,
+        },
+      ],
+    ],
+    rehypePlugins: [rehypeKatex],
+    // other markdown configs
+  },
+  // other configs
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;编辑 &lt;code&gt;src/layouts/Layout.astro&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;---
+import { LOCALE, SITE } from &quot;@config&quot;;
+
+// astro code
+---
+&amp;lt;!doctype html&amp;gt;
+&amp;lt;!-- others... --&amp;gt;
+&amp;lt;script is:inline src=&quot;/toggle-theme.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;link
+  rel=&quot;stylesheet&quot;
+  href=&quot;https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css&quot;
+/&amp;gt;
+&amp;lt;body&amp;gt;
+  &amp;lt;slot /&amp;gt;
+&amp;lt;/body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;不过行间公式在暗色模式下存在渲染错误，在 &lt;a href=&quot;https://github.com/satnaing/astro-paper/issues/412&quot;&gt;issue&lt;/a&gt; 区看到其他人也存在同样的问题，但是没能解决。我现在使用数据公式比较少，就暂时搁置不处理了。
+更新：尝试一翻之后，我找到了解决方案，放在了 &lt;a href=&quot;https://github.com/satnaing/astro-paper/issues/412&quot;&gt;issue 区&lt;/a&gt;。&lt;/p&gt;
+&lt;h3&gt;历史博客文章路径兼容&lt;/h3&gt;
+&lt;p&gt;原本 hexo 的路径引用是 &lt;code&gt;blog.guanglai.me/post-name&lt;/code&gt;，在 AstroPaper 主题中的文章路径是 &lt;code&gt;blog.guanglai.me/posts/post-name&lt;/code&gt;，于是想到了下面两种解决方案。&lt;/p&gt;
+&lt;h4&gt;第一种方案&lt;/h4&gt;
+&lt;p&gt;修改 astro 的文章路径，保持一致&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;posts&lt;/code&gt; 下的文件放到上级目录 &lt;code&gt;pages&lt;/code&gt; 下，删除 &lt;code&gt;index.astro&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;修改其他页面的路径引用路由，/posts/${slug}/，删除 /posts&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Posts.astro&lt;/code&gt; &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TagPosts.astro&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;第二种方案&lt;/h4&gt;
+&lt;p&gt;使用 Astro 提供的重定向功能，将原来的博客地址，重定向到新的博客地址。这是 Astro 的路由文档 &lt;a href=&quot;https://docs.astro.build/en/guides/routing/#redirects&quot;&gt;Routing | Docs&lt;/a&gt;，修改 &lt;code&gt;astro.config.ts&lt;/code&gt; 就可以定义静态路由重定向。于是同样编写了脚本，将原有的 &lt;code&gt;/post-name&lt;/code&gt; 全部重定向到 &lt;code&gt;/posts/post-name&lt;/code&gt;，脚本放在&lt;a href=&quot;https://github.com/knothhe/knot-scripts/blob/main/scripts/hexo-migrate-astro/generate_routes.py&quot;&gt;这里&lt;/a&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;// astro.config.ts
+import { defineConfig } from &apos;astro/config&apos;;
+export default defineConfig({
+  redirects: {
+    &apos;/old-page&apos;: &apos;/new-page&apos;,
+    &apos;/blog&apos;: &apos;https://example.com/blog&apos;
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;文章目录&lt;/h3&gt;
+&lt;p&gt;当时看到了这篇文章 &lt;a href=&quot;https://4ark.me/posts/2024-03-20-hexo-to-astro/#%E6%95%B4%E4%BD%93%E6%84%9F%E5%8F%97&quot;&gt;再见 Hexo，你好 Astro！ | 4Ark&lt;/a&gt;，
+参考博主的配置，实现了大屏幕下的目录展示。具体修改直接参考博客的 &lt;a href=&quot;https://github.com/gd4Ark/gd4Ark.github.io/commit/c233cc2aad413c2d4efb4dfb50b5fd8b507beeb9&quot;&gt;commit&lt;/a&gt; 即可。&lt;/p&gt;
+&lt;h3&gt;sitemap、rotbots.txt 和 RSS&lt;/h3&gt;
+&lt;p&gt;AstroPaper 会自动生成需要的文件，但是使用 &lt;code&gt;pnpm dev&lt;/code&gt; 开发阶段不会生成下面这些文件，&lt;code&gt;pnpm build&lt;/code&gt; 构建最终产物才会生成。本地可以使用 &lt;code&gt;pnpm preview&lt;/code&gt; 在构建好后预览。 &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;sitemap.xml (主题是分块 sitemap.xml，只有：sitemap-index.xml 和 sitemap-0.xml)&lt;/li&gt;
+&lt;li&gt;rss.xml&lt;/li&gt;
+&lt;li&gt;robots.txt&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;GitHub Page 自定义域名&lt;/h3&gt;
+&lt;p&gt;CNAME 文件配置在 &lt;code&gt;public&lt;/code&gt; 目录下，用于 GitHub 自定义域名。
+文件内容&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;blog.guanglai.me
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;OG 图片&lt;/h3&gt;
+&lt;p&gt;AstroPaper 支持&lt;a href=&quot;https://astro-paper.pages.dev/posts/dynamic-og-image-generation-in-astropaper-blog-posts/#issue-non-latin-characters&quot;&gt;生成 OG 图片&lt;/a&gt;，但是原有的主题字体默认只支持 &lt;code&gt;Latin&lt;/code&gt; 字符，对于非 &lt;code&gt;Latin&lt;/code&gt; 字符的博客，需要自定义加载相关字体。
+我加载了以下字体，后续看是否需要减少一些：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;// file: loadGoogleFont.ts
+async function loadGoogleFonts(
+  text: string
+): Promise&amp;lt;
+  Array&amp;lt;{ name: string; data: ArrayBuffer; weight: number; style: string }&amp;gt;
+&amp;gt; {
+  const fontsConfig = [
+    {
+      name: &quot;Noto Sans CJK JP&quot;, // 日文字体
+      font: &quot;Noto+Sans+JP&quot;, // Google Fonts 中的名称
+      weight: 400,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK JP&quot;,
+      font: &quot;Noto+Sans+JP:wght@700&quot;, // 加粗版本
+      weight: 700,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK SC&quot;, // 简体中文字体
+      font: &quot;Noto+Sans+SC&quot;, // Google Fonts 中的名称
+      weight: 400,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK SC&quot;,
+      font: &quot;Noto+Sans+SC:wght@700&quot;, // 加粗版本
+      weight: 700,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK TC&quot;, // 繁体中文字体
+      font: &quot;Noto+Sans+TC&quot;, // Google Fonts 中的名称
+      weight: 400,
+      style: &quot;normal&quot;,
+    },
+    {
+      name: &quot;Noto Sans CJK TC&quot;,
+      font: &quot;Noto+Sans+TC:wght@700&quot;, // 加粗版本
+      weight: 700,
+      style: &quot;normal&quot;,
+    },
+  ];
+  // other codes
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;facicon 图标&lt;/h3&gt;
+&lt;p&gt;原有在 Hexo 上使用的图标格式是 &lt;code&gt;png&lt;/code&gt; 和 &lt;code&gt;ico&lt;/code&gt;，并且内容是动漫截图，其实也没有特别的含义，只是我曾经使用过的头像之一。于是这次就一起换了图标。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;a href=&quot;https://formito.com/tools/favicon&quot;&gt;https://formito.com/tools/favicon&lt;/a&gt; 生成&lt;/li&gt;
+&lt;li&gt;font: ZCOOL QingKe HuangYou&lt;/li&gt;
+&lt;li&gt;backgroud color: 2F3742&lt;/li&gt;
+&lt;li&gt;放在 &lt;code&gt;public&lt;/code&gt; 下，命名为 &lt;code&gt;favicon.svg&lt;/code&gt; 即可&lt;/li&gt;
+&lt;li&gt;删除了一些不需要的资源&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;部署到 GitHub Page&lt;/h3&gt;
+&lt;p&gt;Astro 官方有&lt;a href=&quot;https://docs.astro.build/en/guides/deploy/github/&quot;&gt;部署到 GitHub Page 的指导&lt;/a&gt;，提供了但是官方文件是源文件和网站在同一个 GitHub 仓库，我则是把源文件仓库设为私有，需要部署到目标仓库。经过了一翻调研，也就不使用官方部署指南提供的 GitHub Action 配置了。
+在 &lt;code&gt;.github/workflows&lt;/code&gt; 下，新建文件 &lt;code&gt;deploy.yml&lt;/code&gt;，文件内容如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yml&quot;&gt;name: GitHub Pages
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: &apos;pnpm&apos;
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.TARGET_REPO_DEPLOY_KEY }} # targert repository deploy key secret
+          external_repository: knothhe/knothhe.github.io
+          publish_dir: ./dist
+          publish_branch: master  # default: gh-pages
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用 &lt;code&gt;peaceiris/actions-gh-pages@v4&lt;/code&gt; 的 deploy key 的方式推送的目标仓库，所以需要在目标仓库和源仓库配置 DEPLOY_KEY 的公钥和私钥。
+步骤参考：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;本地生成 ssh 公钥和私钥，不带 passphare。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;ssh-keygen -C &quot;github@action&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;目标仓库配置公钥&lt;ol&gt;
+&lt;li&gt;依次点击 &lt;code&gt;Settings &amp;gt; Deploy keys &amp;gt; Add deplay key&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502080217080.png&quot; alt=&quot;配置设置&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;生成的公钥，即带有 &lt;code&gt;.pub&lt;/code&gt; 后缀的文件的内容复制到文本框中&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;源仓库配置私钥&lt;ol&gt;
+&lt;li&gt;依次点击 &lt;code&gt;Settings &amp;gt; Secrets and variables &amp;gt; Actions &amp;gt; New repository secret&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/202502080220179.png&quot; alt=&quot;配置设置&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;生成的公钥，即不带有 &lt;code&gt;.pub&lt;/code&gt; 后缀的文件的内容复制到文本框中&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Google Site Verification&lt;/h3&gt;
+&lt;p&gt;官方推荐是使用 &lt;code&gt;.env&lt;/code&gt; 配置，但是 &lt;code&gt;.gitignore&lt;/code&gt; 文件里，忽略了 &lt;code&gt;.env&lt;/code&gt; 文件，所以考虑本地生成时，可以配置 &lt;code&gt;.env&lt;/code&gt; 文件，使用 GitHub 时，将内容配置到 GitHub 仓库中。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;# in your environment variable file (.env)
+PUBLIC_GOOGLE_SITE_VERIFICATION=your-google-site-verification-value
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;采用密钥配合 GitHub Action 方式配置&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub 仓库配置，同样是在源仓库的&lt;code&gt;Settings &amp;gt; Secrets and variables &amp;gt; Actions &amp;gt; New repository secret&lt;/code&gt; 下配置，名称为 &lt;code&gt;GOOGLE_SITE_VERIFICATION_SECRET&lt;/code&gt;，值配置为 Google Search Console 给的值。&lt;/li&gt;
+&lt;li&gt;GitHub Action 中在 &lt;code&gt;checkout&lt;/code&gt; 之后添加下面的配置：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yml&quot;&gt;      - name: Create .env file
+        run: |
+          echo &quot;PUBLIC_GOOGLE_SITE_VERIFICATION=${{ secrets.GOOGLE_SITE_VERIFICATION_SECRET }}&quot; &amp;gt;&amp;gt; .env
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;评论&lt;/h3&gt;
+&lt;p&gt;采用 &lt;a href=&quot;https://giscus.app/zh-CN&quot;&gt;giscus&lt;/a&gt;，参考 &lt;a href=&quot;https://astro-paper.pages.dev/posts/how-to-integrate-giscus-comments/&quot;&gt;AstroPaper 官方集成 Giscus 的文章&lt;/a&gt;。&lt;/p&gt;
+&lt;h2&gt;后记&lt;/h2&gt;
+&lt;p&gt;本次折腾基本就是做了上面这些步骤，花费了几乎一天的时间。&lt;/p&gt;
+</content:encoded></item><item><title>升级 Hexo 和对应的主题 NexT Theme 的版本</title><link>https://blog.guanglai.me/posts/update-hexo-7-x-and-theme-next-8-x/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/update-hexo-7-x-and-theme-next-8-x/</guid><description>最近准备重新捡起很久没写的博客，在浏览器里打开博客页面，发现博客页面的样式文件已经丢失，就像年久失修的房屋一样。想要重新开始写博客，首要的是升级下博客使用的静态页面模板。</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;最近准备重新捡起很久没写的博客，在浏览器里打开博客页面，发现博客页面的样式文件已经丢失，就像年久失修的房屋一样。想要重新开始写博客，首要的是升级下博客使用的静态页面模板。&lt;/p&gt;
+&lt;p&gt;以下命令行操作，如果没有特殊描述，都是在博客文件夹根目录下执行。&lt;/p&gt;
+&lt;h2&gt;升级 Hexo 版本&lt;/h2&gt;
+&lt;p&gt;思路：主要先升级 &lt;code&gt;node.js&lt;/code&gt; 和 &lt;code&gt;hexo-cli&lt;/code&gt; 的版本，其次借助 &lt;code&gt;npm&lt;/code&gt; 相关工具包的能力，更新 &lt;code&gt;hexo&lt;/code&gt; 下依赖的部分 &lt;code&gt;npm&lt;/code&gt; 包的版本，主要是插件部分。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;升级 &lt;code&gt;node.js&lt;/code&gt; 版本。v12 -&amp;gt; v14&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;由于我使用的是 &lt;code&gt;nvm&lt;/code&gt; 管理 &lt;code&gt;node.js&lt;/code&gt; 的相关版本，直接使用 &lt;code&gt;nvm use&lt;/code&gt; 即可。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;nvm install v14
+nvm use v14
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;升级 &lt;code&gt;hexo-cli&lt;/code&gt; 版本。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;或者卸载重新安装 &lt;code&gt;hexo-cli&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;npm install -g hexo-cli
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;更新 &lt;code&gt;npm&lt;/code&gt; 插件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;安装工具包&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;npm install -g npm-check
+npm install -g npm-upgrade
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;升级 &lt;code&gt;npm&lt;/code&gt; 依赖，按照提示升级对应插件的版本即可&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;npm-check
+npm-upgrade
+npm update -g
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;升级 Next Theme 版本&lt;/h2&gt;
+&lt;p&gt;老版的 &lt;code&gt;hexo&lt;/code&gt; 安装主题是直接把主题拉取放到 &lt;code&gt;theme&lt;/code&gt; 目录下，自从 &lt;code&gt;5.0&lt;/code&gt; 版本之后，支持通过 &lt;code&gt;npm&lt;/code&gt; 包的方式安装主题。所以我删除了原本的 &lt;code&gt;theme&lt;/code&gt; 主题，通过 &lt;code&gt;npm&lt;/code&gt; 安装了最新版本的 NexT Theme。&lt;/p&gt;
+&lt;p&gt;NexT Theme 文档：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;If you&apos;re using Hexo 5.0 or later, the simplest way to install is through npm:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;npm install hexo-theme-next
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;新版的主题配置文件，博客根目录下 &lt;code&gt;_config.next.yml&lt;/code&gt;。
+至此，基本上的版本升级就完成了。不过由于版本跨度的原因，我没有保留原有的 NexT 的配置文件，而是直接在配置现有的主题配置文件。&lt;/p&gt;
+&lt;h2&gt;博客本地图片链接修复&lt;/h2&gt;
+&lt;p&gt;老版本依赖 &lt;code&gt;hexo-asset-image&lt;/code&gt; 提供引用本地相对路径图片的能力，以使用原生 Markdown 渲染，自从 &lt;code&gt;Hexo 5&lt;/code&gt; 版本后，该插件就失效了，所以使用 &lt;code&gt;hexo-asset-img&lt;/code&gt; 插件替换。&lt;/p&gt;
+&lt;p&gt;卸载 &lt;code&gt;hexo-asset-image&lt;/code&gt; 插件，安装 &lt;code&gt;hexo-asset-img&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;npm uninstall hexo-asset-image --save
+npm install hexo-asset-img --save
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;不过实际尝试之后，发现 &lt;code&gt;about&lt;/code&gt; 页面的图片仍然无法展示，暂时先搁置该问题了。&lt;/p&gt;
+&lt;h2&gt;自定义域名&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;域名服务商处配置 DNS &lt;code&gt;CANME&lt;/code&gt; 记录。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;添加 &lt;code&gt;CNAME&lt;/code&gt; 文件
+Github Pages 提供了自动域名的能力，不过由于 Hexo 每次部署都是重新推送文件到 Github 仓库，所以在设置中配置自定义域名会被覆盖，解决办法是在 &lt;code&gt;source&lt;/code&gt; 文件夹下添加文件名为 &lt;code&gt;CNAME&lt;/code&gt; 的文件即可。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Hexo 的文档中提到：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;若你使用了一个带有 CNAME 的自定义域名，你需要在 source/ 文件夹中新增 CNAME 文件。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;文件内容示例，以我的域名为例：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;blog.guanglai.me
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;谷歌网站验证&lt;/h2&gt;
+&lt;p&gt;在启用 Google Search Consloe 提交网站收录时，需要验证网站所有权，Google 给的其中之一的方式是在网站首页添加 HTML 标记。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://images-oss.guanglai.me/2025/6d5e6c66ddd46c7863eea3b372da28b3.webp&quot; alt=&quot;google site verification page&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;在 NexT 的配置文件中 _config.next.yml 配置如下内容，配置对应 token 即可。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yml&quot;&gt;google_site_verification: your_token
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;图片缩放&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;p&amp;gt;
+&amp;lt;img src=&quot;./picture-in-hexo/test.jpg&quot; title=&quot;图片标题&quot; alt=&quot;没有加载时显示的内容&quot; style=&quot;zoom:25%&quot;&amp;gt;
+&amp;lt;div class=&quot;img-alt is-center&quot; align=&quot;center&quot;&amp;gt;图片标题2&amp;lt;/div&amp;gt;
+&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;特殊配置&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;sitemap 开启站点地图，方便搜索引擎 SEO&lt;/li&gt;
+&lt;li&gt;local search 提供简单的本地搜索功能&lt;/li&gt;
+&lt;li&gt;utterances 替换 gitalk，作为博客评论插件&lt;/li&gt;
+&lt;li&gt;mathjax LaTeX 语法的数学公式支持&lt;/li&gt;
+&lt;li&gt;post edit 可以直接在对应的 Github 仓库源文件修改，搭配 Github Action 可以在修改后自动发布&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://leimingshan.com/posts/d9017f30/&quot;&gt;Hexo升级指南 | Mingshan Lei&apos;s Blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/next-theme/hexo-theme-next&quot;&gt;NexT theme&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/yiyungent/hexo-asset-img&quot;&gt;yiyungent/hexo-asset-img: 🍰 Hexo local image plugin. | Hexo 本地图片插件: 转换 图片相对路径 为 asset_img&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://utteranc.es/&quot;&gt;utterances&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://hexo.io/zh-cn/docs/github-pages&quot;&gt;在 GitHub Pages 上部署 Hexo | Hexo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.cnblogs.com/ywang-wnlo/p/Hexo-SEO.html&quot;&gt;【Hexo】配置主流搜索引擎收录流程记录 - ywang_wnlo - 博客园&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://home.ustc.edu.cn/~sdyzzy/posts/36e27ee1.html&quot;&gt;在 hexo 中使用图片的几种方法 | SDYZZY&apos;s Universe&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>使用 Hexo + GitHub 搭建博客</title><link>https://blog.guanglai.me/posts/hexo-and-github-build-blog/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/hexo-and-github-build-blog/</guid><description>因为不止有一个同学问过我如何借助 GitHub 搭建博客，是决定把搭建博客的整个流程记录下来，</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;因为不止有一个同学问过我如何借助 GitHub 搭建博客，是决定把搭建博客的整个流程记录下来，
+以供想要自己借助 Hexo 和 GitHub 搭建博客的同学参考。
+我主要使用 Hexo 生成静态站点文件，然后　push 到 GitHub 上借助 GitHub Pages 展示静态博客。&lt;/p&gt;
+&lt;h2&gt;安装 Hexo&lt;/h2&gt;
+&lt;p&gt;在安装 &lt;code&gt;Hexo&lt;/code&gt; 之前，首先需要先安装 &lt;code&gt;Node.js&lt;/code&gt; 和 &lt;code&gt;Git&lt;/code&gt;。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;安装 &lt;code&gt;Node.js&lt;/code&gt; 和　&lt;code&gt;Npm&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;最简单的方式就是到 &lt;a href=&quot;https://nodejs.org/en/download/&quot;&gt;Node.js download page&lt;/a&gt; 直接下载安装。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;安装并配置 Git&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;安装 Git&lt;/p&gt;
+&lt;p&gt;  到 &lt;a href=&quot;https://git-scm.com/downloads&quot;&gt;Git Download page&lt;/a&gt; 根据所用的操作系统下载并安装 Git&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;配置 Git&lt;/p&gt;
+&lt;p&gt;  在使用 Git 之前，需要先配置 Git 的用户名和用户邮箱&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;git config --global user.name &quot;your name&quot;
+git config --global user.email youremail@example.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;安装 Hexo&lt;/p&gt;
+&lt;p&gt; 使用 Npm 安装 Hexo。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;npm install hexo-cli -g
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;使用 Hexo&lt;/h2&gt;
+&lt;p&gt;使用下面的命令初始化目标文件夹，所有需要的文件都会被下载到该文件夹下。
+这个过程需要一段时间。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;hexo init &amp;lt;folder&amp;gt;
+cd &amp;lt;folder&amp;gt;
+npm install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;初始化之后就可使用如下命令预览，默认已经有一篇 Hello World 文档用于预览效果的展示。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;hexo s
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以看到命令行有提示，Hexo 运行在地址 &lt;a href=&quot;http://localhost:4000&quot;&gt;http://localhost:4000&lt;/a&gt;，通过浏览器打开该网址即可看到预览结果。&lt;/p&gt;
+&lt;h2&gt;博客编写&lt;/h2&gt;
+&lt;p&gt;所有的文档的编写都需要放在 &lt;code&gt;source/_posts&lt;/code&gt; 目录下，初始化后可以看到该目录下有一个 &lt;code&gt;hello-world.md&lt;/code&gt;，同样，我们需要写的文档也类似。&lt;/p&gt;
+&lt;p&gt;简单使用 &lt;a href=&quot;https://www.markdownguide.org/basic-syntax&quot;&gt;Markdown 的指导&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;发布&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;在你的 GitHub 账户下创建一个仓库用于存放 Hexo 生成的静态文件。GitHub Page 会根据仓库名给定一个对应的域名。假定用户名为 username，规则如下:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果仓库名为 &lt;code&gt;username.github.io&lt;/code&gt;，则对应的域名为 &lt;code&gt;username.github.io&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果是其他名字，如 &lt;code&gt;theBlogRepository&lt;/code&gt;，则对应的域名为 &lt;code&gt;username.github.io/theblogrepository&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt; 比如，我的 GitHub 用户名为 &lt;a href=&quot;https://github.com/KnothHe&quot;&gt;knothhe&lt;/a&gt;，我存放博客的仓库名为 &lt;code&gt;blog&lt;/code&gt;，我的博客地址就是 &lt;a href=&quot;https://knothhe.github.io/blog&quot;&gt;https://knothhe.github.io/blog&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt; 最后在该仓库的设置页面需要开启 GitHub Page 的选项，默认有 master 分支和 master 分支下的 /docs 文件夹。选择 master 分支即可。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;配置 &lt;code&gt;_config.yml&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可以看到该文件默认有 deploy 小节，由于是发布到 GitHub，那么按下面配置编写即可:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yml&quot;&gt;deploy:
+    type: git
+    repo:
+        github: git@github.com:yourGitHubUsername/theBlogRepository.git
+    branch: master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安装 Hexo 使用 Git 发布的插件&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;npm install hexo-deployer-git --save
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;使用下面的命令发布到你的 GitHub 仓库&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-sh&quot;&gt;hexo d g
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;其他&lt;/h2&gt;
+&lt;p&gt;详细的使用和指导可以参考 &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;Hexo 的文档&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;已经有很多人写过类似的文章了，通过 google 或者 baidu 搜索下面的关键词即可得到很多的详细教程。&lt;/p&gt;
+&lt;p&gt;搜索关键字: &lt;code&gt;hexo github 个人博客&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;参考文献&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Git&lt;/code&gt; 官网的&lt;a href=&quot;https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup&quot;&gt;配置指导&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Git&lt;/code&gt; 官网的&lt;a href=&quot;https://git-scm.com/book/en/v2/Getting-Started-Installing-Git&quot;&gt;安装指导&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Npm&lt;/code&gt; 官网的&lt;a href=&quot;https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#os-x-or-windows-node-installers&quot;&gt;安装指导&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Hexo&lt;/code&gt; 官网的&lt;a href=&quot;https://hexo.io/docs/index.html&quot;&gt;安装指导&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Hexo&lt;/code&gt; 官网的&lt;a href=&quot;https://hexo.io/docs/setup&quot;&gt;使用指导&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</content:encoded></item></channel></rss>

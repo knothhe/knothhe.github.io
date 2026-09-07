@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>人生即体验 | Tag: leetcode</title><description>All posts tagged with leetcode</description><link>https://blog.guanglai.me/</link><item><title>LeetCode 147 链表的插入排序</title><link>https://blog.guanglai.me/posts/leetcode-147-insertion-sort-list/</link><guid isPermaLink="true">https://blog.guanglai.me/posts/leetcode-147-insertion-sort-list/</guid><description>题目描述：</description><pubDate>Sat, 14 Jun 2025 13:45:02 GMT</pubDate><content:encoded>&lt;p&gt;题目描述：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Sort a linked list using insertion sort.
+Algorithm of Insertion Sort:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Insertion sort iterates, consuming one input element each repetition, and growing a sorted output list.&lt;/li&gt;
+&lt;li&gt;At each iteration, insertion sort removes one element from the input data, finds the location it belongs within the sorted list, and inserts it there.&lt;/li&gt;
+&lt;li&gt;It repeats until no input elements remain.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;单链表的定义：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;想法：&lt;/p&gt;
+&lt;p&gt;使用两条链表，一条是已经有序的链表 A，一条是待排序的链表 B。将节点从待排序的链表 B 依次插入已经有序的链表 A。&lt;/p&gt;
+&lt;p&gt;关键点在于想到使用两条链表。&lt;/p&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        if (head == null || head.next == null) { return head; }
+
+        ListNode fakeHead= new ListNode(0); // because we need insert before head
+        ListNode cur = head; // current node will be insert
+        ListNode pre = null; // previous node of insert node
+        ListNode next = null; // next node of current insert node
+
+        while (cur != null) {
+            // save next position
+            next = cur.next;
+
+            // find insert position
+            pre = fakeHead;
+            while (pre.next != null &amp;amp;&amp;amp; pre.next.val &amp;lt; cur.val) {
+                pre = pre.next;
+            }
+
+            // insert cur between pre and pre.next
+            cur.next = pre.next;
+            pre.next = cur;
+
+            // move point forward
+            cur = next;
+        }
+
+        return fakeHead.next;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item></channel></rss>
